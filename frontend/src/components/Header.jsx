@@ -1,214 +1,77 @@
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import ThemeToggle from './ThemeToggle'
-import SocialLinks from './SocialLinks'
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
+import { portfolioData } from '../data';
 
-const Header = ({ theme, toggleTheme }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const location = useLocation()
-
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/services', label: 'Services' },
-    { path: '/contact', label: 'Contact' },
-    { path: '/blog', label: 'Blog' },
-  ]
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navItems = ['Home', 'About', 'Projects', 'Services', 'Contact'];
 
   return (
-    <header className="header">
-      <div className="container">
-        <nav className="navbar">
-          <div className="logo">
-            <Link to="/">
-              <span className="logo-text">Syed Ibrahim</span>
-              <span className="logo-subtitle">MERN & AI/ML Engineer</span>
-            </Link>
-          </div>
-
-          <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="mobile-social">
-              <SocialLinks />
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md shadow-sm">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-xl">SIA</span>
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-gray-800 dark:text-white">
+                {portfolioData.personalInfo.name.split(' ')[0]}
+              </h1>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                MERN Developer
+              </p>
             </div>
           </div>
 
-          <div className="nav-actions">
-            <SocialLinks />
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-            
-            <button 
-              className="menu-toggle" 
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors"
+              >
+                {item}
+              </a>
+            ))}
+            <ThemeToggle />
+          </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center space-x-4">
+            <ThemeToggle />
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu"
+              className="p-2 rounded-md text-gray-700 dark:text-gray-300"
             >
-              <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-              <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
-              <span className={`bar ${isMenuOpen ? 'active' : ''}`}></span>
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-        </nav>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 animate-fade-in">
+            <div className="flex flex-col space-y-4">
+              {navItems.map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium py-2 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-
-      <style jsx>{`
-        .header {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          background: var(--bg-primary);
-          border-bottom: 1px solid var(--border-color);
-          z-index: 1000;
-          backdrop-filter: blur(10px);
-          background: rgba(var(--bg-primary-rgb), 0.95);
-        }
-        
-        .navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1.5rem 0;
-        }
-        
-        .logo a {
-          text-decoration: none;
-          display: flex;
-          flex-direction: column;
-        }
-        
-        .logo-text {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: var(--text-primary);
-          background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        
-        .logo-subtitle {
-          font-size: 0.875rem;
-          color: var(--text-secondary);
-          margin-top: 0.25rem;
-        }
-        
-        .nav-links {
-          display: flex;
-          gap: 2rem;
-          align-items: center;
-        }
-        
-        .nav-link {
-          color: var(--text-secondary);
-          text-decoration: none;
-          font-weight: 500;
-          padding: 0.5rem 0;
-          position: relative;
-          transition: var(--transition);
-        }
-        
-        .nav-link:hover,
-        .nav-link.active {
-          color: var(--accent-primary);
-        }
-        
-        .nav-link.active::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-          border-radius: 1px;
-        }
-        
-        .nav-actions {
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-        }
-        
-        .menu-toggle {
-          display: none;
-          flex-direction: column;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 0.5rem;
-          z-index: 1001;
-        }
-        
-        .bar {
-          width: 25px;
-          height: 2px;
-          background: var(--text-primary);
-          margin: 3px 0;
-          transition: var(--transition);
-          border-radius: 1px;
-        }
-        
-        .bar.active:nth-child(1) {
-          transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .bar.active:nth-child(2) {
-          opacity: 0;
-        }
-        
-        .bar.active:nth-child(3) {
-          transform: rotate(-45deg) translate(7px, -6px);
-        }
-        
-        .mobile-social {
-          display: none;
-        }
-        
-        @media (max-width: 768px) {
-          .nav-links {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 80%;
-            height: 100vh;
-            background: var(--bg-primary);
-            flex-direction: column;
-            justify-content: center;
-            gap: 2rem;
-            transition: right 0.3s ease;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-          }
-          
-          .nav-links.active {
-            right: 0;
-          }
-          
-          .menu-toggle {
-            display: flex;
-          }
-          
-          .mobile-social {
-            display: flex;
-            margin-top: 2rem;
-          }
-          
-          .nav-actions > :not(.menu-toggle) {
-            display: none;
-          }
-        }
-      `}</style>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

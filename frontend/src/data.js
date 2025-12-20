@@ -52,7 +52,7 @@ export const portfolioData = {
     },
     {
       id: 3,
-      title: "Nochat",
+      title: "Nochat AI Assistant & Image Generator",
       description: "A versatile AI assistant that goes beyond text. Engage in seamless conversations and generate stunning images from simple prompts.",
       image: Nochat,
       technologies: ["React", "Express.js", "MongoDB", "Node.js", "JWT", "GROQ"],
@@ -62,12 +62,12 @@ export const portfolioData = {
     },
     {
       id: 4,
-      title: "Stock Market Prediction ML Model",
+      title: "Nowhere E-Commerce Web Application",
       description: "Nowhere is a full-stack E-Commerce web application. It provides a complete online shopping experience",
       image: Nowhere,
       technologies: ["React", "Express.js", "MongoDB", "Node.js", "JWT",],
       github: "https://github.com/ibrahim123-sia/Nowhere",
-      liveDemo: "https://nowhere-7ouy-1r41sse88-ibrahims-projects-a1ce14e2.vercel.app/",
+      liveDemo: "https://nowhere-7ouy-1r41sse88-ibrahims-projects-a1ce14e2.vercel.app",
       category: "fullstack"
     },
   ],

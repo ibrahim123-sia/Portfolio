@@ -1,25 +1,30 @@
+import LPR from './LPR.jpeg'
+import SSP from './SSP.jpeg'
+import Nochat from './Nochat.jpeg'
+import Nowhere from './Nowhere.jpeg'
+
 export const portfolioData = {
   personalInfo: {
     name: "Syed Ibrahim Ali",
     title: "MERN Stack Developer & Aspiring AI/ML Engineer",
-    email: "your.email@example.com",
-    phone: "+91 1234567890",
-    whatsapp: "https://wa.me/911234567890",
-    location: "India",
+    email: "syedibrahimali1111@gmail.com",
+    phone: "+92 3122287869",
+    whatsapp: "https://wa.me/923122287869",
+    location: "Pakistan",
     linkedin: "https://www.linkedin.com/in/syed-ibrahim-ali-sia/",
-    github: "https://github.com/yourusername",
+    github: "https://github.com/ibrahim123-sia",
     bio: "Bridging Web Interfaces with Intelligent Systems and Computer Vision. Passionate about creating innovative solutions that combine web development with artificial intelligence."
   },
 
   skills: [
-    { name: "React", category: "frontend", level: 90 },
-    { name: "Node.js", category: "backend", level: 85 },
-    { name: "Express.js", category: "backend", level: 85 },
-    { name: "MongoDB", category: "database", level: 80 },
-    { name: "Python", category: "ai_ml", level: 75 },
-    { name: "TensorFlow", category: "ai_ml", level: 70 },
-    { name: "OpenCV", category: "ai_ml", level: 65 },
-    { name: "JavaScript", category: "frontend", level: 90 },
+    { name: "React", category: "frontend", level: 80 },
+    { name: "Node.js", category: "backend", level: 90 },
+    { name: "Express.js", category: "backend", level: 90 },
+    { name: "MongoDB", category: "database", level: 85 },
+    { name: "Python", category: "ai_ml", level: 70 },
+    { name: "TensorFlow", category: "ai_ml", level: 55 },
+    { name: "scikit-learn", category: "ai_ml", level: 60 },
+    { name: "JavaScript", category: "frontend", level: 85 },
     { name: "Tailwind CSS", category: "frontend", level: 85 },
     { name: "Git", category: "tools", level: 80 },
   ],
@@ -27,43 +32,43 @@ export const portfolioData = {
   projects: [
     {
       id: 1,
-      title: "AI-Powered E-commerce Platform",
-      description: "Full-stack e-commerce platform with AI-based recommendation system and computer vision for product search",
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400",
-      technologies: ["React", "Node.js", "TensorFlow", "MongoDB", "OpenCV"],
-      github: "https://github.com/yourusername/ecommerce-ai",
-      liveDemo: "https://ecommerce-ai-demo.com",
-      category: "fullstack"
+      title: "AI-Powered Learning-Path-Recommender",
+      description: "Leaning Path Recommender crafts personalized, 4–6 week learning roadmaps. week-by-week plan with curated resources (videos, articles, tutorials).",
+      image: LPR,
+      technologies: ["React", "Node.js", "Express.js", "Groq (Recommendation)",],
+      github: "https://github.com/ibrahim123-sia/Learning-Path-Recommender",
+      liveDemo: "https://learning-path-recommender-2gdj.vercel.app",
+      category: "ai_ml"
     },
     {
       id: 2,
-      title: "Real-time Object Detection System",
-      description: "Computer vision application for real-time object detection using TensorFlow.js and React",
-      image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w-400",
-      technologies: ["React", "TensorFlow.js", "OpenCV", "WebRTC"],
-      github: "https://github.com/yourusername/object-detection",
-      liveDemo: "https://object-detection-demo.com",
+      title: "AI-Powered Study-Session-Planner-Assistant",
+      description: "Transform academic goals into actionable weekly study schedules. Specify your exam or project, topics, and daily availability.",
+      image: SSP,
+      technologies: ["React", "Node.js", "Express.js", "Groq (Recommendation)"],
+      github: "https://github.com/ibrahim123-sia/Study-Session-Planner-Assistant",
+      liveDemo: "https://study-session-planner-assistant-gyn.vercel.app",
       category: "ai_ml"
     },
     {
       id: 3,
-      title: "MERN Stack Blog Platform",
-      description: "Feature-rich blogging platform with user authentication, CRUD operations, and real-time notifications",
-      image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400",
-      technologies: ["React", "Express.js", "MongoDB", "Node.js", "JWT"],
-      github: "https://github.com/yourusername/mern-blog",
-      liveDemo: "https://mern-blog-demo.com",
-      category: "fullstack"
+      title: "Nochat",
+      description: "A versatile AI assistant that goes beyond text. Engage in seamless conversations and generate stunning images from simple prompts.",
+      image: Nochat,
+      technologies: ["React", "Express.js", "MongoDB", "Node.js", "JWT", "GROQ"],
+      github: "https://github.com/ibrahim123-sia/NoChat",
+      liveDemo: "https://no-chat-y2my.vercel.app",
+      category: "ai_ml"
     },
     {
       id: 4,
       title: "Stock Market Prediction ML Model",
-      description: "Machine learning model for stock price prediction using LSTM networks and sentiment analysis",
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400",
-      technologies: ["Python", "TensorFlow", "Pandas", "Scikit-learn", "React"],
-      github: "https://github.com/yourusername/stock-prediction",
-      liveDemo: "https://stock-prediction-demo.com",
-      category: "ai_ml"
+      description: "Nowhere is a full-stack E-Commerce web application. It provides a complete online shopping experience",
+      image: Nowhere,
+      technologies: ["React", "Express.js", "MongoDB", "Node.js", "JWT",],
+      github: "https://github.com/ibrahim123-sia/Nowhere",
+      liveDemo: "https://nowhere-7ouy-1r41sse88-ibrahims-projects-a1ce14e2.vercel.app/",
+      category: "fullstack"
     },
   ],
 
@@ -72,28 +77,28 @@ export const portfolioData = {
       id: 1,
       title: "Full-Stack Web Development",
       description: "Build scalable web applications using MERN stack with modern architecture and best practices",
-      icon: "💻",
+      icon: "",
       features: ["Custom Web Applications", "RESTful APIs", "Database Design", "Performance Optimization"]
     },
     {
       id: 2,
       title: "AI/ML Integration",
       description: "Integrate machine learning models into web applications for intelligent features",
-      icon: "🤖",
+      icon: "",
       features: ["Model Deployment", "API Integration", "Real-time Predictions", "Computer Vision"]
     },
     {
       id: 3,
       title: "Frontend Development",
       description: "Create responsive and interactive user interfaces with modern frameworks",
-      icon: "🎨",
+      icon: "",
       features: ["React Applications", "Responsive Design", "State Management", "UI/UX Implementation"]
     },
     {
       id: 4,
       title: "Backend Development",
       description: "Develop robust server-side applications and APIs with Node.js and Express",
-      icon: "⚙️",
+      icon: "",
       features: ["API Development", "Authentication Systems", "Server Architecture", "Database Management"]
     },
   ],
@@ -102,16 +107,9 @@ export const portfolioData = {
     {
       id: 1,
       title: "MERN Stack Developer",
-      company: "Tech Solutions Inc.",
-      period: "2022 - Present",
+      company: "Freelance Web Developer /  Self-Employed ",
+      period: "2024 - Present",
       description: "Developed full-stack applications, implemented REST APIs, and integrated AI models"
-    },
-    {
-      id: 2,
-      title: "Frontend Developer Intern",
-      company: "Digital Innovations",
-      period: "2021 - 2022",
-      description: "Built responsive UIs and collaborated on React-based projects"
     },
   ],
 
@@ -119,14 +117,9 @@ export const portfolioData = {
     {
       id: 1,
       degree: "Bachelor of Computer Science",
-      institution: "University of Technology",
-      year: "2018 - 2022"
+      institution: "Muhammad Ali Jinnah University",
+      year: "2023 - 2027"
     },
-    {
-      id: 2,
-      degree: "AI/ML Specialization",
-      institution: "Coursera",
-      year: "2023"
-    },
+   
   ]
 };

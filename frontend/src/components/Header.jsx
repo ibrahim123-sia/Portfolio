@@ -18,11 +18,8 @@ const Header = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-gray-800 dark:text-white">
-                {portfolioData.personalInfo.name.split(' ')[0]}
+                {portfolioData.personalInfo.name}
               </h1>
-              <p className="text-xs text-gray-600 dark:text-gray-400">
-                MERN Developer
-              </p>
             </div>
           </div>
 

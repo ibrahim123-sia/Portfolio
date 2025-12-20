@@ -26,33 +26,7 @@ const Contact = () => {
           <ContactForm />
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center">
-          <div className="inline-flex flex-col md:flex-row items-center gap-6 bg-gradient-to-r from-primary-500 to-primary-700 text-white rounded-2xl p-8 shadow-lg">
-            <div className="flex-1">
-              <h3 className="text-2xl font-bold mb-2">Ready to start your project?</h3>
-              <p className="text-primary-100">
-                Let's discuss how I can help bring your ideas to life
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <a
-                href="mailto:your.email@example.com"
-                className="flex items-center space-x-2 bg-white text-primary-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition-colors"
-              >
-                <MessageSquare className="w-5 h-5" />
-                <span>Send Message</span>
-              </a>
-              <a
-                href="#"
-                className="flex items-center space-x-2 bg-transparent border-2 border-white hover:bg-white/10 px-6 py-3 rounded-lg font-medium transition-colors"
-              >
-                <Calendar className="w-5 h-5" />
-                <span>Schedule Call</span>
-              </a>
-            </div>
-          </div>
-        </div>
+       
       </div>
     </section>
   );

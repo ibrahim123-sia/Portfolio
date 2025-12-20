@@ -70,7 +70,7 @@ const Projects = () => {
           </div>
           <div className="text-center p-6 bg-white dark:bg-dark-card rounded-xl shadow-lg">
             <div className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-2">
-              15+
+              10+
             </div>
             <div className="text-gray-700 dark:text-gray-300 font-medium">
               Technologies Used

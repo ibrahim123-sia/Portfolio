@@ -43,7 +43,7 @@ const Home = () => {
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-white dark:bg-dark-card rounded-lg shadow-sm">
-                <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">20+</div>
+                <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">4+</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Projects</div>
               </div>
               <div className="text-center p-4 bg-white dark:bg-dark-card rounded-lg shadow-sm">
@@ -91,7 +91,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 dark:text-white">AI/ML</h4>
-                    <p className="text-gray-600 dark:text-gray-400">TensorFlow, OpenCV, Python</p>
+                    <p className="text-gray-600 dark:text-gray-400">Python, TensorFlow, scikit-learn</p>
                   </div>
                 </div>
               </div>

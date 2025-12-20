@@ -4,6 +4,7 @@ export const portfolioData = {
     title: "MERN Stack Developer & Aspiring AI/ML Engineer",
     email: "your.email@example.com",
     phone: "+91 1234567890",
+    whatsapp: "https://wa.me/911234567890",
     location: "India",
     linkedin: "https://www.linkedin.com/in/syed-ibrahim-ali-sia/",
     github: "https://github.com/yourusername",

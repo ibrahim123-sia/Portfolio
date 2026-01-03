@@ -8,7 +8,7 @@ const GitHubStats = () => {
   const [contributionData, setContributionData] = useState([]);
   
   const githubUsername = "ibrahim123-sia";
-const token = import.meta.env.VITE_GITHUB_TOKEN;
+  const token = import.meta.env.VITE_GITHUB_TOKEN
 
   // Fetch contribution data using GraphQL
   const fetchContributions = async (username, token) => {

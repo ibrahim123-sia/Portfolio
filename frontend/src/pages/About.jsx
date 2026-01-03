@@ -2,6 +2,7 @@ import React from 'react';
 import { User, Briefcase, GraduationCap, Target } from 'lucide-react';
 import { portfolioData } from '../data';
 import SkillCard from '../components/SkillCard';
+import GitHubStats from '../components/GitHubStats';
 
 const About = () => {
   return (
@@ -146,6 +147,11 @@ const About = () => {
               </ul>
             </div>
           </div>
+        </div>
+
+        {/* GitHub Stats Section - ADDED HERE */}
+        <div className="mt-12">
+          <GitHubStats />
         </div>
       </div>
     </section>

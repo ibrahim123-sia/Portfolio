@@ -8,7 +8,7 @@ const GitHubStats = () => {
   const [contributionData, setContributionData] = useState([]);
   
   const githubUsername = "ibrahim123-sia";
-  const token = import.meta.env.VITE_GITHUB_TOKEN
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
 
   // Fetch contribution data using GraphQL
   const fetchContributions = async (username, token) => {
@@ -140,7 +140,7 @@ const GitHubStats = () => {
     fetchGitHubData();
   }, [githubUsername, token]);
 
-  // Render contribution graph with real or simulated data
+  // Responsive contribution graph
   const renderContributionGraph = () => {
     const hasRealContributions = contributionData && contributionData.length > 0;
     
@@ -152,23 +152,19 @@ const GitHubStats = () => {
       dataToUse = contributionData.slice(-364); // Last 52 weeks
     } else {
       // Create realistic simulated data (not random)
-      // More activity on weekdays, less on weekends
       const today = new Date();
-      const daysInYear = 364; // 52 weeks
+      const daysInYear = 364;
       
       for (let i = daysInYear - 1; i >= 0; i--) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
-        const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        const dayOfWeek = date.getDay();
         const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
         
-        // More likely to have activity on weekdays
         let baseLevel = isWeekend ? Math.random() * 0.3 : Math.random() * 0.7;
         
-        // Add some pattern - more activity mid-week
         if (dayOfWeek === 2 || dayOfWeek === 3) baseLevel += 0.2;
         
-        // Some days with high activity
         if (Math.random() < 0.05) baseLevel = 0.9 + Math.random() * 0.1;
         
         const level = Math.floor(baseLevel * 5);
@@ -194,48 +190,49 @@ const GitHubStats = () => {
       if (count === 1) return 'bg-green-100 dark:bg-green-900';
       if (count === 2) return 'bg-green-300 dark:bg-green-700';
       if (count === 3) return 'bg-green-400 dark:bg-green-600';
-      return 'bg-green-500 dark:bg-green-500'; // 4+ contributions
+      return 'bg-green-500 dark:bg-green-500';
     };
 
     return (
-      <div className="flex w-full" style={{ gap: '3px' }}>
-        {weeks.map((week, weekIndex) => (
-          <div 
-            key={weekIndex} 
-            className="flex flex-col flex-1" 
-            style={{ gap: '3px' }}
-          >
-            {week.map((day, dayIndex) => (
-              <div 
-                key={`${weekIndex}-${dayIndex}`}
-                className={`${getColorClass(day.contributionCount)} rounded-[2px] hover:scale-125 transition-transform aspect-square min-h-[10px] relative group`}
-                title={`${day.contributionCount} contribution${day.contributionCount !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
-              >
-                {/* Tooltip-like element on hover for better UX */}
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                  {day.contributionCount} contribution{day.contributionCount !== 1 ? 's' : ''}
-                  <div className="text-[10px] text-gray-300">
-                    {new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+      <div className="w-full overflow-x-auto">
+        <div className="flex min-w-max sm:min-w-full" style={{ gap: '2px' }}>
+          {weeks.map((week, weekIndex) => (
+            <div 
+              key={weekIndex} 
+              className="flex flex-col" 
+              style={{ gap: '2px', flex: '1 0 auto' }}
+            >
+              {week.map((day, dayIndex) => (
+                <div 
+                  key={`${weekIndex}-${dayIndex}`}
+                  className={`${getColorClass(day.contributionCount)} rounded-[1px] sm:rounded-[2px] hover:scale-110 sm:hover:scale-125 transition-transform w-2 h-2 sm:w-3 sm:h-3 relative group`}
+                  title={`${day.contributionCount} contribution${day.contributionCount !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
+                >
+                  {/* Tooltip for desktop only */}
+                  <div className="hidden sm:block absolute -top-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                    {day.contributionCount} contribution{day.contributionCount !== 1 ? 's' : ''}
+                    <div className="text-[10px] text-gray-300">
+                      {new Date(day.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     );
   };
 
-  // The rest of your component remains the same...
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl mt-8">
-        <div className="flex flex-col items-center justify-center py-12">
-          <Loader2 className="w-12 h-12 animate-spin text-blue-500 mb-4" />
-          <span className="text-gray-600 dark:text-gray-400 mb-2">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-8 shadow-xl mt-8 mx-2 sm:mx-0">
+        <div className="flex flex-col items-center justify-center py-8 sm:py-12">
+          <Loader2 className="w-8 h-8 sm:w-12 sm:h-12 animate-spin text-blue-500 mb-3 sm:mb-4" />
+          <span className="text-gray-600 dark:text-gray-400 mb-2 text-sm sm:text-base text-center px-2">
             Fetching GitHub data for @{githubUsername}...
           </span>
-          <span className="text-sm text-gray-500">
+          <span className="text-xs sm:text-sm text-gray-500">
             {token ? 'Using GitHub token' : 'Using public API (limited)'}
           </span>
         </div>
@@ -245,15 +242,15 @@ const GitHubStats = () => {
 
   if (error) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl mt-8">
-        <div className="text-center py-8">
-          <div className="text-yellow-500 mb-4">
-            <Zap className="w-12 h-12 mx-auto" />
+      <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-8 shadow-xl mt-8 mx-2 sm:mx-0">
+        <div className="text-center py-6 sm:py-8">
+          <div className="text-yellow-500 mb-3 sm:mb-4">
+            <Zap className="w-8 h-8 sm:w-12 sm:h-12 mx-auto" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-2">
             GitHub Connection Issue
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm sm:text-base">
             {error}
           </p>
           
@@ -262,12 +259,12 @@ const GitHubStats = () => {
               href={`https://github.com/${githubUsername}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-3 bg-gray-900 hover:bg-black text-white rounded-xl w-full justify-center"
+              className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-gray-900 hover:bg-black text-white rounded-xl w-full justify-center text-sm sm:text-base"
             >
-              <Code className="w-5 h-5 mr-2" />
-              Visit GitHub Profile Directly
+              <Code className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              Visit GitHub Profile
             </a>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs sm:text-sm text-gray-500">
               Or check console for detailed error information
             </p>
           </div>
@@ -277,100 +274,100 @@ const GitHubStats = () => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl mt-8">
-      {/* Header */}
-      <div className="flex items-center mb-8">
-        <img 
-          src={githubData.avatarUrl} 
-          alt={githubData.name}
-          className="w-14 h-14 rounded-full mr-4 border-2 border-gray-300 dark:border-gray-600"
-          onError={(e) => {
-            e.target.src = `https://ui-avatars.com/api/?name=${githubUsername}&background=3b82f6&color=fff&size=128`;
-          }}
-        />
-        <div>
-          <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-            {githubData.name}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400 flex items-center">
-            <Code className="w-4 h-4 mr-1" />
-            @{githubUsername}
-          </p>
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl mt-4 sm:mt-8 mx-2 sm:mx-0">
+      {/* Header - Responsive */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 mb-6 sm:mb-8">
+        <div className="flex items-center">
+          <img 
+            src={githubData.avatarUrl} 
+            alt={githubData.name}
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full mr-3 sm:mr-4 border-2 border-gray-300 dark:border-gray-600"
+            onError={(e) => {
+              e.target.src = `https://ui-avatars.com/api/?name=${githubUsername}&background=3b82f6&color=fff&size=128`;
+            }}
+          />
+          <div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
+              {githubData.name}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 flex items-center text-sm sm:text-base">
+              <Code className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+              @{githubUsername}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl hover:shadow-md transition-shadow">
+      {/* Stats Cards - Responsive Grid */}
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 sm:p-4 rounded-xl hover:shadow-md transition-shadow">
           <div className="flex items-center mb-2">
-            <GitBranch className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">Repositories</span>
+            <GitBranch className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mr-2" />
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Repositories</span>
           </div>
-          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
             {githubData.publicRepos}
           </div>
         </div>
 
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-xl hover:shadow-md transition-shadow">
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 sm:p-4 rounded-xl hover:shadow-md transition-shadow">
           <div className="flex items-center mb-2">
-            <Star className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">Stars</span>
+            <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Stars</span>
           </div>
-          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
             {githubData.totalStars}
           </div>
         </div>
 
-        <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl hover:shadow-md transition-shadow">
+        <div className="bg-green-50 dark:bg-green-900/20 p-3 sm:p-4 rounded-xl hover:shadow-md transition-shadow">
           <div className="flex items-center mb-2">
-            <Users className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">Followers</span>
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 mr-2" />
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Followers</span>
           </div>
-          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
             {githubData.followers}
           </div>
         </div>
 
-        <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-xl hover:shadow-md transition-shadow">
+        <div className="bg-purple-50 dark:bg-purple-900/20 p-3 sm:p-4 rounded-xl hover:shadow-md transition-shadow">
           <div className="flex items-center mb-2">
-            <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-400 mr-2" />
-            <span className="text-sm text-gray-600 dark:text-gray-400">Following</span>
+            <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 mr-2" />
+            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Following</span>
           </div>
-          <div className="text-2xl font-bold text-gray-800 dark:text-white">
+          <div className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white">
             {githubData.following}
           </div>
         </div>
       </div>
 
-      {/* Contribution Graph - With real or realistic data */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
+      {/* Contribution Graph - Responsive */}
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
           <div className="flex items-center">
-            <Calendar className="w-5 h-5 text-green-500 mr-2" />
-            <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
+            <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-2" />
+            <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">
               Recent Activity
             </h4>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-right">
               {contributionData && contributionData.length > 0 
                 ? 'Actual contribution graph' 
                 : 'Simulated contribution graph'}
             </span>
             {!(contributionData && contributionData.length > 0) && token && (
-              <span className="text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">
+              <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded">
                 Token needed
               </span>
             )}
           </div>
         </div>
         
-        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-          <div className="w-full">
-            {renderContributionGraph()}
-          </div>
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-200 dark:border-gray-700">
+          {renderContributionGraph()}
           
-          <div className="flex justify-between items-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex justify-between items-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             <span>Mon</span>
             <span>Sun</span>
           </div>
@@ -383,25 +380,24 @@ const GitHubStats = () => {
         </div>
       </div>
 
-      {/* The rest of your component remains exactly the same... */}
-      {/* Top Languages */}
-      <div className="mb-8">
-        <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+      {/* Top Languages - Responsive */}
+      <div className="mb-6 sm:mb-8">
+        <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4">
           Top Languages
         </h4>
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {githubData.topLanguages.map((lang, index) => {
             const percentage = Math.round((lang.count / githubData.publicRepos) * 100);
             
             return (
               <div key={index}>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="flex justify-between text-xs sm:text-sm mb-1">
                   <span className="text-gray-700 dark:text-gray-300 font-medium">{lang.name}</span>
                   <span className="text-gray-600 dark:text-gray-400">{percentage}%</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                   <div 
-                    className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-700"
+                    className="h-1.5 sm:h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-700"
                     style={{ width: `${percentage}%` }}
                   ></div>
                 </div>
@@ -411,46 +407,46 @@ const GitHubStats = () => {
         </div>
       </div>
 
-      {/* Recent Repos */}
-      <div className="mb-8">
-        <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+      {/* Recent Repos - Responsive */}
+      <div className="mb-6 sm:mb-8">
+        <h4 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white mb-3 sm:mb-4">
           Recent Projects
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
           {githubData.repos.slice(0, 4).map((repo, index) => (
             <a
               key={index}
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 transition-all hover:scale-[1.02]"
+              className="group bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-gray-700 transition-all hover:scale-[1.02]"
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <h5 className="font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate">
+                  <h5 className="font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate text-sm sm:text-base">
                     {repo.name}
                   </h5>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
                     {repo.description || 'No description'}
                   </p>
                 </div>
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-500 flex-shrink-0 ml-2" />
+                <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 group-hover:text-blue-500 flex-shrink-0 ml-2" />
               </div>
-              <div className="flex items-center justify-between mt-3">
-                <div className="flex items-center space-x-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-2 sm:mt-3 gap-1 sm:gap-0">
+                <div className="flex items-center space-x-2 sm:space-x-3">
                   {repo.language && (
-                    <span className="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
+                    <span className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded">
                       {repo.language}
                     </span>
                   )}
                   <div className="flex items-center">
-                    <Star className="w-3 h-3 text-yellow-500 mr-1" />
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                    <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-yellow-500 mr-1" />
+                    <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
                       {repo.stargazers_count}
                     </span>
                   </div>
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-[10px] sm:text-xs text-gray-500">
                   Updated {new Date(repo.updated_at).toLocaleDateString()}
                 </span>
               </div>
@@ -459,21 +455,20 @@ const GitHubStats = () => {
         </div>
       </div>
 
-      {/* Link to GitHub */}
-      <div className="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
+      {/* Link to GitHub - Responsive */}
+      <div className="text-center pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
         <a
           href={`https://github.com/${githubUsername}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-900 dark:from-gray-800 dark:to-gray-900 dark:hover:from-gray-900 dark:hover:to-gray-800 text-white rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl group"
+          className="inline-flex items-center px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gradient-to-r from-gray-900 to-black hover:from-black hover:to-gray-900 dark:from-gray-800 dark:to-gray-900 dark:hover:from-gray-900 dark:hover:to-gray-800 text-white rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl group text-sm sm:text-base w-full justify-center"
         >
-          <Code className="w-5 h-5 mr-3 group-hover:animate-pulse" />
+          <Code className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 group-hover:animate-pulse" />
           <div className="text-left">
             <div className="font-semibold">View Complete GitHub Profile</div>
-            <div className="text-xs text-gray-300 opacity-80">github.com/{githubUsername}</div>
+            <div className="text-[10px] sm:text-xs text-gray-300 opacity-80">github.com/{githubUsername}</div>
           </div>
         </a>
-        
       </div>
     </div>
   );

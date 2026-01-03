@@ -473,7 +473,9 @@ const GitHubStats = () => {
             <div className="text-xs text-gray-300 opacity-80">github.com/{githubUsername}</div>
           </div>
         </a>
-       
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
+          All data fetched live from GitHub API
+        </p>
       </div>
     </div>
   );

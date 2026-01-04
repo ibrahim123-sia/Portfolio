@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, Code, Star, GitBranch, Users, TrendingUp, Zap, Loader2, ExternalLink } from 'lucide-react';
 
 const GitHubStats = () => {
@@ -6,9 +6,21 @@ const GitHubStats = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [contributionData, setContributionData] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  const graphRef = useRef(null);
   
   const githubUsername = "ibrahim123-sia";
   const token = import.meta.env.VITE_GITHUB_TOKEN;
+
+  // Update window width on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fetch contribution data using GraphQL
   const fetchContributions = async (username, token) => {
@@ -193,17 +205,25 @@ const GitHubStats = () => {
       return 'bg-green-500 dark:bg-green-500';
     };
 
+    // Determine if we need scrolling based on screen width
+    const needsScroll = windowWidth < 1024; // Scroll on screens smaller than 1024px
+    
     return (
-      <div className="w-full overflow-hidden">
-        {/* Container that adjusts based on screen size */}
-        <div className={`flex ${window.innerWidth >= 1024 ? 'justify-between' : ''}`} style={{ gap: '2px' }}>
+      <div 
+        ref={graphRef}
+        className={`w-full ${needsScroll ? 'overflow-x-auto pb-2' : 'overflow-hidden'}`}
+      >
+        <div 
+          className={`flex ${!needsScroll ? 'justify-between' : 'min-w-max'}`} 
+          style={{ gap: '2px' }}
+        >
           {weeks.map((week, weekIndex) => (
             <div 
               key={weekIndex} 
               className="flex flex-col" 
               style={{ 
                 gap: '2px',
-                flex: window.innerWidth >= 1024 ? '0 0 auto' : '1 0 auto'
+                flex: needsScroll ? '1 0 auto' : '0 0 auto'
               }}
             >
               {week.map((day, dayIndex) => (
@@ -345,7 +365,7 @@ const GitHubStats = () => {
         </div>
       </div>
 
-      {/* Contribution Graph - Responsive with no scrollbar on large screens */}
+      {/* Contribution Graph - Responsive with conditional scrolling */}
       <div className="mb-6 sm:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
           <div className="flex items-center">
@@ -369,9 +389,7 @@ const GitHubStats = () => {
         </div>
         
         <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-200 dark:border-gray-700">
-          <div className="overflow-hidden">
-            {renderContributionGraph()}
-          </div>
+          {renderContributionGraph()}
           
           <div className="flex justify-between items-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             <span>Mon</span>
@@ -381,6 +399,13 @@ const GitHubStats = () => {
           {!(contributionData && contributionData.length > 0) && (
             <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
               Add a GitHub token to see actual contribution data
+            </div>
+          )}
+          
+          {/* Scroll indicator for small screens */}
+          {windowWidth < 1024 && (
+            <div className="text-xs text-gray-400 text-center mt-2 animate-pulse">
+              ← Scroll to see full activity →
             </div>
           )}
         </div>

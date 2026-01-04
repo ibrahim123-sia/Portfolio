@@ -194,18 +194,22 @@ const GitHubStats = () => {
     };
 
     return (
-      <div className="w-full overflow-x-auto">
-        <div className="flex min-w-max sm:min-w-full" style={{ gap: '2px' }}>
+      <div className="w-full overflow-hidden">
+        {/* Container that adjusts based on screen size */}
+        <div className={`flex ${window.innerWidth >= 1024 ? 'justify-between' : ''}`} style={{ gap: '2px' }}>
           {weeks.map((week, weekIndex) => (
             <div 
               key={weekIndex} 
               className="flex flex-col" 
-              style={{ gap: '2px', flex: '1 0 auto' }}
+              style={{ 
+                gap: '2px',
+                flex: window.innerWidth >= 1024 ? '0 0 auto' : '1 0 auto'
+              }}
             >
               {week.map((day, dayIndex) => (
                 <div 
                   key={`${weekIndex}-${dayIndex}`}
-                  className={`${getColorClass(day.contributionCount)} rounded-[1px] sm:rounded-[2px] hover:scale-110 sm:hover:scale-125 transition-transform w-2 h-2 sm:w-3 sm:h-3 relative group`}
+                  className={`${getColorClass(day.contributionCount)} rounded-[1px] sm:rounded-[2px] hover:scale-110 sm:hover:scale-125 transition-transform w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 relative group`}
                   title={`${day.contributionCount} contribution${day.contributionCount !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`}
                 >
                   {/* Tooltip for desktop only */}
@@ -341,7 +345,7 @@ const GitHubStats = () => {
         </div>
       </div>
 
-      {/* Contribution Graph - Responsive */}
+      {/* Contribution Graph - Responsive with no scrollbar on large screens */}
       <div className="mb-6 sm:mb-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
           <div className="flex items-center">
@@ -365,7 +369,9 @@ const GitHubStats = () => {
         </div>
         
         <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 sm:p-4 border border-gray-200 dark:border-gray-700">
-          {renderContributionGraph()}
+          <div className="overflow-hidden">
+            {renderContributionGraph()}
+          </div>
           
           <div className="flex justify-between items-center mt-3 sm:mt-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
             <span>Mon</span>

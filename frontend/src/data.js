@@ -72,36 +72,50 @@ export const portfolioData = {
     },
   ],
 
-  services: [
-    {
-      id: 1,
-      title: "Full-Stack Web Development",
-      description: "Build scalable web applications using MERN stack with modern architecture and best practices",
-      icon: "",
-      features: ["Custom Web Applications", "RESTful APIs", "Database Design", "Performance Optimization"]
-    },
-    {
-      id: 2,
-      title: "AI/ML Integration",
-      description: "Integrate machine learning models into web applications for intelligent features",
-      icon: "",
-      features: ["Model Deployment", "API Integration", "Real-time Predictions", "Computer Vision"]
-    },
-    {
-      id: 3,
-      title: "Frontend Development",
-      description: "Create responsive and interactive user interfaces with modern frameworks",
-      icon: "",
-      features: ["React Applications", "Responsive Design", "State Management", "UI/UX Implementation"]
-    },
-    {
-      id: 4,
-      title: "Backend Development",
-      description: "Develop robust server-side applications and APIs with Node.js and Express",
-      icon: "",
-      features: ["API Development", "Authentication Systems", "Server Architecture", "Database Management"]
-    },
-  ],
+ services: [
+  {
+    id: 1,
+    title: "Full-Stack Web Development",
+    description: "Build scalable web applications using MERN stack with modern architecture and best practices",
+    icon: "",
+    features: ["Custom Web Applications", "RESTful APIs", "Database Design", "Performance Optimization"]
+  },
+  {
+    id: 2,
+    title: "AI/ML Integration",
+    description: "Integrate machine learning models into web applications for intelligent features",
+    icon: "",
+    features: ["Model Deployment", "API Integration", "Real-time Predictions", "Computer Vision"]
+  },
+  {
+    id: 3,
+    title: "AI Business Automation",
+    description: "Streamline business processes and operations with intelligent automation solutions",
+    icon: "",
+    features: ["Workflow Automation", "Process Optimization", "Data Pipeline Automation", "Intelligent Reporting"]
+  },
+  {
+    id: 4,
+    title: "Frontend Development",
+    description: "Create responsive and interactive user interfaces with modern frameworks",
+    icon: "",
+    features: ["React Applications", "Responsive Design", "State Management", "UI/UX Implementation"]
+  },
+  {
+    id: 5,
+    title: "Backend Development",
+    description: "Develop robust server-side applications and APIs with Node.js and Express",
+    icon: "",
+    features: ["API Development", "Authentication Systems", "Server Architecture", "Database Management"]
+  },
+  {
+    id: 6,
+    title: "Business Intelligence Solutions",
+    description: "Transform raw data into actionable insights with AI-powered analytics",
+    icon: "",
+    features: ["Data Visualization", "Predictive Analytics", "Dashboard Development", "Performance Metrics"]
+  }
+],
 
   experience: [
     {

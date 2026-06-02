@@ -107,12 +107,18 @@ const GitHubStats = () => {
         const userData = await userResponse.json();
         
         const reposResponse = await fetch(`https://api.github.com/users/${githubUsername}/repos?per_page=100&sort=updated`, {
-          headers: {
-            'Accept': 'application/vnd.github.v3+json'
-          }
+          headers
         });
         
+        if (!reposResponse.ok) {
+          throw new Error(`GitHub API error: ${reposResponse.status}`);
+        }
+        
         const reposData = await reposResponse.json();
+        
+        if (!Array.isArray(reposData)) {
+          throw new Error('GitHub API response is not an array');
+        }
         
         const totalStars = reposData.reduce((sum, repo) => sum + (repo.stargazers_count || 0), 0);
         const languages = {};

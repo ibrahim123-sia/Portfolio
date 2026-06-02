@@ -32,19 +32,19 @@ const About = () => {
               </h3>
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <p>
-                  I'm a passionate MERN Stack Developer with a strong interest in Artificial Intelligence 
-                  and Machine Learning. My journey in tech started with web development, and I've since 
-                  expanded my expertise to include AI/ML integration and computer vision.
+                  I'm a final-year Computer Science student and a MERN Stack Developer with 6+ months of
+                  remote full-stack experience at a US-based company. I specialize in integrating AI into
+                  business to automate tasks using the MERN stack, FastAPI, and LLM-powered architectures.
                 </p>
                 <p>
-                  What drives me is the challenge of bridging traditional web interfaces with intelligent 
-                  systems. I believe that the future of web development lies in creating applications 
-                  that not only look good but also think intelligently.
+                  What drives me is the challenge of bridging traditional web interfaces with intelligent
+                  systems — building RAG pipelines, LLM-powered assistants, and secure APIs that turn raw
+                  data into real, usable products.
                 </p>
                 <p>
-                  Currently, I'm focused on building projects that demonstrate the intersection of 
-                  web technologies and AI, while continuously learning and staying updated with the 
-                  latest advancements in both fields.
+                  Currently, I'm a Software Engineer at Yes Automotive (Remote), where I build and maintain
+                  full-stack web applications while continuously sharpening my skills in AI/ML and modern
+                  backend engineering.
                 </p>
               </div>
             </div>
@@ -105,6 +105,19 @@ const About = () => {
                       <h4 className="font-bold text-gray-800 dark:text-white">{edu.degree}</h4>
                       <p className="text-sm text-primary-600 dark:text-primary-400">{edu.institution}</p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">{edu.year}</p>
+                      {edu.cgpa && (
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                          <span className="font-semibold">CGPA:</span> {edu.cgpa}
+                        </p>
+                      )}
+                      {edu.award && (
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">🏆 {edu.award}</p>
+                      )}
+                      {edu.coursework && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          <span className="font-semibold">Coursework:</span> {edu.coursework}
+                        </p>
+                      )}
                     </div>
                   </div>
                 ))}

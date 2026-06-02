@@ -41,24 +41,28 @@ const ProjectCard = ({ project }) => {
 
         {/* Links */}
         <div className="flex justify-between items-center">
-          <a
-            href={project.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-          >
-            <Github size={20} />
-            <span>Code</span>
-          </a>
-          <a
-            href={project.liveDemo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-          >
-            <ExternalLink size={20} />
-            <span>Live Demo</span>
-          </a>
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              <Github size={20} />
+              <span>Code</span>
+            </a>
+          )}
+          {project.liveDemo && (
+            <a
+              href={project.liveDemo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              <ExternalLink size={20} />
+              <span>Live Demo</span>
+            </a>
+          )}
         </div>
       </div>
     </div>

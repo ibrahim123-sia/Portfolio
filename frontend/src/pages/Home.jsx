@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Code, Cpu, Database } from 'lucide-react';
+import { ArrowRight, Code, Cpu, Database, Download } from 'lucide-react';
 import { portfolioData } from '../data';
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
           {/* Left Column - Hero Text */}
           <div className="animate-fade-in">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-6">
-              <span className="text-sm font-medium">MERN Stack Developer & AI/ML Enthusiast</span>
+              <span className="text-sm font-medium">MERN Stack Developer · AI & Automation Engineer</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
@@ -38,12 +38,21 @@ const Home = () => {
               >
                 Contact Me
               </a>
+              <a
+                href={portfolioData.personalInfo.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-gray-300 dark:border-gray-600 hover:border-primary-600 dark:hover:border-primary-400 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+              >
+                <Download className="w-5 h-5" />
+                <span>Resume</span>
+              </a>
             </div>
             
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-4 bg-white dark:bg-dark-card rounded-lg shadow-sm">
-                <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">4+</div>
+                <div className="text-2xl font-bold text-primary-600 dark:text-primary-400">{portfolioData.projects.length}+</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Projects</div>
               </div>
               <div className="text-center p-4 bg-white dark:bg-dark-card rounded-lg shadow-sm">
@@ -81,7 +90,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 dark:text-white">Backend</h4>
-                    <p className="text-gray-600 dark:text-gray-400">Node.js, Express, MongoDB</p>
+                    <p className="text-gray-600 dark:text-gray-400">Node.js, Express, FastAPI, MongoDB</p>
                   </div>
                 </div>
                 
@@ -90,8 +99,8 @@ const Home = () => {
                     <Cpu className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-800 dark:text-white">AI/ML</h4>
-                    <p className="text-gray-600 dark:text-gray-400">Python, TensorFlow, scikit-learn</p>
+                    <h4 className="font-semibold text-gray-800 dark:text-white">AI / ML</h4>
+                    <p className="text-gray-600 dark:text-gray-400">RAG, LLMs, Python, TensorFlow</p>
                   </div>
                 </div>
               </div>

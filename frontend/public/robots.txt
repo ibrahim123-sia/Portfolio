@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://syedibrahimali.vercel.app/sitemap.xml

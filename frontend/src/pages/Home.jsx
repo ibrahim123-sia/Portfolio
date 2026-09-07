@@ -10,7 +10,7 @@ const Home = () => {
           {/* Left Column - Hero Text */}
           <div className="animate-fade-in">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-6">
-              <span className="text-sm font-medium">MERN Stack Developer · AI & Automation Engineer</span>
+              <span className="text-sm font-medium">MERN Stack Developer · AI & Automation Enthusiast</span>
             </div>
             
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">

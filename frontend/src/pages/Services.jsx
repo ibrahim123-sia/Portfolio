@@ -1,72 +1,77 @@
 import React from 'react';
-import { Cpu, Code, Database, Brain } from 'lucide-react';
+import { Lightbulb, Code2, Cpu, Rocket } from 'lucide-react';
 import { portfolioData } from '../data';
 import ServiceCard from '../components/ServiceCard';
+import SectionHeading from '../components/SectionHeading';
+import Reveal from '../components/Reveal';
+
+const process = [
+  {
+    icon: Lightbulb,
+    title: 'Discovery',
+    description: 'Understand the problem, users, and constraints before writing code.',
+  },
+  {
+    icon: Code2,
+    title: 'Build',
+    description: 'Agile development with clean, maintainable, well-tested code.',
+  },
+  {
+    icon: Cpu,
+    title: 'Integrate AI',
+    description: 'Layer in agentic AI, RAG, and automation where it adds real value.',
+  },
+  {
+    icon: Rocket,
+    title: 'Ship & Iterate',
+    description: 'Optimize, deploy, and keep it reliable after launch.',
+  },
+];
 
 const Services = () => {
   return (
-    <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900">
+    <section id="services" className="relative py-24">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            My Services
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            I provide comprehensive solutions that bridge traditional web development 
-            with cutting-edge AI technologies
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="What I do"
+          title="Services built around AI & full-stack delivery"
+          subtitle="From agentic AI systems to the full-stack products they live in — end to end."
+        />
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 mb-16">
-          {portfolioData.services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
+        {/* Services grid */}
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {portfolioData.services.map((service, i) => (
+            <Reveal key={service.id} delay={(i % 3) * 0.08}>
+              <ServiceCard service={service} />
+            </Reveal>
           ))}
         </div>
 
         {/* Process */}
-        <div className="mt-20">
-          <h3 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-12">
-            My Development Process
-          </h3>
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Brain className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-              </div>
-              <h4 className="font-bold text-gray-800 dark:text-white mb-2">1. Planning</h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
-                Requirement analysis and architecture design
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Code className="w-8 h-8 text-green-600 dark:text-green-400" />
-              </div>
-              <h4 className="font-bold text-gray-800 dark:text-white mb-2">2. Development</h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
-                Agile development with clean, maintainable code
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Cpu className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-              </div>
-              <h4 className="font-bold text-gray-800 dark:text-white mb-2">3. AI Integration</h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
-                Implementing intelligent features and models
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Database className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
-              </div>
-              <h4 className="font-bold text-gray-800 dark:text-white mb-2">4. Deployment</h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">
-                Testing, optimization, and production deployment
-              </p>
-            </div>
+        <div className="mt-24">
+          <Reveal className="mb-12">
+            <span className="eyebrow">How I work</span>
+            <h3 className="mt-4 text-2xl font-semibold text-content">
+              A simple, dependable process
+            </h3>
+          </Reveal>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {process.map((step, i) => (
+              <Reveal key={step.title} delay={i * 0.08}>
+                <div className="card h-full p-6">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[10px] bg-accent-soft text-accent-on">
+                    <step.icon className="h-5 w-5" />
+                  </div>
+                  <div className="mt-4 text-base font-semibold text-content">
+                    {step.title}
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
+                    {step.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Background from './components/Background';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -10,7 +11,8 @@ import WhatsAppFloat from './components/WhatsAppFloat';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-bg text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <div className="relative min-h-screen bg-bg text-muted font-sans">
+      <Background />
       <Header />
       <main>
         <Home />

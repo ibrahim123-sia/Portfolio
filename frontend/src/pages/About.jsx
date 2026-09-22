@@ -1,171 +1,133 @@
 import React from 'react';
-import { User, Briefcase, GraduationCap, Target } from 'lucide-react';
+import { User, Briefcase, GraduationCap, Award } from 'lucide-react';
 import { portfolioData } from '../data';
 import SkillCard from '../components/SkillCard';
+import SectionHeading from '../components/SectionHeading';
+import Reveal from '../components/Reveal';
 import GitHubStats from '../components/GitHubStats';
 
 const About = () => {
-  return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4">
-            <User className="w-5 h-5 mr-2" />
-            <span className="font-medium">About Me</span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            My Journey & Expertise
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Combining web development expertise with AI/ML knowledge to build intelligent solutions
-          </p>
-        </div>
+  const { personalInfo, skillGroups, experience, education } = portfolioData;
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Introduction */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Introduction */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
+  return (
+    <section id="about" className="relative py-24">
+      <div className="container mx-auto px-4">
+        <SectionHeading
+          eyebrow="About Me"
+          icon={User}
+          title="Engineering intelligent, production-grade systems"
+          subtitle="Bridging modern AI tooling with a full-stack foundation to ship solutions that hold up in the real world."
+        />
+
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Left — narrative + skills */}
+          <div className="space-y-6 lg:col-span-2">
+            <Reveal className="card rounded-2xl p-8">
+              <h3 className="mb-5 font-display text-xl font-bold text-content">
                 Who I Am
               </h3>
-              <div className="space-y-4 text-gray-600 dark:text-gray-300">
-                <p>
-                  I'm a final-year Computer Science student and a MERN Stack Developer with 6+ months of
-                  remote full-stack experience at a US-based company. I specialize in integrating AI into
-                  business to automate tasks using the MERN stack, FastAPI, and LLM-powered architectures.
-                </p>
-                <p>
-                  What drives me is the challenge of bridging traditional web interfaces with intelligent
-                  systems — building RAG pipelines, LLM-powered assistants, and secure APIs that turn raw
-                  data into real, usable products.
-                </p>
-                <p>
-                  Currently, I'm a Software Engineer at Yes Automotive (Remote), where I build and maintain
-                  full-stack web applications while continuously sharpening my skills in AI/ML and modern
-                  backend engineering.
-                </p>
-              </div>
-            </div>
-
-            {/* Skills */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-                Skills & Expertise
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {portfolioData.skills.map((skill, index) => (
-                  <SkillCard key={index} skill={skill} />
+              <div className="space-y-4 leading-relaxed text-muted">
+                {personalInfo.about.map((para, i) => (
+                  <p key={i}>{para}</p>
                 ))}
               </div>
-            </div>
+            </Reveal>
+
+            <Reveal className="card rounded-2xl p-8" delay={0.08}>
+              <h3 className="mb-6 font-display text-xl font-bold text-content">
+                Skills & Expertise
+              </h3>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {skillGroups.map((group) => (
+                  <SkillCard key={group.key} group={group} />
+                ))}
+              </div>
+            </Reveal>
           </div>
 
-          {/* Right Column - Experience & Education */}
-          <div className="space-y-8">
-            {/* Experience */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-lg">
-              <div className="flex items-center mb-6">
-                <Briefcase className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+          {/* Right — experience & education */}
+          <div className="space-y-6">
+            <Reveal className="card rounded-2xl p-8">
+              <div className="mb-6 flex items-center gap-3">
+                <Briefcase className="h-5 w-5 text-content" />
+                <h3 className="font-display text-xl font-bold text-content">
                   Experience
                 </h3>
               </div>
-              <div className="space-y-6">
-                {portfolioData.experience.map((exp) => (
-                  <div key={exp.id} className="relative pl-6 border-l border-gray-200 dark:border-gray-700">
-                    <div className="absolute -left-2 top-0 w-4 h-4 bg-primary-600 rounded-full"></div>
-                    <div className="mb-2">
-                      <h4 className="font-bold text-gray-800 dark:text-white">{exp.title}</h4>
-                      <p className="text-sm text-primary-600 dark:text-primary-400">{exp.company}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{exp.period}</p>
+              <div className="space-y-7">
+                {experience.map((exp) => (
+                  <div
+                    key={exp.id}
+                    className="relative border-l border-line pl-6"
+                  >
+                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-black bg-accent" />
+                    <h4 className="font-semibold text-content">{exp.title}</h4>
+                    <p className="text-sm text-content">{exp.company}</p>
+                    <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-faint">
+                      <span>{exp.period}</span>
+                      {exp.type && (
+                        <>
+                          <span className="text-faint">•</span>
+                          <span>{exp.type}</span>
+                        </>
+                      )}
                     </div>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
                       {exp.description}
                     </p>
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
-            {/* Education */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-lg">
-              <div className="flex items-center mb-6">
-                <GraduationCap className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+            <Reveal className="card rounded-2xl p-8" delay={0.08}>
+              <div className="mb-6 flex items-center gap-3">
+                <GraduationCap className="h-5 w-5 text-content" />
+                <h3 className="font-display text-xl font-bold text-content">
                   Education
                 </h3>
               </div>
               <div className="space-y-6">
-                {portfolioData.education.map((edu) => (
-                  <div key={edu.id} className="relative pl-6 border-l border-gray-200 dark:border-gray-700">
-                    <div className="absolute -left-2 top-0 w-4 h-4 bg-primary-600 rounded-full"></div>
-                    <div>
-                      <h4 className="font-bold text-gray-800 dark:text-white">{edu.degree}</h4>
-                      <p className="text-sm text-primary-600 dark:text-primary-400">{edu.institution}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{edu.year}</p>
-                      {edu.cgpa && (
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-2">
-                          <span className="font-semibold">CGPA:</span> {edu.cgpa}
-                        </p>
-                      )}
-                      {edu.award && (
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">🏆 {edu.award}</p>
-                      )}
-                      {edu.coursework && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          <span className="font-semibold">Coursework:</span> {edu.coursework}
-                        </p>
-                      )}
-                    </div>
+                {education.map((edu) => (
+                  <div
+                    key={edu.id}
+                    className="relative border-l border-line pl-6"
+                  >
+                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-black bg-accent" />
+                    <h4 className="font-semibold text-content">{edu.degree}</h4>
+                    <p className="text-sm text-content">{edu.institution}</p>
+                    <p className="mt-0.5 text-xs text-faint">{edu.year}</p>
+                    {edu.cgpa && (
+                      <p className="mt-2 text-sm text-muted">
+                        <span className="font-semibold text-muted">CGPA:</span>{' '}
+                        {edu.cgpa}
+                      </p>
+                    )}
+                    {edu.award && (
+                      <p className="mt-2 flex items-start gap-2 text-sm text-muted">
+                        <Award className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted" />
+                        <span>{edu.award}</span>
+                      </p>
+                    )}
+                    {edu.coursework && (
+                      <p className="mt-2 text-xs leading-relaxed text-faint">
+                        <span className="font-semibold text-muted">
+                          Coursework:
+                        </span>{' '}
+                        {edu.coursework}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Goals */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-lg">
-              <div className="flex items-center mb-6">
-                <Target className="w-6 h-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
-                  Goals
-                </h3>
-              </div>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 mr-3"></div>
-                  <span className="text-gray-600 dark:text-gray-300">
-                    Master advanced AI/ML concepts and their practical applications
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 mr-3"></div>
-                  <span className="text-gray-600 dark:text-gray-300">
-                    Contribute to open-source projects in both web dev and AI domains
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 mr-3"></div>
-                  <span className="text-gray-600 dark:text-gray-300">
-                    Build innovative products that solve real-world problems
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-primary-600 rounded-full mt-2 mr-3"></div>
-                  <span className="text-gray-600 dark:text-gray-300">
-                    Mentor aspiring developers entering the AI/ML field
-                  </span>
-                </li>
-              </ul>
-            </div>
+            </Reveal>
           </div>
         </div>
 
-        {/* GitHub Stats Section - ADDED HERE */}
-        <div className="mt-12">
+        {/* GitHub activity */}
+        <Reveal className="mt-8">
           <GitHubStats />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

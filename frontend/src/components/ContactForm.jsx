@@ -6,6 +6,10 @@ import {
   MapPin,
   MessageCircle,
   Loader2,
+  Github,
+  Linkedin,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { portfolioData } from "../data";
@@ -16,12 +20,10 @@ const ContactForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // WhatsApp URL
-  const phoneNumber = portfolioData.personalInfo.phone.replace(/\D/g, "");
+  const { personalInfo } = portfolioData;
+  const phoneNumber = personalInfo.phone.replace(/\D/g, "");
   const whatsappMessage = encodeURIComponent(
-    `Hi ${
-      portfolioData.personalInfo.name.split(" ")[0]
-    }! I saw your portfolio and would like to discuss a project.`
+    `Hi ${personalInfo.name.split(" ")[0]}! I saw your portfolio and would like to discuss a project.`
   );
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
 
@@ -39,300 +41,225 @@ const ContactForm = () => {
         "_QWED82KyfuvWQDyW"
       )
       .then(
-        (result) => {
-          console.log("Email sent successfully:", result.text);
+        () => {
           setIsSuccess(true);
           setIsLoading(false);
           form.current.reset();
-
           setTimeout(() => setIsSuccess(false), 5000);
         },
         (error) => {
-          console.error("Email failed:", error.text);
+          console.error("Email failed:", error?.text);
           setIsError(true);
           setIsLoading(false);
-
-          // Hide error message after 5 seconds
           setTimeout(() => setIsError(false), 5000);
         }
       );
   };
 
+  const contactItems = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: personalInfo.email,
+      href: `mailto:${personalInfo.email}`,
+    },
+    { icon: Phone, label: "Phone", value: personalInfo.phone },
+    { icon: MapPin, label: "Location", value: personalInfo.location },
+  ];
+
+  const inputClass =
+    "w-full rounded-xl border border-line bg-surface px-4 py-3 text-content placeholder-zinc-600 outline-none transition-all focus:border-line-strong focus:ring-2 focus:ring-white/15";
+
   return (
-    <div className="grid md:grid-cols-2 gap-8">
-      {/* Contact Information */}
+    <div className="grid gap-8 md:grid-cols-2">
+      {/* Contact info */}
       <div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-          Get in Touch
-        </h3>
+        <h3 className="font-display text-xl font-bold text-content">Get in Touch</h3>
+        <p className="mt-2 text-sm text-muted">
+          Prefer a quick chat? Reach out on any channel below.
+        </p>
 
-        <div className="space-y-6">
-          {/* Email */}
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-              <Mail className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-800 dark:text-white">
-                Email
-              </h4>
-              <a
-                href={`mailto:${portfolioData.personalInfo.email}`}
-                className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400"
-              >
-                {portfolioData.personalInfo.email}
-              </a>
-            </div>
-          </div>
-
-          {/* Phone */}
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-              <Phone className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-800 dark:text-white">
-                Phone
-              </h4>
-              <p className="text-gray-600 dark:text-gray-300">
-                {portfolioData.personalInfo.phone}
-              </p>
-            </div>
-          </div>
-
-          {/* Location */}
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
-              <MapPin className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-gray-800 dark:text-white">
-                Location
-              </h4>
-              <p className="text-gray-600 dark:text-gray-300">
-                {portfolioData.personalInfo.location}
-              </p>
-            </div>
-          </div>
-
-          {/* WhatsApp Direct Button */}
-          <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-100 dark:border-green-800">
-            <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                <MessageCircle className="w-6 h-6 text-white" />
+        <div className="mt-6 space-y-4">
+          {contactItems.map((item) => (
+            <div key={item.label} className="flex items-start gap-4">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-line bg-surface">
+                <item.icon className="h-5 w-5 text-content" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-800 dark:text-white">
-                  Quick Chat
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Typically replies within minutes
-                </p>
+                <h4 className="text-sm font-semibold text-content">{item.label}</h4>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    className="break-all text-sm text-muted transition-colors hover:text-content"
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="text-sm text-muted">{item.value}</p>
+                )}
               </div>
             </div>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group"
-            >
-              <MessageCircle className="w-5 h-5" />
-              <span>Chat on WhatsApp</span>
-            </a>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-3 text-center">
-              Perfect for quick queries or project discussions
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* Social Links */}
-        <div className="mt-8">
-          <h4 className="font-semibold text-gray-800 dark:text-white mb-4">
-            Connect with me
-          </h4>
-          <div className="flex space-x-4">
-            {/* LinkedIn */}
+        {/* WhatsApp callout */}
+        <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.06] p-5">
+          <div className="mb-4 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500">
+              <MessageCircle className="h-5 w-5 text-content" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-content">Quick Chat</h4>
+              <p className="text-xs text-muted">Typically replies within minutes</p>
+            </div>
+          </div>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 py-3 font-medium text-content transition-colors hover:bg-emerald-600"
+          >
+            <MessageCircle className="h-5 w-5" />
+            Chat on WhatsApp
+          </a>
+        </div>
+
+        {/* Socials */}
+        <div className="mt-6">
+          <h4 className="mb-3 text-sm font-semibold text-content">Connect with me</h4>
+          <div className="flex gap-3">
             <a
-              href={portfolioData.personalInfo.linkedin}
+              href={personalInfo.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center text-white transition-colors group"
-              title="LinkedIn Profile"
+              aria-label="LinkedIn"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-line-strong hover:text-content"
             >
-              <span className="font-semibold">in</span>
+              <Linkedin className="h-5 w-5" />
             </a>
-
-            {/* GitHub */}
             <a
-              href={portfolioData.personalInfo.github}
+              href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg flex items-center justify-center text-white transition-colors group"
-              title="GitHub Profile"
+              aria-label="GitHub"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-line-strong hover:text-content"
             >
-              <span className="font-semibold">Git</span>
+              <Github className="h-5 w-5" />
             </a>
-
-            {/* WhatsApp */}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 bg-green-500 hover:bg-green-600 rounded-lg flex items-center justify-center text-white transition-colors group"
-              title="Chat on WhatsApp"
+              aria-label="WhatsApp"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-emerald-400/50 hover:text-emerald-300"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="h-5 w-5" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Contact Form */}
+      {/* Form */}
       <div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-          Send a Message
-        </h3>
+        <h3 className="font-display text-xl font-bold text-content">Send a Message</h3>
 
-        {/* Success/Error Messages */}
         {isSuccess && (
-          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-800 rounded-lg animate-fade-in">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-green-600 dark:text-green-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 13l4 4L19 7"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-3">
-                <h4 className="text-green-800 dark:text-green-200 font-semibold">
-                  Message Sent Successfully!
-                </h4>
-                <p className="text-green-700 dark:text-green-300 text-sm mt-1">
-                  Thank you for reaching out! I'll get back to you within 24
-                  hours.
-                </p>
-              </div>
+          <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 animate-fade-in">
+            <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
+            <div>
+              <h4 className="font-semibold text-emerald-300">Message sent!</h4>
+              <p className="text-sm text-emerald-200/80">
+                Thanks for reaching out — I'll get back to you within 24 hours.
+              </p>
             </div>
           </div>
         )}
 
         {isError && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg animate-fade-in">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
-                  <svg
-                    className="w-5 h-5 text-red-600 dark:text-red-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div className="ml-3">
-                <h4 className="text-red-800 dark:text-red-200 font-semibold">
-                  Failed to Send Message
-                </h4>
-                <p className="text-red-700 dark:text-red-300 text-sm mt-1">
-                  Please try again or use WhatsApp for immediate assistance.
-                </p>
-              </div>
+          <div className="mt-5 flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 animate-fade-in">
+            <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-rose-400" />
+            <div>
+              <h4 className="font-semibold text-rose-300">Failed to send</h4>
+              <p className="text-sm text-rose-200/80">
+                Please try again, or reach me on WhatsApp for a faster reply.
+              </p>
             </div>
           </div>
         )}
 
-        <form ref={form} onSubmit={sendEmail} className="space-y-6">
+        <form ref={form} onSubmit={sendEmail} className="mt-5 space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="mb-2 block text-sm font-medium text-muted">
               Full Name *
             </label>
             <input
               type="text"
               name="from_name"
               required
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all hover:border-gray-400 dark:hover:border-gray-500"
+              className={inputClass}
               placeholder="Your name"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="mb-2 block text-sm font-medium text-muted">
               Email Address *
             </label>
             <input
               type="email"
               name="from_email"
               required
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all hover:border-gray-400 dark:hover:border-gray-500"
+              className={inputClass}
               placeholder="your@email.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="mb-2 block text-sm font-medium text-muted">
               Subject *
             </label>
             <input
               type="text"
               name="subject"
               required
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all hover:border-gray-400 dark:hover:border-gray-500"
+              className={inputClass}
               placeholder="Project discussion"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="mb-2 block text-sm font-medium text-muted">
               Message *
             </label>
             <textarea
               name="message"
               required
               rows="4"
-              className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all hover:border-gray-400 dark:hover:border-gray-500 resize-none"
-              placeholder="Tell me about your project, timeline, and budget..."
-            ></textarea>
+              className={`${inputClass} resize-none`}
+              placeholder="Tell me about your project, timeline, and goals..."
+            />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Sending...</span>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Sending...
               </>
             ) : (
               <>
-                <span>Send Message</span>
-                <Send size={20} />
+                Send Message
+                <Send size={18} />
               </>
             )}
           </button>
 
-          <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-            * Required fields. I respect your privacy and will never share your
-            information.
+          <p className="text-center text-xs text-faint">
+            * Required fields. I respect your privacy and never share your information.
           </p>
         </form>
       </div>

@@ -1,32 +1,25 @@
 import React from 'react';
-import { Mail, MessageSquare, Calendar } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import ContactForm from '../components/ContactForm';
+import SectionHeading from '../components/SectionHeading';
+import Reveal from '../components/Reveal';
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-20">
+    <section id="contact" className="relative py-24">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mb-4">
-            <Mail className="w-5 h-5 mr-2" />
-            <span className="font-medium">Get In Touch</span>
+        <SectionHeading
+          eyebrow="Get In Touch"
+          icon={Mail}
+          title="Let's build something that ships"
+          subtitle="Have a project or role in mind? Tell me about it — I'd love to hear where I can help."
+        />
+
+        <Reveal className="mx-auto max-w-4xl">
+          <div className="card rounded-2xl p-6 md:p-10">
+            <ContactForm />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Let's Build Something Amazing Together
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Have a project in mind? I'd love to hear about it. Send me a message 
-            and let's discuss how we can work together.
-          </p>
-        </div>
-
-        {/* Contact Form */}
-        <div className="bg-white dark:bg-dark-card rounded-2xl p-8 shadow-xl mb-16">
-          <ContactForm />
-        </div>
-
-       
+        </Reveal>
       </div>
     </section>
   );

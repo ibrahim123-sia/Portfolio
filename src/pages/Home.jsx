@@ -146,7 +146,7 @@ const Home = () => {
           {...item(0.4)}
           className="mt-16 border-t border-line pt-8"
         >
-          <ul className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:justify-between">
             {techStrip.map((tech) => (
               <li
                 key={tech}

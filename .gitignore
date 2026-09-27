@@ -32,6 +32,6 @@ Thumbs.db
 *.sw?
 
 # ---- Source CV (root only) ----
-# The served resume lives in frontend/public/Syed_Ibrahim_Ali_Resume.pdf and IS committed.
+# The served resume lives in public/Syed_Ibrahim_Ali_Resume.pdf and IS committed.
 /Syed Ibrahim Ali.pdf
 /*.pdf

@@ -1,8 +1,16 @@
 {
-  "name": "frontend",
+  "name": "syed-ibrahim-ali-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Personal portfolio of Syed Ibrahim Ali — AI Engineer & Full-Stack Developer. Built with React, Vite and Tailwind CSS.",
+  "author": "Syed Ibrahim Ali <syedibrahimali1111@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://syedibrahimali.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ibrahim123-sia/Portfolio.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,8 +19,6 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@octokit/graphql": "^9.0.3",
-    "dotenv": "^17.2.3",
     "framer-motion": "^13.4.1",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
@@ -30,6 +36,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "sharp": "^0.35.4",
     "tailwindcss": "^3.4.19",
     "vite": "^7.2.4"
   }

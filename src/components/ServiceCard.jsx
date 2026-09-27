@@ -10,13 +10,23 @@ const iconMap = {
   cloud: Cloud,
 };
 
-const ServiceCard = ({ service }) => {
+const ServiceCard = ({ service, index }) => {
   const Icon = iconMap[service.icon] || Sparkles;
 
   return (
-    <div className="card card-hover group h-full p-7">
-      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-[10px] bg-accent-soft text-accent-on">
-        <Icon className="h-5 w-5" />
+    <div className="card card-hover group relative h-full overflow-hidden p-7">
+      {/* Accent rail that reveals on hover */}
+      <span className="absolute inset-y-0 left-0 w-0.5 origin-top scale-y-0 bg-accent transition-transform duration-300 group-hover:scale-y-100" />
+
+      <div className="mb-5 flex items-center justify-between">
+        <div className="flex h-11 w-11 items-center justify-center rounded-[10px] bg-accent-soft text-accent-on">
+          <Icon className="h-5 w-5" />
+        </div>
+        {typeof index === 'number' && (
+          <span className="font-display text-sm font-semibold text-faint">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        )}
       </div>
 
       <h3 className="text-lg font-semibold text-content">{service.title}</h3>

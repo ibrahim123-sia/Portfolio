@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --bg: #08090b;
-  --surface: #111318;
-  --surface-2: #15181e;
-  --line: #1c1f26;
-  --line-strong: #2a2e37;
+  --bg: #0a0f1a;
+  --surface: #101827;
+  --surface-2: #172136;
+  --line: #1f2a3d;
+  --line-strong: #2e3d57;
 
   --text: #ffffff;
-  --muted: #a8adba;
-  --faint: #6e7480;
+  --muted: #a3aec2;
+  --faint: #6b7688;
 
   --accent: #4c8dff;
   --accent-hover: #7ba9ff;
-  --accent-soft: #16223d;
+  --accent-soft: #152238;
   --accent-on: #8fb4ff;
   --accent-ink: #05080f;
 
@@ -37,6 +37,10 @@
   ::selection {
     background: rgba(76, 141, 255, 0.28);
     color: #ffffff;
+  }
+
+  body {
+    background-color: var(--bg);
   }
 
   ::-webkit-scrollbar {
@@ -158,6 +162,64 @@
   }
   .link-underline:hover::after {
     transform: scaleX(1);
+  }
+
+  /* Underline-style form field (reference contact form) */
+  .input-underline {
+    @apply w-full bg-transparent px-0 py-3 text-[15px] text-content outline-none;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    transition: border-color 0.2s var(--ease);
+  }
+  .input-underline::placeholder {
+    color: var(--faint);
+  }
+  .input-underline:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  /* Outline CTA — transparent with accent border (reference "My resume") */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] px-6 py-3 text-[15px] font-medium;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line-strong);
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent-on);
+  }
+
+  /* Ghost CTA — subtle outline, used in GitHub panel */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] px-6 py-3 text-[15px] font-medium;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .btn-ghost:hover {
+    border-color: var(--line-strong);
+    color: var(--accent-on);
+  }
+
+  /* Short accent rule used above section titles (reference) */
+  .accent-rule {
+    @apply block h-px w-10;
+    background: var(--accent);
+  }
+
+  /* Underlined text link with trailing arrow (reference "View project ↗") */
+  .link-arrow {
+    @apply inline-flex items-center gap-1.5 text-[15px] font-medium text-content;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 2px;
+    transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+  }
+  .link-arrow:hover {
+    color: var(--accent-on);
+    border-color: var(--accent);
   }
 }
 

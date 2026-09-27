@@ -67,8 +67,7 @@ const ContactForm = () => {
     { icon: MapPin, label: "Location", value: personalInfo.location },
   ];
 
-  const inputClass =
-    "w-full rounded-xl border border-line bg-surface px-4 py-3 text-content placeholder-zinc-600 outline-none transition-all focus:border-line-strong focus:ring-2 focus:ring-white/15";
+  const inputClass = "input-underline";
 
   return (
     <div className="grid gap-8 md:grid-cols-2">

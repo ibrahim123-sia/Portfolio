@@ -9,9 +9,9 @@ const Contact = () => {
     <section id="contact" className="relative py-24">
       <div className="container mx-auto px-4">
         <SectionHeading
-          eyebrow="Get In Touch"
+          eyebrow="Contact"
           icon={Mail}
-          title="Let's build something that ships"
+          title="Have a project? Let's talk!"
           subtitle="Have a project or role in mind? Tell me about it — I'd love to hear where I can help."
         />
 

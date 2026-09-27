@@ -12,19 +12,19 @@ export default {
         display: ['"DM Sans"', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Ink Blue system
-        bg: '#08090B',
-        surface: '#111318',
-        'surface-2': '#15181E',
-        line: '#1C1F26',
-        'line-strong': '#2A2E37',
+        // Ink Blue on Navy — deep navy surfaces, blue accent (reference-inspired)
+        bg: '#0A0F1A',
+        surface: '#101827',
+        'surface-2': '#172136',
+        line: '#1F2A3D',
+        'line-strong': '#2E3D57',
         content: '#FFFFFF',
-        muted: '#A8ADBA',
-        faint: '#6E7480',
+        muted: '#A3AEC2',
+        faint: '#6B7688',
         accent: {
           DEFAULT: '#4C8DFF',
           hover: '#7BA9FF',
-          soft: '#16223D',
+          soft: '#152238',
           on: '#8FB4FF',
           ink: '#05080F',
         },

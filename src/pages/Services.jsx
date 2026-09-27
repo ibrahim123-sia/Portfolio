@@ -42,7 +42,7 @@ const Services = () => {
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {portfolioData.services.map((service, i) => (
             <Reveal key={service.id} delay={(i % 3) * 0.08}>
-              <ServiceCard service={service} />
+              <ServiceCard service={service} index={i} />
             </Reveal>
           ))}
         </div>
@@ -56,14 +56,22 @@ const Services = () => {
             </h3>
           </Reveal>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="relative grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Connecting rail across the steps (desktop) */}
+            <span
+              aria-hidden="true"
+              className="absolute left-0 right-0 top-5 hidden h-px bg-line lg:block"
+            />
             {process.map((step, i) => (
               <Reveal key={step.title} delay={i * 0.08}>
-                <div className="card h-full p-6">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-[10px] bg-accent-soft text-accent-on">
+                <div className="relative">
+                  <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-surface text-accent-on">
                     <step.icon className="h-5 w-5" />
+                    <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-accent-ink">
+                      {i + 1}
+                    </span>
                   </div>
-                  <div className="mt-4 text-base font-semibold text-content">
+                  <div className="mt-5 text-base font-semibold text-content">
                     {step.title}
                   </div>
                   <p className="mt-2 text-sm leading-relaxed text-muted">

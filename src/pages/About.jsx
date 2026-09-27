@@ -6,8 +6,14 @@ import SectionHeading from '../components/SectionHeading';
 import Reveal from '../components/Reveal';
 import GitHubStats from '../components/GitHubStats';
 
+// Split a stat value into its number and trailing symbol (e.g. "5+" → "5" / "+")
+const splitStat = (value) => {
+  const match = String(value).match(/^([\d.]+)(.*)$/);
+  return match ? { num: match[1], sym: match[2] } : { num: value, sym: '' };
+};
+
 const About = () => {
-  const { personalInfo, skillGroups, experience, education } = portfolioData;
+  const { personalInfo, skillGroups, experience, education, stats } = portfolioData;
 
   return (
     <section id="about" className="relative py-24">
@@ -18,6 +24,22 @@ const About = () => {
           title="Engineering intelligent, production-grade systems"
           subtitle="Bridging modern AI tooling with a full-stack foundation to ship solutions that hold up in the real world."
         />
+
+        {/* Headline stats — big number + accent symbol (reference style) */}
+        <Reveal className="mb-14 grid grid-cols-2 gap-8 border-y border-line py-8 sm:grid-cols-4">
+          {stats.map((stat) => {
+            const { num, sym } = splitStat(stat.value);
+            return (
+              <div key={stat.label}>
+                <div className="font-display text-4xl font-bold tracking-tight text-content sm:text-5xl">
+                  {num}
+                  {sym && <span className="text-accent">{sym}</span>}
+                </div>
+                <div className="mt-1.5 text-sm text-faint">{stat.label}</div>
+              </div>
+            );
+          })}
+        </Reveal>
 
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Left — narrative + skills */}
@@ -60,7 +82,7 @@ const About = () => {
                     key={exp.id}
                     className="relative border-l border-line pl-6"
                   >
-                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-black bg-accent" />
+                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-bg bg-accent" />
                     <h4 className="font-semibold text-content">{exp.title}</h4>
                     <p className="text-sm text-content">{exp.company}</p>
                     <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-xs text-faint">
@@ -93,7 +115,7 @@ const About = () => {
                     key={edu.id}
                     className="relative border-l border-line pl-6"
                   >
-                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-black bg-accent" />
+                    <span className="absolute -left-[7px] top-1 h-3.5 w-3.5 rounded-full border-2 border-bg bg-accent" />
                     <h4 className="font-semibold text-content">{edu.degree}</h4>
                     <p className="text-sm text-content">{edu.institution}</p>
                     <p className="mt-0.5 text-xs text-faint">{edu.year}</p>

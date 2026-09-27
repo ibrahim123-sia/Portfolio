@@ -29,7 +29,7 @@ const Home = () => {
 
   return (
     <section id="home" className="relative min-h-screen">
-      <div className="container mx-auto px-6 pt-24 pb-16 sm:pt-28">
+      <div className="container mx-auto px-6 pt-20 pb-16 sm:pt-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           {/* Left — intro */}
           <div className="order-2 flex flex-col gap-6 lg:order-1">

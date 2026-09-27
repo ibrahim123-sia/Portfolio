@@ -33,11 +33,6 @@ const Home = () => {
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           {/* Left — intro */}
           <div className="order-2 flex flex-col gap-6 lg:order-1">
-            <Motion.span {...item(0)} className="badge">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent-on" />
-              Available for work
-            </Motion.span>
-
             <div className="flex flex-col gap-1">
               <Motion.p
                 {...item(0.06)}

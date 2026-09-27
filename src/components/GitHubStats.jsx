@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { GitHubCalendar } from 'react-github-calendar';
 import {
   Calendar,
   Code,
@@ -13,61 +14,51 @@ import {
 
 const githubUsername = 'ibrahim123-sia';
 
+// GitHub's own contribution color scale (dark), so the graph reads exactly
+// like the one on the GitHub profile page.
+const githubTheme = {
+  dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
+};
+
 const GitHubStats = () => {
   const [githubData, setGithubData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [contributionData, setContributionData] = useState([]);
-  const token = import.meta.env.VITE_GITHUB_TOKEN;
 
-  const fetchContributions = async (username, authToken) => {
-    const query = `
-      query($username: String!) {
-        user(login: $username) {
-          contributionsCollection {
-            contributionCalendar {
-              totalContributions
-              weeks { contributionDays { contributionCount date weekday } }
-            }
-          }
-        }
-      }
-    `;
+  // The calendar has a fixed number of week-columns and won't stretch on its
+  // own, so we measure the container and size each day-block (and its margin)
+  // to fill the width exactly while keeping GitHub's block:gap proportions.
+  const calWrapRef = useRef(null);
+  const [block, setBlock] = useState({ size: 12, margin: 4 });
 
-    try {
-      const response = await fetch('https://api.github.com/graphql', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ query, variables: { username } }),
-      });
-      if (!response.ok) throw new Error(`GitHub GraphQL error: ${response.status}`);
-      const data = await response.json();
-      if (data.errors) throw new Error(data.errors[0].message);
-      const weeks =
-        data.data.user.contributionsCollection.contributionCalendar.weeks;
-      return weeks.flatMap((week) => week.contributionDays);
-    } catch (err) {
-      console.error('Error fetching contributions:', err);
-      return [];
-    }
-  };
+  useLayoutEffect(() => {
+    const el = calWrapRef.current;
+    if (!el) return;
+    const WEEKS = 53;
+    const PADDING = 32; // p-4 on both sides (clientWidth includes padding)
+    const GUTTER = 20; // approx left offset before the first column
+    const recompute = () => {
+      const avail = el.clientWidth - PADDING - GUTTER;
+      if (avail <= 0) return;
+      const unit = avail / WEEKS; // width available per week column
+      // GitHub renders blocks at ~72% of the column, gap at the rest.
+      const size = Math.max(9, Math.min(18, Math.round(unit * 0.72)));
+      const margin = Math.max(2, unit - size); // fractional margin fills exactly
+      setBlock({ size, margin });
+    };
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [githubData]);
 
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
         setLoading(true);
-        const headers = token
-          ? {
-              Authorization: `Bearer ${token}`,
-              Accept: 'application/vnd.github.v3+json',
-            }
-          : { Accept: 'application/vnd.github.v3+json' };
-
-        let contributions = [];
-        if (token) contributions = await fetchContributions(githubUsername, token);
+        // Public REST endpoints work unauthenticated — no token is sent from the
+        // browser, so nothing sensitive can leak in the client bundle.
+        const headers = { Accept: 'application/vnd.github.v3+json' };
 
         const userResponse = await fetch(
           `https://api.github.com/users/${githubUsername}`,
@@ -111,7 +102,6 @@ const GitHubStats = () => {
           topLanguages,
           repos: reposData.slice(0, 6),
         });
-        setContributionData(contributions);
       } catch (err) {
         console.error('Detailed error:', err);
         setError(err.message);
@@ -121,47 +111,7 @@ const GitHubStats = () => {
     };
 
     fetchGitHubData();
-  }, [token]);
-
-  const getColorClass = (count) => {
-    if (count === 0) return 'bg-surface-2';
-    if (count <= 2) return 'bg-accent/40';
-    if (count <= 4) return 'bg-accent/70';
-    return 'bg-accent';
-  };
-
-  const renderContributionGraph = () => {
-    const days = contributionData.slice(-364);
-    const weeks = [];
-    for (let w = 0; w < Math.ceil(days.length / 7); w++) {
-      weeks.push(days.slice(w * 7, w * 7 + 7));
-    }
-    return (
-      <div className="w-full overflow-x-auto pb-1">
-        <div className="flex min-w-max gap-[3px]">
-          {weeks.map((week, wi) => (
-            <div key={wi} className="flex flex-col gap-[3px]">
-              {week.map((day, di) => (
-                <div
-                  key={`${wi}-${di}`}
-                  className={`${getColorClass(
-                    day.contributionCount
-                  )} h-3 w-3 rounded-[2px] transition-transform`}
-                  title={`${day.contributionCount} contribution${
-                    day.contributionCount !== 1 ? 's' : ''
-                  } on ${new Date(day.date).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}`}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
+  }, []);
 
   if (loading) {
     return (
@@ -201,8 +151,6 @@ const GitHubStats = () => {
     { icon: Users, label: 'Followers', value: githubData.followers },
     { icon: TrendingUp, label: 'Following', value: githubData.following },
   ];
-
-  const hasContributions = contributionData.length > 0;
 
   return (
     <div className="card rounded-2xl p-6 md:p-8">
@@ -249,20 +197,28 @@ const GitHubStats = () => {
         ))}
       </div>
 
-      {/* Contribution graph (only when real data is available) */}
-      {hasContributions && (
-        <div className="mb-8">
-          <div className="mb-4 flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-content" />
-            <h4 className="font-display text-base font-semibold text-content">
-              Contribution Activity
-            </h4>
-          </div>
-          <div className="rounded-xl border border-line bg-surface p-4">
-            {renderContributionGraph()}
-          </div>
+      {/* Contribution graph — authentic GitHub calendar (public data, no token) */}
+      <div className="mb-8">
+        <div className="mb-4 flex items-center gap-2">
+          <Calendar className="h-4 w-4 text-content" />
+          <h4 className="font-display text-base font-semibold text-content">
+            Contribution Activity
+          </h4>
         </div>
-      )}
+        <div
+          ref={calWrapRef}
+          className="overflow-x-auto rounded-xl border border-line bg-surface p-4 text-muted"
+        >
+          <GitHubCalendar
+            username={githubUsername}
+            colorScheme="dark"
+            theme={githubTheme}
+            blockSize={block.size}
+            blockMargin={block.margin}
+            fontSize={13}
+          />
+        </div>
+      </div>
 
       {/* Top languages */}
       {githubData.topLanguages.length > 0 && (
@@ -283,7 +239,7 @@ const GitHubStats = () => {
                   </div>
                   <div className="h-2 w-full overflow-hidden rounded-full bg-surface-2">
                     <div
-                      className="h-2 rounded-full bg-gradient-to-r from-zinc-300 to-white transition-all duration-700"
+                      className="h-2 rounded-full bg-gradient-to-r from-accent to-accent-on transition-all duration-700"
                       style={{ width: `${pct}%` }}
                     />
                   </div>

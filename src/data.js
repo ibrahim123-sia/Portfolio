@@ -17,6 +17,9 @@ export const portfolioData = {
     location: "Karachi, Pakistan",
     linkedin: "https://www.linkedin.com/in/syed-ibrahim-ali-sia/",
     github: "https://github.com/ibrahim123-sia",
+    youtube: "https://www.youtube.com/@CodeWithSIA-i",
+    upwork: "https://www.upwork.com/freelancers/~0166fe76f5f8b9d0b3",
+    portfolio8x: "https://www.8x.careers/p/syed-ibrahim-ali",
     resume: "/Syed_Ibrahim_Ali_Resume.pdf",
     // Short hero bio
     bio: "I build complete business solutions — the AI layer that automates decisions and workflows, and the full-stack architecture, backends, and interfaces that make it run in production.",

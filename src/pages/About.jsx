@@ -5,6 +5,7 @@ import SkillCard from '../components/SkillCard';
 import SectionHeading from '../components/SectionHeading';
 import Reveal from '../components/Reveal';
 import GitHubStats from '../components/GitHubStats';
+import CountUp from '../components/CountUp';
 
 // Split a stat value into its number and trailing symbol (e.g. "5+" → "5" / "+")
 const splitStat = (value) => {
@@ -32,7 +33,7 @@ const About = () => {
             return (
               <div key={stat.label}>
                 <div className="font-display text-4xl font-bold tracking-tight text-content sm:text-5xl">
-                  {num}
+                  <CountUp to={Number(num)} />
                   {sym && <span className="text-accent">{sym}</span>}
                 </div>
                 <div className="mt-1.5 text-sm text-faint">{stat.label}</div>

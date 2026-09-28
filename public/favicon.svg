@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="SIA">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5C97FF"/>
+      <stop offset="1" stop-color="#2F6BE0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="512" height="512" rx="116" fill="url(#g)"/>
+  <rect x="8" y="8" width="496" height="496" rx="108" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="4"/>
+  <text x="50%" y="52%" dominant-baseline="central" text-anchor="middle"
+        font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-weight="700"
+        font-size="196" letter-spacing="-6" fill="#FFFFFF">SIA</text>
+</svg>

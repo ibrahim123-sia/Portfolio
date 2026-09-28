@@ -2,13 +2,16 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/Mypic.jpg" />
-    <link rel="apple-touch-icon" href="/Mypic.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0A0F1A" />
     <meta name="google-site-verification" content="6vpxglWfSwLRNeuGMazmSzk-pQlcNYrWW0wjaQPoW8A" />
     <title>Syed Ibrahim Ali | AI Engineer & Full-Stack Developer</title>
-    <meta name="description" content="Syed Ibrahim Ali — AI Engineer & Full-Stack Developer building business solutions with agentic AI and automation. Specialized in RAG, LLMs, MCP, and the MERN stack with FastAPI." />
+    <meta name="description" content="Syed Ibrahim Ali — AI Engineer & Full-Stack Developer building agentic AI, RAG and automation solutions on the MERN stack with FastAPI." />
     <meta name="author" content="Syed Ibrahim Ali" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="Syed Ibrahim Ali, AI Engineer, Full-Stack Developer, Agentic AI, RAG, LLM, MCP, MERN, React, Node.js, FastAPI, Karachi, Pakistan" />
@@ -38,35 +41,59 @@
     <meta name="twitter:description" content="AI Engineer & Full-Stack Developer building business solutions with agentic AI, RAG, LLMs and automation." />
     <meta name="twitter:image" content="https://syedibrahimali.vercel.app/og-image.jpg" />
 
-    <!-- Structured data: Person (helps search engines & rich results) -->
+    <!-- Structured data: Person + WebSite + ProfilePage (rich results & entity graph) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Syed Ibrahim Ali",
-        "url": "https://syedibrahimali.vercel.app/",
-        "image": "https://syedibrahimali.vercel.app/Mypic.jpg",
-        "jobTitle": "AI Engineer & Full-Stack Developer",
-        "email": "mailto:syedibrahimali1111@gmail.com",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Karachi",
-          "addressCountry": "PK"
-        },
-        "sameAs": [
-          "https://github.com/ibrahim123-sia",
-          "https://www.linkedin.com/in/syed-ibrahim-ali-sia/",
-          "https://www.youtube.com/@CodeWithSIA-i"
-        ],
-        "knowsAbout": [
-          "Agentic AI",
-          "Retrieval-Augmented Generation",
-          "Large Language Models",
-          "Model Context Protocol",
-          "React",
-          "Node.js",
-          "FastAPI",
-          "MongoDB"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://syedibrahimali.vercel.app/#person",
+            "name": "Syed Ibrahim Ali",
+            "url": "https://syedibrahimali.vercel.app/",
+            "image": "https://syedibrahimali.vercel.app/Mypic.jpg",
+            "jobTitle": "AI Engineer & Full-Stack Developer",
+            "email": "mailto:syedibrahimali1111@gmail.com",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Karachi",
+              "addressCountry": "PK"
+            },
+            "sameAs": [
+              "https://github.com/ibrahim123-sia",
+              "https://www.linkedin.com/in/syed-ibrahim-ali-sia/",
+              "https://www.youtube.com/@CodeWithSIA-i"
+            ],
+            "knowsAbout": [
+              "Agentic AI",
+              "Retrieval-Augmented Generation",
+              "Large Language Models",
+              "Model Context Protocol",
+              "React",
+              "Node.js",
+              "FastAPI",
+              "MongoDB"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://syedibrahimali.vercel.app/#website",
+            "url": "https://syedibrahimali.vercel.app/",
+            "name": "Syed Ibrahim Ali",
+            "description": "Portfolio of Syed Ibrahim Ali — AI Engineer & Full-Stack Developer.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://syedibrahimali.vercel.app/#person" }
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://syedibrahimali.vercel.app/#profilepage",
+            "url": "https://syedibrahimali.vercel.app/",
+            "name": "Syed Ibrahim Ali | AI Engineer & Full-Stack Developer",
+            "isPartOf": { "@id": "https://syedibrahimali.vercel.app/#website" },
+            "about": { "@id": "https://syedibrahimali.vercel.app/#person" },
+            "primaryImageOfPage": "https://syedibrahimali.vercel.app/og-image.jpg",
+            "inLanguage": "en"
+          }
         ]
       }
     </script>

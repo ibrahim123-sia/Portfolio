@@ -1,11 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense, lazy } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { portfolioData } from '../data';
 import ProjectCard from '../components/ProjectCard';
-import ProjectModal from '../components/ProjectModal';
 import SectionHeading from '../components/SectionHeading';
 import Reveal from '../components/Reveal';
+
+// Case-study modal is only needed on click — load it on demand.
+const ProjectModal = lazy(() => import('../components/ProjectModal'));
 
 // How many projects to show before the "Show more" reveal.
 const INITIAL_VISIBLE = 4;
@@ -108,10 +110,12 @@ const Projects = () => {
       {/* Case-study modal */}
       <AnimatePresence>
         {activeProject && (
-          <ProjectModal
-            project={activeProject}
-            onClose={() => setActiveProject(null)}
-          />
+          <Suspense fallback={null}>
+            <ProjectModal
+              project={activeProject}
+              onClose={() => setActiveProject(null)}
+            />
+          </Suspense>
         )}
       </AnimatePresence>
     </section>

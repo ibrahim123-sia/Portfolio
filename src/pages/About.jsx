@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { User, Briefcase, GraduationCap, Award } from 'lucide-react';
 import { portfolioData } from '../data';
 import SkillCard from '../components/SkillCard';
 import SectionHeading from '../components/SectionHeading';
 import Reveal from '../components/Reveal';
-import GitHubStats from '../components/GitHubStats';
 import CountUp from '../components/CountUp';
+
+// GitHub activity is below the fold and pulls a heavy calendar chunk — defer it.
+const GitHubStats = lazy(() => import('../components/GitHubStats'));
 
 // Split a stat value into its number and trailing symbol (e.g. "5+" → "5" / "+")
 const splitStat = (value) => {
@@ -149,7 +151,9 @@ const About = () => {
 
         {/* GitHub activity */}
         <Reveal className="mt-8">
-          <GitHubStats />
+          <Suspense fallback={null}>
+            <GitHubStats />
+          </Suspense>
         </Reveal>
       </div>
     </section>

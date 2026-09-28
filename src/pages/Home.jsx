@@ -136,8 +136,12 @@ const Home = () => {
               {/* Portrait */}
               <img
                 src="/Mypic.jpg"
-                alt={personalInfo.name}
+                alt={`${personalInfo.name} — ${personalInfo.title}`}
                 loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width="400"
+                height="400"
                 className="absolute rounded-full object-cover object-center shadow-2xl ring-1 ring-white/10"
                 style={{
                   top: '1.75rem',

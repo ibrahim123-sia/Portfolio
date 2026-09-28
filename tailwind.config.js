@@ -37,9 +37,15 @@ export default {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        // Seamless left-to-right scroll (track holds two copies, shifts by half its width)
+        'marquee-ltr': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.25s ease both',
+        'marquee-ltr': 'marquee-ltr 32s linear infinite',
       },
     },
   },

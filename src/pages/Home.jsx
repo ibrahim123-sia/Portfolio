@@ -1,17 +1,25 @@
 import React from 'react';
-import { ArrowRight, Download, Github, Linkedin } from 'lucide-react';
+import { ArrowRight, Download, Github, Linkedin, Bot, Boxes } from 'lucide-react';
+import {
+  SiReact,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiPython,
+  SiFastapi,
+  SiMongodb,
+} from 'react-icons/si';
 import { motion as Motion, useReducedMotion } from 'framer-motion';
 import { portfolioData } from '../data';
 
 const techStrip = [
-  'Agentic AI',
-  'React',
-  'Next.js',
-  'Node.js',
-  'Python',
-  'FastAPI',
-  'RAG',
-  'MongoDB',
+  { name: 'Agentic AI', Icon: Bot },
+  { name: 'React', Icon: SiReact },
+  { name: 'Next.js', Icon: SiNextdotjs },
+  { name: 'Node.js', Icon: SiNodedotjs },
+  { name: 'Python', Icon: SiPython },
+  { name: 'FastAPI', Icon: SiFastapi },
+  { name: 'RAG', Icon: Boxes },
+  { name: 'MongoDB', Icon: SiMongodb },
 ];
 
 const Home = () => {
@@ -53,7 +61,8 @@ const Home = () => {
               {...item(0.18)}
               className="max-w-2xl text-[clamp(2.4rem,6vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-content"
             >
-              AI Engineer &amp;<br className="hidden sm:block" /> Full-Stack Developer
+              AI Engineer &amp;<br className="hidden sm:block" />{' '}
+              <span className="text-accent">Full-Stack</span> Developer
             </Motion.h1>
 
             <Motion.p
@@ -141,21 +150,58 @@ const Home = () => {
           </Motion.div>
         </div>
 
-        {/* Tech strip */}
+        {/* Tech strip — continuously scrolling icon marquee */}
         <Motion.div
           {...item(0.4)}
           className="mt-16 border-t border-line pt-8"
         >
-          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:justify-between">
-            {techStrip.map((tech) => (
-              <li
-                key={tech}
-                className="text-sm font-medium text-faint transition-colors hover:text-muted"
+          {reduce ? (
+            // Reduced motion — static, centered, no scroll
+            <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+              {techStrip.map((tech) => (
+                <li
+                  key={tech.name}
+                  title={tech.name}
+                  className="flex items-center gap-2.5 text-faint"
+                >
+                  <tech.Icon className="h-7 w-7" />
+                  <span className="text-sm font-medium">{tech.name}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div
+              className="group relative overflow-hidden"
+              style={{
+                maskImage:
+                  'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
+                WebkitMaskImage:
+                  'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
+              }}
+            >
+              <ul
+                className="flex w-max items-center gap-14 animate-marquee-ltr group-hover:[animation-play-state:paused]"
+                aria-hidden="true"
               >
-                {tech}
-              </li>
-            ))}
-          </ul>
+                {[...techStrip, ...techStrip].map((tech, i) => (
+                  <li
+                    key={`${tech.name}-${i}`}
+                    title={tech.name}
+                    className="flex shrink-0 items-center gap-2.5 text-faint transition-colors hover:text-accent"
+                  >
+                    <tech.Icon className="h-7 w-7" />
+                    <span className="text-sm font-medium">{tech.name}</span>
+                  </li>
+                ))}
+              </ul>
+              {/* Accessible, static list for screen readers */}
+              <ul className="sr-only">
+                {techStrip.map(({ name }) => (
+                  <li key={name}>{name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Motion.div>
       </div>
     </section>

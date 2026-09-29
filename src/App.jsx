@@ -12,7 +12,7 @@ import WhatsAppFloat from './components/WhatsAppFloat';
 
 function App() {
   return (
-    <LazyMotion features={domAnimation} strict>
+    <LazyMotion features={domAnimation}>
       <div className="relative min-h-screen bg-bg text-muted font-sans">
         <Background />
         <Header />

@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { portfolioData } from "../data";
 
 const ContactForm = () => {
@@ -26,31 +27,33 @@ const ContactForm = () => {
   );
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${whatsappMessage}`;
 
-  const sendEmail = async (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
     setIsLoading(true);
     setIsSuccess(false);
     setIsError(false);
 
-    try {
-      // Loaded on demand so it stays out of the initial bundle and the prerender.
-      const { default: emailjs } = await import("@emailjs/browser");
-      await emailjs.sendForm(
+    emailjs
+      .sendForm(
         "service_wonx3xs",
         "template_v1xwduc",
         form.current,
         "_QWED82KyfuvWQDyW"
+      )
+      .then(
+        () => {
+          setIsSuccess(true);
+          setIsLoading(false);
+          form.current.reset();
+          setTimeout(() => setIsSuccess(false), 5000);
+        },
+        (error) => {
+          console.error("Email failed:", error?.text);
+          setIsError(true);
+          setIsLoading(false);
+          setTimeout(() => setIsError(false), 5000);
+        }
       );
-      setIsSuccess(true);
-      setIsLoading(false);
-      form.current.reset();
-      setTimeout(() => setIsSuccess(false), 5000);
-    } catch (error) {
-      console.error("Email failed:", error?.text);
-      setIsError(true);
-      setIsLoading(false);
-      setTimeout(() => setIsError(false), 5000);
-    }
   };
 
   const contactItems = [

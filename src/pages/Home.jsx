@@ -26,14 +26,12 @@ const Home = () => {
   const { personalInfo } = portfolioData;
   const reduce = useReducedMotion();
 
-  // Slide-only entrance (no opacity fade) so prerendered HTML paints content
-  // immediately — an opacity:0 initial would render invisible in the static HTML.
   const item = (delay) =>
     reduce
       ? {}
       : {
-          initial: { y: 16 },
-          animate: { y: 0 },
+          initial: { opacity: 0, y: 16 },
+          animate: { opacity: 1, y: 0 },
           transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1], delay },
         };
 

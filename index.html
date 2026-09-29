@@ -14,15 +14,15 @@
     <meta name="description" content="Syed Ibrahim Ali — AI Engineer & Full-Stack Developer building agentic AI, RAG and automation solutions on the MERN stack with FastAPI." />
     <meta name="author" content="Syed Ibrahim Ali" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="Syed Ibrahim Ali, AI Engineer, Full-Stack Developer, Agentic AI, RAG, LLM, MCP, MERN, React, Node.js, FastAPI, Karachi, Pakistan" />
     <link rel="canonical" href="https://syedibrahimali.vercel.app/" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Self-hosted font: preload the primary subset (declared in CSS) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/dm-sans-latin.woff2"
+      crossorigin
     />
 
     <meta property="og:type" content="website" />
@@ -51,7 +51,12 @@
             "@id": "https://syedibrahimali.vercel.app/#person",
             "name": "Syed Ibrahim Ali",
             "url": "https://syedibrahimali.vercel.app/",
-            "image": "https://syedibrahimali.vercel.app/Mypic.jpg",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://syedibrahimali.vercel.app/Mypic.jpg",
+              "width": 460,
+              "height": 460
+            },
             "jobTitle": "AI Engineer & Full-Stack Developer",
             "email": "mailto:syedibrahimali1111@gmail.com",
             "address": {
@@ -97,6 +102,8 @@
               "@type": "ImageObject",
               "url": "https://syedibrahimali.vercel.app/og-image.jpg"
             },
+            "dateCreated": "2025-12-20",
+            "dateModified": "2026-09-29",
             "inLanguage": "en"
           }
         ]

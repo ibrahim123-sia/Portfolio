@@ -19,8 +19,8 @@ const Reveal = ({ children, delay = 0, as = 'div', ...rest }) => {
 
   return (
     <MotionTag
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ y: 16 }}
+      whileInView={{ y: 0 }}
       viewport={{ once: true, margin: '0px 0px -10% 0px' }}
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1], delay }}
       {...rest}

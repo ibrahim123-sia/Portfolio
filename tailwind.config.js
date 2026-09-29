@@ -20,7 +20,7 @@ export default {
         'line-strong': '#2E3D57',
         content: '#FFFFFF',
         muted: '#A3AEC2',
-        faint: '#6B7688',
+        faint: '#808B9C',
         accent: {
           DEFAULT: '#4C8DFF',
           hover: '#7BA9FF',

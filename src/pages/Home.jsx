@@ -8,7 +8,7 @@ import {
   SiFastapi,
   SiMongodb,
 } from 'react-icons/si';
-import { motion as Motion, useReducedMotion } from 'framer-motion';
+import { m as Motion, useReducedMotion } from 'framer-motion';
 import { portfolioData } from '../data';
 
 const techStrip = [
@@ -168,7 +168,7 @@ const Home = () => {
                   title={tech.name}
                   className="flex items-center gap-2.5 text-faint"
                 >
-                  <tech.Icon className="h-7 w-7" />
+                  <tech.Icon className="h-7 w-7" aria-hidden="true" />
                   <span className="text-sm font-medium">{tech.name}</span>
                 </li>
               ))}
@@ -193,7 +193,7 @@ const Home = () => {
                     title={tech.name}
                     className="flex shrink-0 items-center gap-2.5 text-faint transition-colors hover:text-accent"
                   >
-                    <tech.Icon className="h-7 w-7" />
+                    <tech.Icon className="h-7 w-7" aria-hidden="true" />
                     <span className="text-sm font-medium">{tech.name}</span>
                   </li>
                 ))}

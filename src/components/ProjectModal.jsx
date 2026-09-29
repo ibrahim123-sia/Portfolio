@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
   Check,
 } from 'lucide-react';
-import { motion as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { m as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 /**
  * Case-study modal for a project: client-perspective overview + outcome

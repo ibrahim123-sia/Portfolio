@@ -1,4 +1,5 @@
 import React from 'react';
+import { LazyMotion, domAnimation } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Background from './components/Background';
@@ -11,19 +12,21 @@ import WhatsAppFloat from './components/WhatsAppFloat';
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-bg text-muted font-sans">
-      <Background />
-      <Header />
-      <main>
-        <Home />
-        <About />
-        <Projects />
-        <Services />
-        <Contact />
-      </main>
-      <Footer />
-      <WhatsAppFloat />
-    </div>
+    <LazyMotion features={domAnimation} strict>
+      <div className="relative min-h-screen bg-bg text-muted font-sans">
+        <Background />
+        <Header />
+        <main>
+          <Home />
+          <About />
+          <Projects />
+          <Services />
+          <Contact />
+        </main>
+        <Footer />
+        <WhatsAppFloat />
+      </div>
+    </LazyMotion>
   );
 }
 

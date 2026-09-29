@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { m, useReducedMotion } from 'framer-motion';
 
 /**
  * Subtle scroll reveal: fades content up by 16px, once, when it enters view.
@@ -10,7 +10,7 @@ import { motion, useReducedMotion } from 'framer-motion';
  */
 const Reveal = ({ children, delay = 0, as = 'div', ...rest }) => {
   const reduce = useReducedMotion();
-  const MotionTag = motion[as] || motion.div;
+  const MotionTag = m[as] || m.div;
 
   if (reduce) {
     const Tag = as;

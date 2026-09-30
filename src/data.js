@@ -20,6 +20,7 @@ export const portfolioData = {
     youtube: "https://www.youtube.com/@CodeWithSIA-i",
     upwork: "https://www.upwork.com/freelancers/~0166fe76f5f8b9d0b3",
     portfolio8x: "https://www.8x.careers/p/syed-ibrahim-ali",
+    hiringmine: "https://www.hiringmine.com/peopleprofile/syedibrahimali",
     resume: "/Syed_Ibrahim_Ali_Resume.pdf",
     // Short hero bio
     bio: "I build complete business solutions — the AI layer that automates decisions and workflows, and the full-stack architecture, backends, and interfaces that make it run in production.",

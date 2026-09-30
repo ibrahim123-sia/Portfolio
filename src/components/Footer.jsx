@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Youtube, Briefcase, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Mail, Youtube, Briefcase, BadgeCheck, ArrowUp } from 'lucide-react';
 import { SiUpwork } from 'react-icons/si';
 import { portfolioData } from '../data';
 
@@ -15,6 +15,7 @@ const Footer = () => {
     { icon: Youtube, href: personalInfo.youtube, label: 'YouTube' },
     { icon: SiUpwork, href: personalInfo.upwork, label: 'Upwork' },
     { icon: Briefcase, href: personalInfo.portfolio8x, label: '8x Careers' },
+    { icon: BadgeCheck, href: personalInfo.hiringmine, label: 'HiringMine' },
     { icon: Mail, href: `mailto:${personalInfo.email}`, label: 'Email' },
   ];
 

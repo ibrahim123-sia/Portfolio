@@ -28,6 +28,7 @@ export default {
         green: {
           DEFAULT: '#0E9F6E',
           ink: '#0B7A55',
+          deep: '#08603F',
           tint: '#E8F6EF',
         },
         problem: {

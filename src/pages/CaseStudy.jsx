@@ -1,149 +1,198 @@
-import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { portfolioData, categoryLabel } from '../data';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from '../components/Link';
-import Reveal from '../components/Reveal';
+import { Win, ProblemChips } from '../components/Win';
+import Cta from '../components/Cta';
+import { portfolioData } from '../data';
 
-// One labelled block on the page grid: mono label left, content right
-const Block = ({ label, children }) => (
-  <Reveal className="grid gap-4 border-t border-rule py-10 md:grid-cols-12 md:gap-8">
-    <h2 className="label md:col-span-3">{label}</h2>
-    <div className="md:col-span-9">{children}</div>
-  </Reveal>
+const AI_TECH = /LLM|Gemini|Groq|AssemblyAI|MCP|RAG|LangGraph|OpenAI/;
+
+// "My part" in the facts: every project is my own design and build; AI is
+// only mentioned where the project uses it.
+const myPart = (project) =>
+  project.stack.some((tech) => AI_TECH.test(tech)) ? 'Design, full stack and AI' : 'Design and full stack';
+
+const ExternalButton = ({ href, className, children }) => (
+  <a className={className} href={href} target="_blank" rel="noopener noreferrer">
+    {children}
+  </a>
 );
+
+/* Full-screen view of one screenshot. Esc, the Close button or a click on
+   the backdrop closes it and focus returns to the screenshot. */
+const Lightbox = ({ shot, onClose }) => {
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    const opener = document.activeElement;
+    closeRef.current.focus();
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      opener?.focus?.();
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="lb"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Screenshot"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <button ref={closeRef} type="button" onClick={onClose}>
+        Close
+      </button>
+      <figure>
+        <img src={shot.src} alt={shot.title} />
+        <p>
+          {shot.title}. {shot.caption}
+        </p>
+      </figure>
+    </div>
+  );
+};
 
 const CaseStudy = ({ project }) => {
   const { projects } = portfolioData;
-  const position = projects.indexOf(project);
-  const next = projects[(position + 1) % projects.length];
-  const showCover = project.featured && project.image;
+  const i = projects.indexOf(project);
+  const prev = projects[(i - 1 + projects.length) % projects.length];
+  const next = projects[(i + 1) % projects.length];
+
+  const heroRef = useRef(null);
+  const [flat, setFlat] = useState(false);
+  const [open, setOpen] = useState(null);
+  const close = useCallback(() => setOpen(null), []);
+
+  // The hero screenshot starts tilted back and lies flat once scrolled to
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const onScroll = () => setFlat(heroRef.current.getBoundingClientRect().top < window.innerHeight * 0.55);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const zoom = (index) => (
+    <button
+      type="button"
+      className="zoom"
+      onClick={() => setOpen(index)}
+      aria-label={`Enlarge ${index === 0 ? 'screenshot' : project.gallery[index].title}`}
+    >
+      <Win project={project} index={index} eager={index === 0} priority={index === 0 ? 'high' : undefined} />
+    </button>
+  );
 
   return (
-    <article className="page pb-20 pt-10 sm:pb-28 sm:pt-16">
-      <Link to="/projects" className="link text-[15px]">
-        All projects
-      </Link>
-
-      {/* Title */}
-      <Reveal className="mt-10 grid gap-4 border-t border-ink pt-5 md:grid-cols-12 md:gap-8">
-        <p className="label md:col-span-3">
-          Case study {String(position + 1).padStart(2, '0')}
-        </p>
-        <div className="md:col-span-9">
-          <h1 className="display text-6xl sm:text-7xl lg:text-8xl">{project.name}</h1>
-          <p className="mt-4 text-xl text-muted">{project.title}</p>
-          <p className="mt-8 max-w-3xl text-2xl leading-snug">{project.summary}</p>
-        </div>
-      </Reveal>
-
-      {/* Facts */}
-      <Reveal className="mt-12 md:grid md:grid-cols-12 md:gap-8">
-        <dl className="grid grid-cols-2 gap-6 border-t border-rule pt-6 sm:grid-cols-4 md:col-span-9 md:col-start-4">
+    <>
+      <div className="wrap">
+        <header className="phd">
           <div>
-            <dt className="label">Year</dt>
-            <dd className="mt-2 text-[15px]">{project.year}</dd>
+            <p className="crumbs">
+              <Link to="/projects">Work</Link>
+              <ProblemChips project={project} />
+            </p>
+            <h1 className="h">{project.name}</h1>
+            <p className="t">{project.title}</p>
           </div>
-          <div className="col-span-2 sm:col-span-1">
-            <dt className="label">Category</dt>
-            <dd className="mt-2 text-[15px]">
-              {project.categories.map((c) => categoryLabel[c]).join(', ')}
-            </dd>
-          </div>
-          <div className="col-span-2">
-            <dt className="label">Links</dt>
-            <dd className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-[15px]">
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link inline-flex items-center gap-1"
-                >
-                  Live demo
-                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-                </a>
+          <div>
+            <dl className="facts">
+              <dt>Year</dt>
+              <dd>{project.year}</dd>
+              {project.commits && (
+                <>
+                  <dt>Commits</dt>
+                  <dd>{project.commits}</dd>
+                </>
               )}
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link inline-flex items-center gap-1"
-              >
-                Code on GitHub
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-              </a>
-            </dd>
+              <dt>My part</dt>
+              <dd>{myPart(project)}</dd>
+            </dl>
+            <div className="pb">
+              {project.live && (
+                <ExternalButton className="btn go" href={project.live}>
+                  Open live demo
+                </ExternalButton>
+              )}
+              <ExternalButton className="btn line" href={project.github}>
+                View the code
+              </ExternalButton>
+            </div>
           </div>
-        </dl>
-      </Reveal>
+        </header>
 
-      {showCover && (
-        <Reveal className="mt-12 md:grid md:grid-cols-12 md:gap-8">
-          <img
-            src={project.image}
-            alt={`${project.name}: ${project.title}`}
-            width="1600"
-            height="1200"
-            className="aspect-[4/3] w-full border border-rule object-cover md:col-span-9 md:col-start-4"
-          />
-        </Reveal>
-      )}
+        <div ref={heroRef} className={`heroshot${flat ? ' flat' : ''}`}>
+          {project.gallery[0] ? zoom(0) : <Win project={project} />}
+        </div>
 
-      <div className="mt-12">
-        <Block label="The problem">
-          <p className="max-w-3xl text-xl leading-relaxed">{project.problem}</p>
-        </Block>
+        <section className="story">
+          <div>
+            <h2 className="lab">The problem</h2>
+            <p>{project.problem}</p>
+          </div>
+          <div>
+            <h2 className="lab">What I built</h2>
+            <p>{project.built}</p>
+          </div>
+        </section>
 
-        <Block label="What I built">
-          <p className="max-w-3xl text-lg leading-relaxed text-muted">{project.built}</p>
-        </Block>
-
-        <Block label="Key features">
-          <ol className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            {project.features.map((feature, i) => (
-              <li key={feature} className="border-t border-rule pt-4 text-[15px] leading-relaxed">
-                <span className="label mb-2 block">{String(i + 1).padStart(2, '0')}</span>
-                {feature}
-              </li>
+        <section className="blk">
+          <h2 className="lab">What it does</h2>
+          <ul className="feats">
+            {project.features.map((feature) => (
+              <li key={feature}>{feature}</li>
             ))}
-          </ol>
-        </Block>
+          </ul>
+        </section>
 
-        <Block label="Tech">
-          <p className="max-w-3xl text-[15px] leading-relaxed">{project.stack.join(', ')}</p>
-        </Block>
+        <section className="blk">
+          <h2 className="lab">Built with</h2>
+          <div className="stackrow">
+            {project.stack.map((tech) => (
+              <span key={tech} className="chip">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </section>
 
-        {project.gallery.length > 0 && (
-          <Block label="Screenshots">
-            <div className="space-y-12">
-              {project.gallery.map((shot) => (
+        {project.gallery.length > 1 && (
+          <section className="blk">
+            <h2 className="lab">Screens</h2>
+            <div className="gal">
+              {project.gallery.slice(1).map((shot, j) => (
                 <figure key={shot.title}>
-                  <img
-                    src={shot.src}
-                    alt={`${project.name}: ${shot.title}`}
-                    className="w-full border border-rule bg-paper-2"
-                  />
-                  <figcaption className="mt-3 flex flex-wrap gap-x-3 text-[15px]">
-                    <span className="font-medium">{shot.title}.</span>
-                    <span className="text-muted">{shot.caption}</span>
+                  {zoom(j + 1)}
+                  <figcaption>
+                    <b>{shot.title}.</b>
+                    {shot.caption}
                   </figcaption>
                 </figure>
               ))}
             </div>
-          </Block>
+          </section>
         )}
-      </div>
 
-      {/* Next project */}
-      <nav aria-label="Next project" className="mt-6 border-t border-ink pt-6">
-        <Link to={`/projects/${next.key}`} className="group block">
-          <span className="label">Next project</span>
-          <span className="display link-quiet mt-3 block text-5xl group-hover:[text-decoration-color:currentColor] sm:text-6xl">
-            {next.name}
-          </span>
-        </Link>
-      </nav>
-    </article>
+        <nav className="pn" aria-label="More projects">
+          <Link to={`/projects/${prev.key}`}>
+            <small>Previous project</small>
+            <b>{prev.name}</b>
+          </Link>
+          <Link to={`/projects/${next.key}`}>
+            <small>Next project</small>
+            <b>{next.name}</b>
+          </Link>
+        </nav>
+      </div>
+      <div style={{ height: 64 }} />
+      <Cta />
+
+      {open !== null && <Lightbox shot={project.gallery[open]} onClose={close} />}
+    </>
   );
 };
 

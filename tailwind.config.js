@@ -4,29 +4,40 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  // The design ships its own small reset (see index.css), so Tailwind's
+  // preflight stays off and the two never disagree.
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
-        sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        head: ['Sora', 'system-ui', 'sans-serif'],
+        body: ['Manrope', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
+        code: ['"JetBrains Mono"', 'ui-monospace', 'Menlo', 'Consolas', 'monospace'],
       },
+      // White, ink and one green, plus one colour per problem group
       colors: {
-        // Editorial light theme: warm paper, near-black ink, one deep green accent
-        paper: '#F5F2EC',
-        'paper-2': '#ECE7DE',
-        ink: '#141414',
-        muted: '#57534C',
-        faint: '#6E6A63',
-        rule: '#D8D2C6',
-        'rule-strong': '#BDB6A8',
-        accent: {
-          DEFAULT: '#1E4D3A',
-          hover: '#163A2B',
+        bg: '#FFFFFF',
+        panel: '#F4F5F3',
+        panel2: '#ECEEEB',
+        line: '#E2E5E3',
+        ink: '#0E1111',
+        soft: '#4A5250',
+        mute: '#6A7270',
+        green: {
+          DEFAULT: '#0E9F6E',
+          ink: '#0B7A55',
+          tint: '#E8F6EF',
         },
-      },
-      transitionTimingFunction: {
-        standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        problem: {
+          act: '#E8742C',
+          answer: '#0E9F6E',
+          run: '#6D5BD0',
+          numbers: '#C9971B',
+          sell: '#D9466F',
+          tools: '#5B6B73',
+        },
       },
     },
   },

@@ -191,3 +191,21 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Fade-in on page load. Time-based (not tied to scroll or JavaScript), so it
+   always ends fully visible, including in full-page screenshots. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+}

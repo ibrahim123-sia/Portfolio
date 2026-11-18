@@ -193,12 +193,15 @@ a.chip:hover{color:var(--ink);background:var(--panel2)}
 .agentsec{background:var(--panel)}
 .agent{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,4vw,56px);align-items:center}
 .flow{counter-reset:s}
-.flow li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:16px 0;border-top:1px solid var(--line);opacity:.45;transition:opacity .35s}
-.flow li.on{opacity:1}
+/* Steps that haven't happened yet are grey (#6A7270 is 4.51:1 on the panel),
+   not faded, so they stay readable; active steps switch to ink and soft */
+.flow li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:16px 0;border-top:1px solid var(--line);color:var(--mute);transition:color .35s}
+.flow li.on{color:var(--ink)}
 .flow li::before{counter-increment:s;content:counter(s);width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;font:700 14px var(--head)}
 .flow li.on::before{background:var(--green);box-shadow:none;color:#fff}
 .flow b{display:block;font-size:17.5px}
-.flow span{color:var(--soft);font-size:15px}
+.flow span{font-size:15px;transition:color .35s}
+.flow li.on span{color:var(--soft)}
 .chat{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .chat header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:14.5px}
 .chat header b{display:flex;align-items:center;gap:8px}

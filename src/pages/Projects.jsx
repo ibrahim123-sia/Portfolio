@@ -35,7 +35,7 @@ const Projects = () => {
           <Reveal as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {moreProjects.map((project) => (
               <li key={project.key}>
-                <ProjectCard project={project} onOpen={setActive} />
+                <ProjectCard project={project} />
               </li>
             ))}
           </Reveal>

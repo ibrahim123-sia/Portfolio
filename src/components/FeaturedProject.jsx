@@ -51,18 +51,30 @@ const FeaturedProject = ({ project, index, onOpen }) => {
           ))}
         </ul>
 
-        <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-7">
+        <div className="mt-auto flex flex-wrap items-center gap-3 pt-7">
           <button type="button" onClick={() => onOpen(project)} className="btn-primary">
             Case study
           </button>
           {project.live && (
-            <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-link">
-              Live site
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} live demo`}
+              className="btn-secondary"
+            >
+              Live demo
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </a>
           )}
           {project.github && (
-            <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} code on GitHub`}
+              className="text-link ml-2"
+            >
               <Github className="h-4 w-4" aria-hidden="true" />
               Code
             </a>

@@ -108,7 +108,6 @@ export const portfolioData = {
       ],
       stack: ["Next.js", "TypeScript", "PostgreSQL", "pgvector", "Drizzle ORM", "Cloudflare Workers", "Tailwind CSS", "LLM APIs", "MCP"],
       github: "https://github.com/ibrahim123-sia/Propel",
-      live: "https://propel.syedibrahimali.workers.dev",
       image: cover("propel", "01-home.webp"),
       gallery: [
         { src: img("propel", "01-home.webp"), title: "Agency home page", caption: "The demo agency's home page with the property search card." },
@@ -134,6 +133,7 @@ export const portfolioData = {
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "FastAPI", "ChromaDB", "RAG", "Cloudflare"],
       github: "https://github.com/ibrahim123-sia/AtriumDesk",
+      live: "https://atriumdesk-web.syedibrahimali.workers.dev",
       image: cover("atriumdesk", "00-guest-assistant.webp"),
       gallery: [
         { src: img("atriumdesk", "00-guest-assistant.webp"), title: "Admissions assistant", caption: "The public assistant for applicants, with starter questions about fees, documents and scholarships." },
@@ -170,12 +170,6 @@ export const portfolioData = {
         { src: img("nowhere", "00-iris-order-placed.webp"), title: "Order placed", caption: "After the shopper confirms, the order is placed and shown in the chat." },
         { src: img("nowhere", "00-collection.webp"), title: "Collection filters", caption: "Filter by gender, category, size, colour, material, price and more." },
         { src: img("nowhere", "00-admin-dashboard.webp"), title: "Admin dashboard", caption: "Revenue, orders by status, a 30-day sales chart and low-stock alerts." },
-        { src: img("nowhere", "01-home.webp"), title: "Home page", caption: "The store's home page." },
-        { src: img("nowhere", "02-catalog.webp"), title: "Catalogue", caption: "Browsing the catalogue." },
-        { src: img("nowhere", "03-product.webp"), title: "Product page", caption: "Product photos, price and add to bag." },
-        { src: img("nowhere", "03-login.webp"), title: "Sign in", caption: "Customer sign-in." },
-        { src: img("nowhere", "04-about.webp"), title: "About page", caption: "The brand story." },
-        { src: img("nowhere", "04-login.webp"), title: "Create account", caption: "Account sign-up with email verification." },
       ],
     },
     {
@@ -213,6 +207,7 @@ export const portfolioData = {
       ],
       stack: ["Python", "FastAPI", "PostgreSQL", "pandas", "React", "Recharts", "LLM APIs", "Cloudflare"],
       github: "https://github.com/ibrahim123-sia/Pairly",
+      live: "https://pairly.syedibrahimali.workers.dev",
       image: cover("pairly", "00-ai-insights.webp"),
       gallery: [
         { src: img("pairly", "00-ai-insights.webp"), title: "Dashboard with AI insights", caption: "Short insights with a suggested action for each. Every number is checked before it is shown." },
@@ -226,162 +221,63 @@ export const portfolioData = {
     },
   ],
 
-  // Smaller "More work" grid on the Projects page (max 8)
+  // "More work" on the Projects page (max 8): text-only cards
   moreProjects: [
     {
       key: "sprintlog",
       name: "Sprintlog",
-      title: "AI Agents That Write the End-of-Day Report",
-      description:
-        "Reads the day's GitHub commits and code changes, works out what really changed and emails a short progress report on each person's schedule.",
-      features: [
-        "Five agents in a LangGraph pipeline: collect, understand, prioritise, write and send.",
-        "Reads the code changes, not just commit messages.",
-        "Each user sets their own repos, tone and schedule.",
-      ],
+      description: "AI agents that read the day's GitHub commits and email a short end-of-day report.",
       stack: ["Python", "FastAPI", "LangGraph", "Gemini", "PostgreSQL"],
       github: "https://github.com/ibrahim123-sia/sprintlog-agent",
-      image: img("sprintlog", "01-dashboard.webp"),
-      gallery: [
-        { src: img("sprintlog", "01-dashboard.webp"), title: "Generated report", caption: "An end-of-day email written from the day's code changes." },
-      ],
     },
     {
       key: "ai-code-reviewer",
       name: "AI Code Reviewer",
-      title: "Instant Code Review",
-      description:
-        "Paste code in any major language and get bugs, security issues and style problems with line numbers, suggested fixes and a score out of 10. Nothing is stored.",
-      features: [
-        "Detects the language on its own across 15+ languages.",
-        "Falls back to a second AI provider when the first is busy.",
-        "No database and no sessions: code is reviewed and forgotten.",
-      ],
-      stack: ["Python", "FastAPI", "React", "Gemini", "Groq", "Docker"],
+      description: "Paste code and get bugs, security issues and fixes with line numbers and a score.",
+      stack: ["Python", "FastAPI", "React", "Gemini", "Groq"],
       github: "https://github.com/ibrahim123-sia/ai-code-reviewer",
-      image: img("ai-code-reviewer", "01-review.webp"),
-      gallery: [
-        { src: img("ai-code-reviewer", "01-review.webp"), title: "Review results", caption: "Score, summary and issues with line numbers and suggested fixes." },
-      ],
     },
     {
       key: "ai-task-manager",
       name: "AI Task Manager (MCP)",
-      title: "Task Manager with an AI Assistant and GitHub",
-      description:
-        "A MERN task manager with an AI assistant that manages tasks and can also read your GitHub repositories through the Model Context Protocol.",
-      features: [
-        "The assistant decides whether a request is about tasks or about GitHub.",
-        "Connects to the official GitHub MCP server, lists its tools and calls them.",
-        "Supports both remote (SSE) and local (stdio) connections.",
-      ],
-      stack: ["React", "Node.js", "Express", "MongoDB", "MCP", "LLM APIs"],
+      description: "A task manager whose AI assistant can also read your GitHub repos through MCP.",
+      stack: ["React", "Node.js", "MongoDB", "MCP"],
       github: "https://github.com/ibrahim123-sia/AI-GitHub-Task-Manager",
-      image: img("ai-task-manager", "01-home.webp"),
-      gallery: [
-        { src: img("ai-task-manager", "01-home.webp"), title: "Tasks and assistant", caption: "The task board next to the AI assistant." },
-      ],
     },
     {
       key: "ai-seo-analyzer",
       name: "AI SEO Analyzer",
-      title: "On-Page SEO Audit",
-      description:
-        "Paste a URL and a keyword to get a report on missing meta tags, weak headings, images without alt text and thin content, with the page's search rank, a score and a PDF.",
-      features: [
-        "The report is based on what was actually found on the page.",
-        "Search rank check and keyword ideas, with no paid API.",
-        "Blocks private and local addresses before fetching any page.",
-      ],
-      stack: ["Node.js", "Express", "React", "Gemini", "Docker"],
+      description: "On-page SEO audit of any URL with search rank, a score and a PDF report.",
+      stack: ["Node.js", "Express", "React", "Gemini"],
       github: "https://github.com/ibrahim123-sia/ai-seo-analyzer",
-      image: img("ai-seo-analyzer", "01-report.webp"),
-      gallery: [
-        { src: img("ai-seo-analyzer", "01-report.webp"), title: "SEO report", caption: "Score, search rank, issues by severity and keyword ideas." },
-      ],
     },
     {
       key: "vehicle-diagnostic-analysis",
       name: "Vehicle Diagnostic Analysis",
-      title: "From a Spoken Car Problem to a Repair Report",
-      description:
-        "A driver or mechanic records a video describing a car problem. The app turns the speech into text and returns the likely problem, how serious it is and what to repair.",
-      features: [
-        "Records video in the browser and uploads large files in small chunks.",
-        "Matches the description against 90+ common vehicle faults.",
-        "Returns problem type, severity and repair advice in a clear report.",
-      ],
-      stack: ["React", "Node.js", "Express", "AssemblyAI", "Groq", "ffmpeg"],
+      description: "Turns a spoken description of a car problem into a repair report.",
+      stack: ["React", "Node.js", "AssemblyAI", "Groq"],
       github: "https://github.com/ibrahim123-sia/Vehicle-Diagnostic-Analysis",
-      image: img("vehicle-diagnostic-analysis", "01-home.webp"),
-      gallery: [
-        { src: img("vehicle-diagnostic-analysis", "01-home.webp"), title: "Record and analyse", caption: "Record a description of the problem and get a diagnosis." },
-      ],
     },
     {
       key: "nowrite",
       name: "NoWrite",
-      title: "AI Notes App",
-      description:
-        "Built during the 10Pearls SHINE program: rich-text notes, voice notes turned into text, and AI flashcards and quizzes from any note.",
-      features: [
-        "Voice notes recorded in the browser and turned into text.",
-        "Flashcards, quizzes, titles and tags suggested by AI.",
-        "Backend covered by automated tests.",
-      ],
-      stack: ["React", "Node.js", "Express", "MongoDB", "Groq", "Mocha"],
+      description: "AI notes app with voice notes, flashcards and quizzes, built at 10Pearls SHINE.",
+      stack: ["React", "Node.js", "MongoDB", "Groq"],
       github: "https://github.com/ibrahim123-sia/ibrahim-ali-mern-10pshine",
-      image: img("notes-workspace", "01-notes-dashboard.webp"),
-      gallery: [
-        { src: img("notes-workspace", "01-notes-dashboard.webp"), title: "Notes", caption: "Create, pin and organise notes by category and tag." },
-        { src: img("notes-workspace", "02-profile.webp"), title: "Profile", caption: "Account details, avatar and password." },
-      ],
     },
     {
       key: "naqsh",
       name: "Naqsh",
-      title: "Jewellery Online Store",
-      description:
-        "An online store for fashion jewellery in Pakistan, with shopping by occasion, verified accounts and PayFast or cash-on-delivery checkout.",
-      features: [
-        "Shop by occasion, with filters for style, material, colour and price.",
-        "Email code verification, saved cart and order history.",
-        "Admin dashboard for products, orders and customers.",
-      ],
-      stack: ["React", "Redux Toolkit", "Node.js", "MongoDB", "PayFast", "Cloudinary"],
+      description: "Jewellery online store with shopping by occasion and PayFast checkout.",
+      stack: ["React", "Redux Toolkit", "Node.js", "MongoDB"],
       github: "https://github.com/ibrahim123-sia/Naqsh",
-      image: img("naqsh", "01-home.webp"),
-      gallery: [
-        { src: img("naqsh", "01-home.webp"), title: "Home page", caption: "Jewellery collections and shopping by occasion." },
-        { src: img("naqsh", "02-catalog.webp"), title: "Catalogue", caption: "Filters for style, material, colour, occasion and budget." },
-        { src: img("naqsh", "03-product.webp"), title: "Product page", caption: "Photos, price and add to cart." },
-        { src: img("naqsh", "03-login.webp"), title: "Sign in", caption: "Customer sign-in." },
-        { src: img("naqsh", "04-about.webp"), title: "About page", caption: "The brand story." },
-        { src: img("naqsh", "04-login.webp"), title: "Create account", caption: "Sign-up with email verification." },
-      ],
     },
     {
       key: "zephyr",
       name: "Zephyr",
-      title: "Perfume Online Store",
-      description:
-        "An online perfume store with JazzCash or cash-on-delivery checkout, order tracking and an admin portal for the owner.",
-      features: [
-        "JazzCash checkout with signed requests, or cash on delivery.",
-        "Saved cart that follows the shopper after sign-in.",
-        "Admin portal for products, orders and customers.",
-      ],
-      stack: ["React", "Redux Toolkit", "Node.js", "MongoDB", "JazzCash", "Cloudinary"],
+      description: "Perfume online store with JazzCash checkout and an admin portal.",
+      stack: ["React", "Redux Toolkit", "Node.js", "MongoDB"],
       github: "https://github.com/ibrahim123-sia/Zephyr",
-      image: img("zephyr", "01-home.webp"),
-      gallery: [
-        { src: img("zephyr", "01-home.webp"), title: "Home page", caption: "Men's and women's fragrance collections." },
-        { src: img("zephyr", "02-catalog.webp"), title: "Catalogue", caption: "Filters and search across the collection." },
-        { src: img("zephyr", "03-product.webp"), title: "Product page", caption: "Photos, price and add to cart." },
-        { src: img("zephyr", "03-login.webp"), title: "Sign in", caption: "Customer sign-in." },
-        { src: img("zephyr", "04-about.webp"), title: "About page", caption: "The brand story." },
-        { src: img("zephyr", "04-login.webp"), title: "Create account", caption: "Account sign-up." },
-      ],
     },
   ],
 
@@ -418,6 +314,8 @@ export const portfolioData = {
     {
       company: "10Pearls",
       companyNote: "SHINE program",
+      location: "Karachi, Pakistan",
+      type: "Remote",
       roles: [{ title: "MERN Stack Developer", period: "Apr 2026 – Jun 2026" }],
       points: [
         "Built NoWrite, an AI notes app with rich-text notes, voice notes and AI flashcards and quizzes, on a tested Node.js backend.",

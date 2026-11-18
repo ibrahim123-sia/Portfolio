@@ -213,7 +213,7 @@ const ProjectModal = ({ project, onClose }) => {
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">
             {project.live && (
               <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                Live site
+                Live demo
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
             )}

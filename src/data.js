@@ -16,7 +16,10 @@ export const portfolioData = {
     name: "Syed Ibrahim Ali",
     title: "AI Engineer & Full-Stack Developer",
     tagline: "Building business solutions with agentic AI and automation.",
-    currently: "AI Engineer at YES! Automotive and Software Engineer at Co-Ventech, Karachi",
+    // Hero on Home
+    role: "AI Engineer and Full-Stack Developer",
+    intro:
+      "I build AI agents, assistants that answer from your own data, and the full products around them, for businesses that want AI to do real work. Based in Karachi, working with clients worldwide.",
     email: "syedibrahimali1111@gmail.com",
     phone: "(+92) 322-339-6443",
     whatsapp: "https://wa.me/923223396443",
@@ -35,31 +38,7 @@ export const portfolioData = {
     ],
   },
 
-  // "What I build" on the home page
-  whatIBuild: [
-    {
-      title: "AI agents",
-      description:
-        "Agents that use tools to finish real tasks, like searching a catalogue, updating a CRM or placing an order. Risky actions wait for a person to confirm.",
-    },
-    {
-      title: "RAG assistants",
-      description:
-        "Assistants that answer from your own website, documents and live business data, show their sources and say so when they don't know.",
-    },
-    {
-      title: "GoHighLevel AI automation",
-      description:
-        "Conversation AI bots on websites and funnels that answer leads, capture their details and hand a clear summary to the sales team.",
-    },
-    {
-      title: "Full-stack products",
-      description:
-        "Websites, dashboards and multi-tenant SaaS apps in Next.js, React, Node.js and FastAPI, built to run in production.",
-    },
-  ],
-
-  // Skills grouped by area (About page)
+  // Skills grouped by area ("Tools I use" on About)
   skillGroups: [
     {
       title: "AI",
@@ -88,9 +67,11 @@ export const portfolioData = {
     },
   ],
 
-  // All projects, in display order. The first five are featured: large rows on
-  // Home and first in the Projects index. `year` is the year of the first commit.
-  // Each project gets its own case study page at /projects/<key>.
+  // All projects, in display order. The first five are featured on Home.
+  // `year` is the year of the first commit, `problems` the problems it solves
+  // (see problemList; the first one is its group on the Work page) and
+  // `commits` the commit count on the featured products.
+  // Each project gets its own page at /projects/<key>.
   projects: [
     {
       key: "propel",
@@ -110,7 +91,8 @@ export const portfolioData = {
         "Page builder, blog and SEO tools, so the agency runs its own site without a developer.",
       ],
       stack: ["Next.js", "TypeScript", "PostgreSQL", "pgvector", "Drizzle ORM", "Cloudflare Workers", "Tailwind CSS", "LLM APIs", "MCP"],
-      categories: ["ai", "saas"],
+      problems: ["act", "answer", "run"],
+      commits: 321,
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Propel",
       live: "https://propel.syedibrahimali.workers.dev",
@@ -141,7 +123,8 @@ export const portfolioData = {
         "Admins see analytics, the questions the assistant got wrong, and a full audit log.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "FastAPI", "ChromaDB", "RAG", "Cloudflare"],
-      categories: ["ai", "saas"],
+      problems: ["answer", "run"],
+      commits: 54,
       year: 2026,
       github: "https://github.com/ibrahim123-sia/AtriumDesk",
       live: "https://atriumdesk-web.syedibrahimali.workers.dev",
@@ -174,7 +157,8 @@ export const portfolioData = {
         "Admin dashboard with sales, low-stock alerts and order management.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "Groq", "Gemini", "Tailwind CSS"],
-      categories: ["ai", "ecommerce"],
+      problems: ["act", "sell"],
+      commits: 127,
       year: 2025,
       github: "https://github.com/ibrahim123-sia/Nowhere",
       live: "https://nowherecloth.vercel.app",
@@ -205,7 +189,8 @@ export const portfolioData = {
         "Online fee payments with JazzCash, Easypaisa or Stripe.",
       ],
       stack: ["TypeScript", "Node.js", "Express", "PostgreSQL", "React", "Tailwind CSS", "Gemini", "Groq", "Cloudflare"],
-      categories: ["saas", "ai"],
+      problems: ["run", "answer"],
+      commits: 249,
       year: 2024,
       github: "https://github.com/ibrahim123-sia/Acadex",
       image: cover("acadex", "00-preview.webp"),
@@ -230,7 +215,8 @@ export const portfolioData = {
         "PDF and CSV exports, and scheduled re-analysis with email summaries.",
       ],
       stack: ["Python", "FastAPI", "PostgreSQL", "pandas", "React", "Recharts", "LLM APIs", "Cloudflare"],
-      categories: ["data", "ai"],
+      problems: ["numbers", "answer"],
+      commits: 74,
       year: 2025,
       github: "https://github.com/ibrahim123-sia/Pairly",
       live: "https://pairly.syedibrahimali.workers.dev",
@@ -260,7 +246,7 @@ export const portfolioData = {
         "Every sent report is saved to PostgreSQL.",
       ],
       stack: ["Python", "FastAPI", "LangGraph", "LangChain", "Gemini", "PostgreSQL", "APScheduler"],
-      categories: ["ai"],
+      problems: ["act"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/sprintlog-agent",
       gallery: [],
@@ -279,7 +265,7 @@ export const portfolioData = {
         "Falls back to simple local intent parsing when the AI service is unavailable.",
       ],
       stack: ["React", "Node.js", "Express", "MongoDB", "MCP", "Gemini"],
-      categories: ["ai"],
+      problems: ["act"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/AI-GitHub-Task-Manager",
       gallery: [],
@@ -299,7 +285,7 @@ export const portfolioData = {
         "A severity-coded report with the full transcript.",
       ],
       stack: ["React", "Node.js", "Express", "AssemblyAI", "Groq", "ffmpeg"],
-      categories: ["ai"],
+      problems: ["tools"],
       year: 2025,
       github: "https://github.com/ibrahim123-sia/Vehicle-Diagnostic-Analysis",
       gallery: [
@@ -320,7 +306,7 @@ export const portfolioData = {
         "Backend tested with Mocha, Chai, Sinon and Supertest.",
       ],
       stack: ["React", "Node.js", "Express", "MongoDB", "TipTap", "Groq"],
-      categories: ["ai"],
+      problems: ["tools"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/ibrahim-ali-mern-10pshine",
       gallery: [
@@ -343,7 +329,7 @@ export const portfolioData = {
         "Light and dark theme.",
       ],
       stack: ["React", "Node.js", "Express", "MongoDB"],
-      categories: ["data"],
+      problems: ["numbers"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Trade-Journal",
       gallery: [
@@ -366,7 +352,7 @@ export const portfolioData = {
         "Admin dashboard for products, orders and users.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "PayFast", "Cloudinary"],
-      categories: ["ecommerce"],
+      problems: ["sell"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Naqsh",
       live: "https://naqshbynoor.vercel.app",
@@ -393,7 +379,7 @@ export const portfolioData = {
         "Email code sign-up and password reset.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "JazzCash", "Cloudinary"],
-      categories: ["ecommerce"],
+      problems: ["sell"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Zephyr",
       live: "https://zephyrperfume.vercel.app",
@@ -421,7 +407,7 @@ export const portfolioData = {
         "Email code sign-up and password reset.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "PayPal", "Cloudinary"],
-      categories: ["ecommerce"],
+      problems: ["sell"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Hadi-Home-Decor",
       gallery: [
@@ -448,7 +434,7 @@ export const portfolioData = {
         "PayFast or cash-on-delivery checkout.",
       ],
       stack: ["React", "Redux Toolkit", "Node.js", "Express", "MongoDB", "PayFast", "Cloudinary"],
-      categories: ["ecommerce"],
+      problems: ["sell"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/Vintage-Drop",
       gallery: [
@@ -475,7 +461,7 @@ export const portfolioData = {
         "Code is reviewed in memory and discarded.",
       ],
       stack: ["Python", "FastAPI", "React", "Gemini", "Groq", "Docker"],
-      categories: ["devtools", "ai"],
+      problems: ["tools"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/ai-code-reviewer",
       gallery: [],
@@ -494,7 +480,7 @@ export const portfolioData = {
         "PDF export of the full report.",
       ],
       stack: ["Node.js", "Express", "React", "Gemini", "Docker"],
-      categories: ["devtools", "ai"],
+      problems: ["tools"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/ai-seo-analyzer",
       gallery: [],
@@ -514,12 +500,29 @@ export const portfolioData = {
         "Cancel stops every request in flight.",
       ],
       stack: ["Rust", "Axum", "Tokio", "WebSockets", "React", "Recharts", "Docker"],
-      categories: ["devtools"],
+      problems: ["tools"],
       year: 2026,
       github: "https://github.com/ibrahim123-sia/rust-load-tester",
       gallery: [],
     },
   ],
+
+  // GitHub section on Home. Used as is when the GitHub API can't be reached;
+  // otherwise the repository count and the repo cards come from the API.
+  github: {
+    username: "ibrahim123-sia",
+    repos: 44,
+    commitsLastYear: 760,
+    // Repo cards, by project key, with the repo's main language
+    repoCards: [
+      { key: "propel", name: "Propel", language: "TypeScript" },
+      { key: "acadex", name: "Acadex", language: "TypeScript" },
+      { key: "atriumdesk", name: "AtriumDesk", language: "JavaScript" },
+      { key: "pairly", name: "Pairly", language: "Python" },
+      { key: "nowhere", name: "Nowhere", language: "JavaScript" },
+      { key: "sprintlog", name: "sprintlog-agent", language: "Python" },
+    ],
+  },
 
   // Newest first. A company with several roles shows them as a promotion.
   experience: [
@@ -598,14 +601,18 @@ for (const project of portfolioData.projects) {
   if (!project.image) project.image = project.gallery[0]?.src ?? null;
 }
 
-// Project categories for the Projects filter. A project can be in several.
-export const categories = [
-  { slug: "ai", label: "AI Agents & Assistants", short: "AI" },
-  { slug: "saas", label: "SaaS Platforms", short: "SaaS" },
-  { slug: "data", label: "Data & Analytics", short: "Data" },
-  { slug: "ecommerce", label: "E-commerce", short: "E-commerce" },
-  { slug: "devtools", label: "Developer Tools", short: "Dev tools" },
+// The problems a project solves, in display order. A project's first problem
+// is its main group on the Work page; Home links each one to /projects?problem=.
+export const problemList = [
+  { slug: "act", title: "AI that takes action", description: "Agents that search, update records or place orders in your own systems, and ask a person before anything risky." },
+  { slug: "answer", title: "AI that answers from your data", description: "Assistants that reply from your website, documents or database, show their sources and say when they do not know." },
+  { slug: "run", title: "One platform to run your organisation", description: "Multi-user systems that replace spreadsheets and separate tools for an agency, school or university." },
+  { slug: "numbers", title: "Make sense of your numbers", description: "Dashboards that turn sales or trading data into clear next steps." },
+  { slug: "sell", title: "Sell online", description: "Complete online stores with local and international payments and an admin panel the owner runs alone." },
+  { slug: "tools", title: "Smaller AI tools", description: "Focused tools for code review, SEO, load testing, notes and vehicle diagnostics." },
 ];
 
-export const categoryLabel = Object.fromEntries(categories.map((c) => [c.slug, c.label]));
-export const categoryShort = Object.fromEntries(categories.map((c) => [c.slug, c.short]));
+export const problemBySlug = Object.fromEntries(problemList.map((p) => [p.slug, p]));
+// Each problem's colour is a CSS variable of the same name (index.css)
+export const problemColor = (slug) => `var(--${slug})`;
+export const projectsFor = (slug) => portfolioData.projects.filter((p) => p.problems.includes(slug));

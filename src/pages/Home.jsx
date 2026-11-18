@@ -98,7 +98,7 @@ const Hero = () => {
             </div>
             <div>
               <b>{Math.floor(totalCommits / 100) * 100}+</b>
-              <span>commits on {featured.length} products</span>
+              <span>commits on my main products</span>
             </div>
             <div>
               <b>3.86</b>
@@ -182,7 +182,7 @@ const Featured = () => {
     <section className="sec" style={{ paddingTop: 0 }}>
       <div className="wrap">
         <div className="sh">
-          <h2 className="h">Five products I built end to end</h2>
+          <h2 className="h">Products I built end to end</h2>
           <p>A few highlights from my work. Each one has its own page with the problem, what I built and the screens.</p>
         </div>
         <div className="stack">

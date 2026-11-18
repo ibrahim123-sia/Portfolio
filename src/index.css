@@ -98,7 +98,7 @@ a.chip:hover{color:var(--ink);background:var(--panel2)}
 .hero .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .stats{display:flex;flex-wrap:wrap;gap:16px 36px;margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
 .stats b{font:700 26px/1 var(--head);letter-spacing:-.03em;display:block}
-.stats span{color:var(--mute);font-size:14px;display:block;margin-top:8px}
+.stats span{color:var(--mute);font-size:14px;display:block;margin-top:8px;max-width:11em}
 .stage{position:relative;height:clamp(400px,42vw,580px);perspective:1800px}
 .rig{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .rig .win{position:absolute;text-decoration:none;display:block;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}

@@ -1,102 +1,124 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+import Cta from '../components/Cta';
 import { portfolioData } from '../data';
-import Link from '../components/Link';
-import Reveal from '../components/Reveal';
-import SectionHeading from '../components/SectionHeading';
-
-// One labelled row on the page grid
-const Row = ({ label, children }) => (
-  <Reveal className="grid gap-4 border-t border-rule py-10 md:grid-cols-12 md:gap-8">
-    <h2 className="label md:col-span-3">{label}</h2>
-    <div className="md:col-span-9">{children}</div>
-  </Reveal>
-);
+import { useKarachiTime } from '../useKarachiTime';
 
 const About = () => {
-  const { personalInfo, skillGroups, education, certifications } = portfolioData;
+  const { personalInfo, experience, education, certifications, skillGroups } = portfolioData;
+  const time = useKarachiTime();
 
   return (
-    <section aria-labelledby="about-title" className="page pb-20 pt-10 sm:pb-28 sm:pt-16">
-      <SectionHeading as="h1" id="about-title" eyebrow={personalInfo.title} title="About" />
+    <>
+      <div className="wrap">
+        <header className="ah">
+          <div>
+            <h1 className="h">About</h1>
+            {personalInfo.about.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
+          <figure className="me">
+            <img src="/Mypic.jpg" alt={personalInfo.name} width="460" height="460" />
+            <figcaption>
+              <b>{personalInfo.name}</b>
+              <span>{time ? `Karachi, ${time} now (UTC+5)` : 'Karachi, UTC+5'}</span>
+            </figcaption>
+          </figure>
+        </header>
 
-      <Reveal className="mt-10 md:grid md:grid-cols-12 md:gap-8">
-        <div className="space-y-6 text-xl leading-relaxed md:col-span-8 md:col-start-4 lg:text-2xl lg:leading-snug">
-          {personalInfo.about.map((para) => (
-            <p key={para}>{para}</p>
+        <section className="sec" style={{ paddingTop: 40 }}>
+          <div className="sh">
+            <h2 className="h">Experience</h2>
+            <p>Newest first.</p>
+          </div>
+          {experience.map((job) => (
+            <div key={job.company} className="job">
+              <div>
+                <h3>{job.company}</h3>
+                <p className="meta">
+                  {job.companyNote ? `${job.companyNote}. ` : ''}
+                  {job.location}. {job.type}.
+                </p>
+              </div>
+              <div>
+                {job.roles.map((role) => (
+                  <p key={role.title} className="role">
+                    {role.title}
+                    <span>{role.period}</span>
+                  </p>
+                ))}
+                <ul>
+                  {job.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           ))}
-        </div>
-        <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[15px] md:col-span-9 md:col-start-4">
-          <Link to="/#experience" className="link">
-            Experience
-          </Link>
-          <a href={personalInfo.resume} target="_blank" rel="noopener noreferrer" className="link">
-            Resume (PDF)
-          </a>
-        </p>
-      </Reveal>
+        </section>
 
-      <div className="mt-16">
-        <Row label="Skills">
-          <dl className="divide-y divide-rule">
+        <section className="sec" style={{ paddingTop: 0 }}>
+          <div className="trio">
+            <div>
+              <h3>Education</h3>
+              <p className="big">{education.degree}</p>
+              <p>{education.institution}</p>
+              <p className="soft">{education.period}</p>
+              <p>CGPA {education.cgpa}</p>
+            </div>
+            <div>
+              <h3>Honours</h3>
+              <p className="big">Chancellor's Honour Roll</p>
+              <p>Fall 2023 and Spring 2024, for outstanding academic performance.</p>
+              <p className="soft">Final year project: {education.project}</p>
+            </div>
+            <div>
+              <h3>Certifications</h3>
+              <ul>
+                {certifications.map((cert) => (
+                  <li key={cert.name}>
+                    <b>{cert.name}</b>
+                    <small>
+                      {cert.issuer}, {cert.date}
+                      {cert.url && (
+                        <>
+                          .{' '}
+                          <a href={cert.url} target="_blank" rel="noopener noreferrer">
+                            Verify
+                          </a>
+                        </>
+                      )}
+                    </small>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="sec" style={{ paddingTop: 0 }}>
+          <div className="sh">
+            <h2 className="h">Tools I use</h2>
+            <p />
+          </div>
+          <div className="skills">
             {skillGroups.map((group) => (
-              <div key={group.title} className="grid gap-1 py-4 first:pt-0 sm:grid-cols-[160px_1fr] sm:gap-6">
-                <dt className="text-[15px] font-medium">{group.title}</dt>
-                <dd className="text-[15px] leading-relaxed text-muted">{group.skills.join(', ')}</dd>
+              <div key={group.title}>
+                <h3>{group.title}</h3>
+                <div className="stackrow">
+                  {group.skills.map((skill) => (
+                    <span key={skill} className="chip">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
-          </dl>
-        </Row>
-
-        <Row label="Education">
-          <h3 className="display text-4xl">{education.degree}</h3>
-          <p className="mt-2 text-lg">{education.institution}</p>
-          <p className="label mt-2">{education.period}</p>
-          <dl className="mt-6 grid gap-6 border-t border-rule pt-6 sm:grid-cols-3">
-            <div>
-              <dt className="label">CGPA</dt>
-              <dd className="mt-2 text-[15px]">{education.cgpa}</dd>
-            </div>
-            <div>
-              <dt className="label">Honours</dt>
-              <dd className="mt-2 text-[15px]">{education.honours}</dd>
-            </div>
-            <div>
-              <dt className="label">Final year project</dt>
-              <dd className="mt-2 text-[15px]">{education.project}</dd>
-            </div>
-          </dl>
-        </Row>
-
-        <Row label="Certifications">
-          <ul className="divide-y divide-rule">
-            {certifications.map((cert) => (
-              <li key={cert.name} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 first:pt-0">
-                <div>
-                  <h3 className="text-[15px] font-medium">{cert.name}</h3>
-                  <p className="mt-1 text-[15px] text-muted">{cert.issuer}</p>
-                </div>
-                <p className="label flex items-center gap-4">
-                  {cert.date}
-                  {cert.url && (
-                    <a
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Verify ${cert.name}`}
-                      className="link inline-flex items-center gap-1 text-ink"
-                    >
-                      Verify
-                      <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
-                    </a>
-                  )}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </Row>
+          </div>
+        </section>
       </div>
-    </section>
+      <Cta />
+    </>
   );
 };
 

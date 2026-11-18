@@ -4,42 +4,29 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        display: ['"DM Sans"', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       colors: {
-        // Ink Blue on Navy — deep navy surfaces, blue accent (reference-inspired)
-        bg: '#0A0F1A',
-        surface: '#101827',
-        'surface-2': '#172136',
-        line: '#1F2A3D',
-        'line-strong': '#2E3D57',
-        content: '#FFFFFF',
-        muted: '#A3AEC2',
-        faint: '#808B9C',
+        // Editorial light theme: warm paper, near-black ink, one deep green accent
+        paper: '#F5F2EC',
+        'paper-2': '#ECE7DE',
+        ink: '#141414',
+        muted: '#57534C',
+        faint: '#6E6A63',
+        rule: '#D8D2C6',
+        'rule-strong': '#BDB6A8',
         accent: {
-          DEFAULT: '#4C8DFF',
-          hover: '#7BA9FF',
-          soft: '#152238',
-          on: '#8FB4FF',
-          ink: '#05080F',
+          DEFAULT: '#1E4D3A',
+          hover: '#163A2B',
         },
       },
       transitionTimingFunction: {
         standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.25s ease both',
       },
     },
   },

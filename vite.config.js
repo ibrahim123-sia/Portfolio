@@ -7,11 +7,10 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        // Split large deps into cacheable vendor chunks so app updates
-        // don't re-download React / animation code.
+        // Keep React in its own cacheable chunk so app updates don't
+        // re-download it.
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'motion-vendor': ['framer-motion'],
         },
       },
     },

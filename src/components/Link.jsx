@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { RouterContext, normalizePath, useRouter } from '../router';
 
-const readLocation = (key = 0) => ({
+const readLocation = (key = 0, scroll = true) => ({
   path: normalizePath(window.location.pathname),
+  search: window.location.search,
   hash: window.location.hash,
   key,
+  scroll,
 });
 
 export const RouterProvider = ({ children }) => {
@@ -16,12 +18,16 @@ export const RouterProvider = ({ children }) => {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  const navigate = useCallback((to) => {
+  // `replace` swaps the history entry (e.g. a filter change); `scroll: false`
+  // keeps the reader where they are.
+  const navigate = useCallback((to, { replace = false, scroll = true } = {}) => {
     const url = new URL(to, window.location.origin);
-    if (url.pathname + url.hash !== window.location.pathname + window.location.hash) {
-      window.history.pushState(null, '', url.pathname + url.hash);
+    const next = url.pathname + url.search + url.hash;
+    const current = window.location.pathname + window.location.search + window.location.hash;
+    if (next !== current) {
+      window.history[replace ? 'replaceState' : 'pushState'](null, '', next);
     }
-    setLocation((prev) => readLocation(prev.key + 1));
+    setLocation((prev) => readLocation(prev.key + 1, scroll));
   }, []);
 
   return (

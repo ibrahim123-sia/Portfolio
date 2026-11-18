@@ -1,17 +1,5 @@
 import React, { useState, useRef } from "react";
-import {
-  Send,
-  Mail,
-  Phone,
-  MapPin,
-  MessageCircle,
-  Loader2,
-  Github,
-  Linkedin,
-  Youtube,
-  CheckCircle2,
-  AlertCircle,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { portfolioData } from "../data";
 
@@ -63,78 +51,59 @@ const ContactForm = () => {
       );
   };
 
-  const contactItems = [
-    { icon: Mail, label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
-    { icon: Phone, label: "Phone", value: personalInfo.phone, href: `tel:+${phoneNumber}` },
-    { icon: MapPin, label: "Location", value: personalInfo.location },
+  const direct = [
+    { label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
+    { label: "Phone", value: personalInfo.phone, href: `tel:+${phoneNumber}` },
+    { label: "WhatsApp", value: "Send a message", href: whatsappUrl, external: true },
+    { label: "Location", value: personalInfo.location },
   ];
 
-  const socials = [
-    { icon: Github, href: personalInfo.github, label: "GitHub" },
-    { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
-    { icon: Youtube, href: personalInfo.youtube, label: "YouTube" },
+  const profiles = [
+    { label: "GitHub", href: personalInfo.github },
+    { label: "LinkedIn", href: personalInfo.linkedin },
+    { label: "YouTube", href: personalInfo.youtube },
   ];
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+    <div className="grid gap-12 md:grid-cols-12 md:gap-8">
       {/* Direct contact */}
-      <div>
-        <ul className="space-y-5">
-          {contactItems.map((item) => (
-            <li key={item.label} className="flex items-start gap-4">
-              <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-faint" aria-hidden="true" />
-              <div className="min-w-0">
-                <p className="text-sm text-faint">{item.label}</p>
+      <div className="md:col-span-4 md:col-start-4">
+        <dl className="divide-y divide-rule border-y border-rule">
+          {direct.map((item) => (
+            <div key={item.label} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-4">
+              <dt className="label">{item.label}</dt>
+              <dd className="min-w-0 text-[15px]">
                 {item.href ? (
-                  <a href={item.href} className="break-all text-[15px] font-medium text-content hover:text-accent-on">
+                  <a
+                    href={item.href}
+                    className="link break-all"
+                    {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  >
                     {item.value}
                   </a>
                 ) : (
-                  <p className="text-[15px] font-medium text-content">{item.value}</p>
+                  item.value
                 )}
-              </div>
-            </li>
+              </dd>
+            </div>
           ))}
-        </ul>
-
-        <a
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center justify-center gap-2 rounded-[10px] bg-emerald-700 px-5 py-3 text-[15px] font-medium text-white transition-colors hover:bg-emerald-800 hover:text-white"
-        >
-          <MessageCircle className="h-5 w-5" aria-hidden="true" />
-          Chat on WhatsApp
-        </a>
-
-        <ul className="mt-8 flex gap-2">
-          {socials.map(({ icon, href, label }) => {
-            const Icon = icon;
-            return (
-              <li key={label}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  title={label}
-                  className="icon-btn"
-                >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+        </dl>
+        <p className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
+          {profiles.map((item) => (
+            <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="link">
+              {item.label}
+            </a>
+          ))}
+        </p>
       </div>
 
       {/* Form */}
-      <div className="card p-5 sm:p-8">
-        <form ref={form} onSubmit={sendEmail} className="space-y-5">
-          <div className="grid gap-5 sm:grid-cols-2">
+      <div className="md:col-span-5">
+        <form ref={form} onSubmit={sendEmail} className="space-y-6">
+          <div className="grid gap-6 sm:grid-cols-2">
             {fields.map(({ label, ...input }) => (
               <div key={input.name} className={input.name === "subject" ? "sm:col-span-2" : undefined}>
-                <label htmlFor={input.name} className="mb-2 block text-sm font-medium text-content">
+                <label htmlFor={input.name} className="label mb-2 block">
                   {label}
                 </label>
                 <input id={input.name} required className="field" {...input} />
@@ -143,7 +112,7 @@ const ContactForm = () => {
           </div>
 
           <div>
-            <label htmlFor="message" className="mb-2 block text-sm font-medium text-content">
+            <label htmlFor="message" className="label mb-2 block">
               Message
             </label>
             <textarea
@@ -161,31 +130,14 @@ const ContactForm = () => {
             disabled={isLoading}
             className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
-                Sending...
-              </>
-            ) : (
-              <>
-                Send message
-                <Send className="h-4 w-4" aria-hidden="true" />
-              </>
-            )}
+            {isLoading && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
+            {isLoading ? "Sending..." : "Send message"}
           </button>
         </form>
-        <div aria-live="polite" className="mt-4 empty:mt-0">
-          {isSuccess && (
-            <p className="flex items-start gap-2 text-sm text-emerald-300">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              Thanks, your message was sent. I'll get back to you soon.
-            </p>
-          )}
+        <div aria-live="polite" className="mt-4 text-[15px] empty:mt-0">
+          {isSuccess && <p className="text-accent">Thanks, your message was sent. I'll get back to you soon.</p>}
           {isError && (
-            <p className="flex items-start gap-2 text-sm text-rose-300">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              The message could not be sent. Please try again or use WhatsApp.
-            </p>
+            <p className="text-[#9B2C1F]">The message could not be sent. Please try again or use WhatsApp.</p>
           )}
         </div>
       </div>

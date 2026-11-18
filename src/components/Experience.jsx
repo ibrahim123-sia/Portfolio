@@ -3,67 +3,51 @@ import { portfolioData } from '../data';
 import Reveal from './Reveal';
 
 /**
- * Experience timeline, newest first. A company with more than one role lists
- * them under one entry, newest role on top, so a promotion reads clearly.
+ * Experience, newest first, one row per company. A company with more than one
+ * role lists them together, newest on top, so a promotion reads clearly.
  */
 const Experience = () => (
-  <ol className="relative border-l border-line">
+  <ol>
     {portfolioData.experience.map((job) => {
       const [current, ...earlier] = job.roles;
       const meta = [job.location, job.type].filter(Boolean).join(' · ');
 
       return (
-        <Reveal as="li" key={job.company} className="relative pb-12 pl-6 last:pb-0 sm:pl-10">
-          <span
-            aria-hidden="true"
-            className="absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full bg-accent"
-          />
+        <Reveal
+          as="li"
+          key={job.company}
+          className="grid gap-4 border-t border-rule py-8 md:grid-cols-12 md:gap-8"
+        >
+          <div className="md:col-span-3">
+            <h3 className="display text-3xl">{job.company}</h3>
+            {job.companyNote && <p className="mt-2 text-sm text-muted">{job.companyNote}</p>}
+            {meta && <p className="label mt-2">{meta}</p>}
+          </div>
 
-          <div className="grid gap-x-10 gap-y-4 md:grid-cols-[220px_1fr]">
-            {/* Company */}
-            <div>
-              <h3 className="text-lg font-bold text-content">{job.company}</h3>
-              {job.companyNote && <p className="mt-1 text-sm text-muted">{job.companyNote}</p>}
-              {meta && <p className="mt-1 text-sm text-faint">{meta}</p>}
-            </div>
-
-            {/* Roles and work */}
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                <p className="text-base font-bold text-content">{current.title}</p>
-                <p className="text-sm text-faint">{current.period}</p>
-              </div>
-              {earlier.map((role) => (
-                <div
-                  key={role.title}
-                  className="mt-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1"
-                >
-                  <p className="text-[15px] text-muted">{role.title}</p>
-                  <p className="text-sm text-faint">{role.period}</p>
+          <div className="md:col-span-9">
+            <dl className="space-y-1">
+              {[current, ...earlier].map((role, i) => (
+                <div key={role.title} className="flex flex-wrap items-baseline justify-between gap-x-6">
+                  <dt className={i === 0 ? 'text-lg font-medium' : 'text-[15px] text-muted'}>
+                    {role.title}
+                  </dt>
+                  <dd className="label">{role.period}</dd>
                 </div>
               ))}
-              {earlier.length > 0 && (
-                <p className="mt-2 text-sm text-accent-on">
-                  Promoted to {current.title} in {current.period.split(' – ')[0]}
-                </p>
-              )}
+            </dl>
+            {earlier.length > 0 && (
+              <p className="mt-2 text-sm text-accent">
+                Promoted to {current.title} in {current.period.split(' – ')[0]}
+              </p>
+            )}
 
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-[15px] leading-relaxed text-muted marker:text-line-strong">
-                {job.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-
-              {job.stack && (
-                <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tech stack">
-                  {job.stack.map((tech) => (
-                    <li key={tech} className="chip">
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className="mt-5 max-w-3xl space-y-2 text-[15px] leading-relaxed text-muted">
+              {job.points.map((point) => (
+                <p key={point}>{point}</p>
+              ))}
             </div>
+
+            {job.stack && <p className="label mt-5">{job.stack.join(' · ')}</p>}
           </div>
         </Reveal>
       );

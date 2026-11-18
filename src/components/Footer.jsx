@@ -1,10 +1,8 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Youtube, Briefcase, BadgeCheck } from 'lucide-react';
-import { SiUpwork } from 'react-icons/si';
 import { portfolioData } from '../data';
 import Link from './Link';
 
-const footerLinks = [
+const pages = [
   { label: 'Home', to: '/' },
   { label: 'Work', to: '/projects' },
   { label: 'About', to: '/about' },
@@ -15,58 +13,61 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { personalInfo } = portfolioData;
 
-  const socials = [
-    { icon: Github, href: personalInfo.github, label: 'GitHub' },
-    { icon: Linkedin, href: personalInfo.linkedin, label: 'LinkedIn' },
-    { icon: Youtube, href: personalInfo.youtube, label: 'YouTube' },
-    { icon: SiUpwork, href: personalInfo.upwork, label: 'Upwork' },
-    { icon: Briefcase, href: personalInfo.portfolio8x, label: '8x Careers' },
-    { icon: BadgeCheck, href: personalInfo.hiringmine, label: 'HiringMine' },
-    { icon: Mail, href: `mailto:${personalInfo.email}`, label: 'Email' },
+  const profiles = [
+    { label: 'GitHub', href: personalInfo.github },
+    { label: 'LinkedIn', href: personalInfo.linkedin },
+    { label: 'YouTube', href: personalInfo.youtube },
+    { label: 'Upwork', href: personalInfo.upwork },
+    { label: '8x Careers', href: personalInfo.portfolio8x },
+    { label: 'HiringMine', href: personalInfo.hiringmine },
   ];
 
   return (
-    <footer className="border-t border-line">
-      <div className="page flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
-        <div className="max-w-sm">
-          <p className="text-[15px] font-bold text-content">{personalInfo.name}</p>
-          <p className="mt-2 text-sm leading-relaxed text-muted">
+    <footer className="border-t border-ink">
+      <div className="page grid gap-10 py-14 md:grid-cols-12">
+        <div className="md:col-span-6">
+          <p className="display text-4xl">{personalInfo.name}</p>
+          <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-muted">
             {personalInfo.title}. {personalInfo.tagline}
           </p>
+          <a href={`mailto:${personalInfo.email}`} className="link mt-5 inline-block text-[15px]">
+            {personalInfo.email}
+          </a>
         </div>
 
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
-          {footerLinks.map((item) => (
-            <Link key={item.to} to={item.to} className="text-sm text-muted hover:text-content">
-              {item.label}
-            </Link>
-          ))}
+        <nav aria-label="Footer" className="md:col-span-2">
+          <p className="label">Pages</p>
+          <ul className="mt-4 space-y-2 text-[15px]">
+            {pages.map((item) => (
+              <li key={item.to}>
+                <Link to={item.to} className="link-quiet">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
 
-        <ul className="flex flex-wrap gap-2">
-          {socials.map(({ icon, href, label }) => {
-            const Icon = icon;
-            return (
-              <li key={label}>
-                <a
-                  href={href}
-                  target={href.startsWith('mailto:') ? undefined : '_blank'}
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  title={label}
-                  className="icon-btn h-10 w-10"
-                >
-                  <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+        <div className="md:col-span-4">
+          <p className="label">Elsewhere</p>
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-[15px]">
+            {profiles.map((item) => (
+              <li key={item.label}>
+                <a href={item.href} target="_blank" rel="noopener noreferrer" className="link-quiet">
+                  {item.label}
                 </a>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className="page">
-        <p className="border-t border-line py-6 text-sm text-faint">
-          © {currentYear} {personalInfo.name}. {personalInfo.location}.
+        <p className="label flex flex-wrap justify-between gap-2 border-t border-rule py-6">
+          <span>
+            © {currentYear} {personalInfo.name}
+          </span>
+          <span>{personalInfo.location}</span>
         </p>
       </div>
     </footer>

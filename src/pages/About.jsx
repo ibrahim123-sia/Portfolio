@@ -1,107 +1,102 @@
 import React from 'react';
-import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { portfolioData } from '../data';
 import Link from '../components/Link';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 
+// One labelled row on the page grid
+const Row = ({ label, children }) => (
+  <Reveal className="grid gap-4 border-t border-rule py-10 md:grid-cols-12 md:gap-8">
+    <h2 className="label md:col-span-3">{label}</h2>
+    <div className="md:col-span-9">{children}</div>
+  </Reveal>
+);
+
 const About = () => {
   const { personalInfo, skillGroups, education, certifications } = portfolioData;
 
   return (
-    <>
-      <section aria-labelledby="about-title" className="page pb-20 pt-12 sm:pb-24 sm:pt-16">
-        <SectionHeading
-          as="h1"
-          id="about-title"
-          eyebrow={personalInfo.title}
-          title="About me"
-        />
-        <Reveal className="max-w-3xl space-y-5 text-lg leading-relaxed text-muted">
+    <section aria-labelledby="about-title" className="page pb-20 pt-10 sm:pb-28 sm:pt-16">
+      <SectionHeading as="h1" id="about-title" eyebrow={personalInfo.title} title="About" />
+
+      <Reveal className="mt-10 md:grid md:grid-cols-12 md:gap-8">
+        <div className="space-y-6 text-xl leading-relaxed md:col-span-8 md:col-start-4 lg:text-2xl lg:leading-snug">
           {personalInfo.about.map((para) => (
             <p key={para}>{para}</p>
           ))}
-        </Reveal>
-        <Reveal className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-          <Link to="/#experience" className="text-link">
-            See my experience
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </div>
+        <p className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[15px] md:col-span-9 md:col-start-4">
+          <Link to="/#experience" className="link">
+            Experience
           </Link>
-          <a href={personalInfo.resume} target="_blank" rel="noopener noreferrer" className="text-link">
-            <Download className="h-4 w-4" aria-hidden="true" />
+          <a href={personalInfo.resume} target="_blank" rel="noopener noreferrer" className="link">
             Resume (PDF)
           </a>
-        </Reveal>
-      </section>
+        </p>
+      </Reveal>
 
-      {/* Skills */}
-      <section aria-labelledby="skills-title" className="section border-t border-line">
-        <div className="page">
-          <SectionHeading id="skills-title" title="Skills" />
-          <Reveal as="dl" className="divide-y divide-line border-y border-line">
+      <div className="mt-16">
+        <Row label="Skills">
+          <dl className="divide-y divide-rule">
             {skillGroups.map((group) => (
-              <div key={group.title} className="grid gap-2 py-5 sm:grid-cols-[200px_1fr] sm:gap-10">
-                <dt className="font-bold text-content">{group.title}</dt>
-                <dd className="leading-relaxed text-muted">{group.skills.join(', ')}</dd>
+              <div key={group.title} className="grid gap-1 py-4 first:pt-0 sm:grid-cols-[160px_1fr] sm:gap-6">
+                <dt className="text-[15px] font-medium">{group.title}</dt>
+                <dd className="text-[15px] leading-relaxed text-muted">{group.skills.join(', ')}</dd>
               </div>
             ))}
-          </Reveal>
-        </div>
-      </section>
+          </dl>
+        </Row>
 
-      {/* Education and certifications */}
-      <section aria-labelledby="education-title" className="section border-t border-line">
-        <div className="page grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <SectionHeading id="education-title" title="Education" />
-            <Reveal className="card p-6 sm:p-8">
-              <h3 className="text-lg font-bold text-content">{education.degree}</h3>
-              <p className="mt-1 text-[15px] text-muted">{education.institution}</p>
-              <p className="mt-1 text-sm text-faint">{education.period}</p>
-              <dl className="mt-6 space-y-3 text-[15px]">
-                <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-faint">CGPA</dt>
-                  <dd className="font-medium text-content">{education.cgpa}</dd>
-                </div>
-                <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-faint">Honours</dt>
-                  <dd className="font-medium text-content">{education.honours}</dd>
-                </div>
-                <div className="flex flex-wrap gap-x-2">
-                  <dt className="text-faint">Final year project</dt>
-                  <dd className="font-medium text-content">{education.project}</dd>
-                </div>
-              </dl>
-            </Reveal>
-          </div>
+        <Row label="Education">
+          <h3 className="display text-4xl">{education.degree}</h3>
+          <p className="mt-2 text-lg">{education.institution}</p>
+          <p className="label mt-2">{education.period}</p>
+          <dl className="mt-6 grid gap-6 border-t border-rule pt-6 sm:grid-cols-3">
+            <div>
+              <dt className="label">CGPA</dt>
+              <dd className="mt-2 text-[15px]">{education.cgpa}</dd>
+            </div>
+            <div>
+              <dt className="label">Honours</dt>
+              <dd className="mt-2 text-[15px]">{education.honours}</dd>
+            </div>
+            <div>
+              <dt className="label">Final year project</dt>
+              <dd className="mt-2 text-[15px]">{education.project}</dd>
+            </div>
+          </dl>
+        </Row>
 
-          <div>
-            <SectionHeading id="certs-title" title="Certifications" />
-            <Reveal as="ul" className="divide-y divide-line border-y border-line">
-              {certifications.map((cert) => (
-                <li key={cert.name} className="py-5">
-                  <h3 className="font-bold text-content">{cert.name}</h3>
-                  <p className="mt-1 text-sm text-muted">
-                    {cert.issuer} · {cert.date}
-                  </p>
+        <Row label="Certifications">
+          <ul className="divide-y divide-rule">
+            {certifications.map((cert) => (
+              <li key={cert.name} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4 first:pt-0">
+                <div>
+                  <h3 className="text-[15px] font-medium">{cert.name}</h3>
+                  <p className="mt-1 text-[15px] text-muted">{cert.issuer}</p>
+                </div>
+                <p className="label flex items-center gap-4">
+                  {cert.date}
                   {cert.url && (
                     <a
                       href={cert.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2 inline-flex items-center gap-1 text-sm font-medium"
+                      aria-label={`Verify ${cert.name}`}
+                      className="link inline-flex items-center gap-1 text-ink"
                     >
-                      Verify certificate
-                      <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                      Verify
+                      <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
                     </a>
                   )}
-                </li>
-              ))}
-            </Reveal>
-          </div>
-        </div>
-      </section>
-    </>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Row>
+      </div>
+    </section>
   );
 };
 

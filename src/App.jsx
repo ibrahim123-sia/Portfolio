@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { LazyMotion, domAnimation } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import { RouterProvider } from './components/Link';
 import { useRouter } from './router';
+import { portfolioData } from './data';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
+import CaseStudy from './pages/CaseStudy';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 
@@ -24,7 +25,7 @@ const routes = {
     Page: Projects,
     title: 'Projects | Syed Ibrahim Ali',
     description:
-      'Selected work by Syed Ibrahim Ali: Propel, AtriumDesk, Nowhere, Acadex and Pairly, plus smaller AI and full-stack projects.',
+      'Seventeen projects by Syed Ibrahim Ali: AI agents and assistants, SaaS platforms, data and analytics, e-commerce and developer tools.',
   },
   '/about': {
     Page: About,
@@ -34,6 +35,20 @@ const routes = {
   },
 };
 
+// /projects/<key> is a case study page
+const resolveRoute = (path) => {
+  if (routes[path]) return routes[path];
+  const match = path.match(/^\/projects\/([\w-]+)$/);
+  const project = match && portfolioData.projects.find((p) => p.key === match[1]);
+  if (!project) return null;
+  return {
+    Page: CaseStudy,
+    props: { project },
+    title: `${project.name}: ${project.title} | Syed Ibrahim Ali`,
+    description: project.summary,
+  };
+};
+
 const setMeta = (selector, attr, value) => {
   const el = document.head.querySelector(selector);
   if (el) el.setAttribute(attr, value);
@@ -41,7 +56,7 @@ const setMeta = (selector, attr, value) => {
 
 const Routes = () => {
   const { location } = useRouter();
-  const route = routes[location.path];
+  const route = resolveRoute(location.path);
 
   // Keep the document head in sync with the current page.
   useEffect(() => {
@@ -62,37 +77,37 @@ const Routes = () => {
 
   // Scroll to the #section in the URL, or to the top on a page change.
   useEffect(() => {
+    if (!location.scroll) return;
     const id = location.hash.slice(1);
     if (id) {
       requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView());
     } else {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
-  }, [location.path, location.hash, location.key]);
+  }, [location.path, location.hash, location.key, location.scroll]);
 
-  const Page = route ? route.Page : NotFound;
-  return <Page />;
+  if (!route) return <NotFound />;
+  const { Page, props } = route;
+  return <Page key={location.path} {...props} />;
 };
 
 function App() {
   return (
     <RouterProvider>
-      <LazyMotion features={domAnimation}>
-        <div className="flex min-h-screen flex-col bg-bg font-sans text-muted">
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-ink"
-          >
-            Skip to content
-          </a>
-          <Header />
-          <main id="main" className="flex-1">
-            <Routes />
-          </main>
-          <Footer />
-          <WhatsAppFloat />
-        </div>
-      </LazyMotion>
+      <div className="flex min-h-screen flex-col bg-paper text-ink">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+        >
+          Skip to content
+        </a>
+        <Header />
+        <main id="main" className="flex-1">
+          <Routes />
+        </main>
+        <Footer />
+        <WhatsAppFloat />
+      </div>
     </RouterProvider>
   );
 }

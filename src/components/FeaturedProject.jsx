@@ -1,84 +1,77 @@
 import React from 'react';
-import { ArrowUpRight, Check, Github } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import { categoryLabel } from '../data';
+import Link from './Link';
 
 /**
- * One featured project, shown large: 4:3 cover on the left, the problem it
- * solves, key features, stack and links on the right.
+ * One featured project as a large row: cover on one side, number, serif name,
+ * one-sentence summary, categories, year and links on the other. `reversed`
+ * puts the cover on the right.
  */
-const FeaturedProject = ({ project, index, onOpen }) => {
+const FeaturedProject = ({ project, index, reversed = false }) => {
+  const href = `/projects/${project.key}`;
+
   return (
-    <article className="card grid gap-6 p-4 sm:p-6 md:grid-cols-2 md:gap-10 lg:p-8">
-      <button
-        type="button"
-        onClick={() => onOpen(project)}
-        aria-label={`Open the ${project.name} case study`}
-        className="block self-start overflow-hidden rounded-[10px] border border-line bg-bg"
+    <article className="grid gap-6 border-t border-rule py-10 md:grid-cols-12 md:gap-10 md:py-14">
+      <Link
+        to={href}
+        tabIndex={-1}
+        aria-hidden="true"
+        className={`block md:col-span-7 ${reversed ? 'md:order-2' : ''}`}
       >
         <img
           src={project.image}
           alt={`${project.name}: ${project.title}`}
-          loading="lazy"
-          decoding="async"
-          width="800"
-          height="600"
-          className="aspect-[4/3] w-full object-cover object-top"
+          fetchPriority={index === 0 ? 'high' : 'low'}
+          width="1600"
+          height="1200"
+          className="aspect-[4/3] w-full border border-rule object-cover"
         />
-      </button>
+      </Link>
 
-      <div className="flex flex-col">
-        <p className="text-sm font-medium text-faint">
-          {String(index + 1).padStart(2, '0')}
+      <div className={`flex flex-col md:col-span-5 ${reversed ? 'md:order-1' : ''}`}>
+        <p className="label flex justify-between">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <span>{project.year}</span>
         </p>
-        <h3 className="mt-2 text-2xl font-bold text-content">{project.name}</h3>
-        <p className="mt-1 text-base font-medium text-accent-on">{project.title}</p>
+        <h3 className="display mt-6 text-5xl lg:text-6xl">
+          <Link to={href} className="link-quiet">
+            {project.name}
+          </Link>
+        </h3>
+        <p className="mt-2 text-[15px] text-muted">{project.title}</p>
+        <p className="mt-6 text-lg leading-relaxed">{project.summary}</p>
 
-        <p className="mt-4 leading-relaxed text-muted">{project.description}</p>
+        <p className="label mt-6">
+          {project.categories.map((c) => categoryLabel[c]).join(' · ')}
+        </p>
 
-        <ul className="mt-5 space-y-2.5">
-          {project.features.slice(0, 3).map((feature) => (
-            <li key={feature} className="flex gap-3 text-[15px] leading-relaxed text-muted">
-              <Check className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <span>{feature}</span>
-            </li>
-          ))}
-        </ul>
-
-        <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
-          {project.stack.slice(0, 7).map((tech) => (
-            <li key={tech} className="chip">
-              {tech}
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-auto flex flex-wrap items-center gap-3 pt-7">
-          <button type="button" onClick={() => onOpen(project)} className="btn-primary">
-            Case study
-          </button>
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-rule pt-5 text-[15px] md:mt-auto">
+          <Link to={href} className="link font-medium">
+            Read the case study
+          </Link>
           {project.live && (
             <a
               href={project.live}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${project.name} live demo`}
-              className="btn-secondary"
+              className="link inline-flex items-center gap-1"
             >
               Live demo
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
             </a>
           )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${project.name} code on GitHub`}
-              className="text-link ml-2"
-            >
-              <Github className="h-4 w-4" aria-hidden="true" />
-              Code
-            </a>
-          )}
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${project.name} code on GitHub`}
+            className="link inline-flex items-center gap-1"
+          >
+            Code
+            <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden="true" />
+          </a>
         </div>
       </div>
     </article>

@@ -83,7 +83,13 @@ const CaseStudy = ({ project }) => {
       onClick={() => setOpen(index)}
       aria-label={`Enlarge ${index === 0 ? 'screenshot' : project.gallery[index].title}`}
     >
-      <Win project={project} index={index} eager={index === 0} priority={index === 0 ? 'high' : undefined} />
+      <Win
+        project={project}
+        index={index}
+        eager={index === 0}
+        priority={index === 0 ? 'high' : undefined}
+        sizes={index === 0 ? '(max-width: 1240px) 100vw, 1160px' : '(max-width: 820px) 100vw, 560px'}
+      />
     </button>
   );
 

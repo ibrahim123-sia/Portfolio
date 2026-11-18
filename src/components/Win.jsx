@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from './Link';
-import { problemBySlug, problemColor } from '../data';
+import { problemBySlug, problemColor, smallImage } from '../data';
 
 // The address shown in a browser frame: the live host, or a made-up
 // "<name>.app" when there is no live demo
@@ -15,9 +15,20 @@ const host = (project) => {
 /**
  * A screenshot in a browser frame. Projects without screenshots get a dark
  * "cat README" preview listing their features and stack instead.
- * `as` lets the frame itself be a link (hero), `eager` skips lazy loading.
+ * `as` lets the frame itself be a link (hero), `eager` skips lazy loading and
+ * `sizes` tells the browser how wide the frame shows (an 800px copy exists).
  */
-export const Win = ({ project, index = 0, label, eager = false, priority, as = 'div', className = '', ...rest }) => {
+export const Win = ({
+  project,
+  index = 0,
+  label,
+  eager = false,
+  priority,
+  sizes = '(max-width: 860px) 100vw, 640px',
+  as = 'div',
+  className = '',
+  ...rest
+}) => {
   const Tag = as;
   const shot = project.gallery[index];
   const address = label || (shot ? host(project) : (project.github || '').replace(/^https?:\/\//, ''));
@@ -33,6 +44,8 @@ export const Win = ({ project, index = 0, label, eager = false, priority, as = '
       {shot ? (
         <img
           src={shot.src}
+          srcSet={smallImage(shot.src) ? `${smallImage(shot.src)} 800w, ${shot.src} 1600w` : undefined}
+          sizes={sizes}
           alt={`${project.name}: ${shot.title}`}
           width="1600"
           height="1000"

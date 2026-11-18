@@ -6,6 +6,17 @@ const projectImages = import.meta.glob('./assets/projects/**/*.{webp,jpg,jpeg,pn
 })
 const img = (key, file) => projectImages[`./assets/projects/${key}/${file}`]
 
+// An 800px-wide copy of every image, made at build time, for small frames
+const smallImages = import.meta.glob('./assets/projects/**/*.{webp,jpg,jpeg,png}', {
+  eager: true,
+  import: 'default',
+  query: '?w=800&format=webp',
+})
+const smallBySrc = Object.fromEntries(
+  Object.entries(projectImages).map(([path, src]) => [src, smallImages[path]])
+)
+export const smallImage = (src) => smallBySrc[src]
+
 // Card image for a project: its 4:3 cover (cover.webp or cover.jpg) when one
 // has been added, otherwise the given screenshot.
 const cover = (key, fallback) =>

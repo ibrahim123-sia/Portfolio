@@ -31,6 +31,7 @@ button,input,textarea{font:inherit;color:inherit}
 .wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 @media (min-width:760px){.wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
 
+.not-home .fallback-hero{display:none}
 .skip{position:absolute;left:16px;top:-60px;z-index:70;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;text-decoration:none}
 .skip:focus{top:12px}
 

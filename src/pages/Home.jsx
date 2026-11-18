@@ -93,8 +93,8 @@ const Hero = () => {
           </ul>
           <div className="stats">
             <div>
-              <b>{projects.length}</b>
-              <span>projects shipped</span>
+              <b>{experience.length}</b>
+              <span>companies I have worked with</span>
             </div>
             <div>
               <b>{Math.floor(totalCommits / 100) * 100}+</b>
@@ -183,7 +183,7 @@ const Featured = () => {
       <div className="wrap">
         <div className="sh">
           <h2 className="h">Five products I built end to end</h2>
-          <p>Each one has its own page with the problem, what I built and the screens.</p>
+          <p>A few highlights from my work. Each one has its own page with the problem, what I built and the screens.</p>
         </div>
         <div className="stack">
           {featured.map((p, i) => (
@@ -230,7 +230,7 @@ const Featured = () => {
         </div>
         <p className="more">
           <Link className="btn line" to="/projects">
-            See all {projects.length} projects
+            See all projects
           </Link>
           <span>Including online stores, data dashboards and smaller AI tools.</span>
         </p>
@@ -283,9 +283,6 @@ const Home = () => (
               >
                 <span className="top2">
                   <span className="dot" />
-                  <span className="n">
-                    {list.length} project{list.length > 1 ? 's' : ''}
-                  </span>
                 </span>
                 <h3>{problem.title}</h3>
                 <p>{problem.description}</p>

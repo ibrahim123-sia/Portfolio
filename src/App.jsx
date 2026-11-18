@@ -31,7 +31,7 @@ const routes = {
     Page: Projects,
     title: 'Work | Syed Ibrahim Ali',
     description:
-      'Seventeen projects by Syed Ibrahim Ali, grouped by the problem they solve: AI agents, assistants that answer from your data, platforms, dashboards, online stores and smaller AI tools.',
+      'Projects by Syed Ibrahim Ali, grouped by the problem they solve: AI agents, assistants that answer from your data, platforms, dashboards, online stores and smaller AI tools.',
   },
   '/services': {
     Page: Services,

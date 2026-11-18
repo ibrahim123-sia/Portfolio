@@ -57,14 +57,14 @@ const Projects = () => {
       <header className="ph">
         <h1 className="h">Work</h1>
         <p>
-          {projects.length} projects, grouped by the problem they solve. Open any one for the full story and screens.
+          My projects, grouped by the problem they solve. Open any one for the full story and screens.
         </p>
       </header>
       <div className="wg">
         <nav className="side" aria-label="Filter by problem">
           <Link to="/projects" aria-current={slug ? undefined : 'true'}>
             <i />
-            All work<span>{projects.length}</span>
+            All work
           </Link>
           {problemList.map((problem) => (
             <Link
@@ -75,7 +75,6 @@ const Projects = () => {
             >
               <i />
               {problem.title}
-              <span>{projectsFor(problem.slug).length}</span>
             </Link>
           ))}
         </nav>

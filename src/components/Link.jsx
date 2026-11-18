@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { RouterContext, normalizePath, useRouter } from '../router';
 
 const readLocation = (key = 0, scroll = true) => ({
@@ -9,11 +10,22 @@ const readLocation = (key = 0, scroll = true) => ({
   scroll,
 });
 
+// Page changes cross-fade with the View Transitions API where it exists
+// (the duration is set in index.css), and switch instantly everywhere else.
+const withTransition = (update) => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (document.startViewTransition && !reduce) {
+    document.startViewTransition(() => flushSync(update));
+  } else {
+    update();
+  }
+};
+
 export const RouterProvider = ({ children }) => {
   const [location, setLocation] = useState(() => readLocation());
 
   useEffect(() => {
-    const onPop = () => setLocation((prev) => readLocation(prev.key + 1));
+    const onPop = () => withTransition(() => setLocation((prev) => readLocation(prev.key + 1)));
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
@@ -27,7 +39,7 @@ export const RouterProvider = ({ children }) => {
     if (next !== current) {
       window.history[replace ? 'replaceState' : 'pushState'](null, '', next);
     }
-    setLocation((prev) => readLocation(prev.key + 1, scroll));
+    withTransition(() => setLocation((prev) => readLocation(prev.key + 1, scroll)));
   }, []);
 
   return (

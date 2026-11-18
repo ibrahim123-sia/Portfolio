@@ -1,76 +1,71 @@
-import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { portfolioData } from '../data';
+import React, { useEffect, useState } from 'react';
 import Link from './Link';
+import { Icon } from './Icons';
 import { useRouter } from '../router';
+import { portfolioData } from '../data';
 
-const navItems = [
-  { label: 'Work', to: '/projects' },
-  { label: 'About', to: '/about' },
-  { label: 'Contact', to: '/#contact' },
+const nav = [
+  { to: '/', label: 'Home', section: 'home' },
+  { to: '/projects', label: 'Work', section: 'work' },
+  { to: '/services', label: 'Services', section: 'services' },
+  { to: '/about', label: 'About', section: 'about' },
 ];
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { location } = useRouter();
+// Which menu item a path belongs to: project pages count as Work
+const sectionOf = (path) => {
+  if (path === '/') return 'home';
+  if (path.startsWith('/projects')) return 'work';
+  return path.slice(1);
+};
 
-  // "Work" stays current on case study pages too
-  const isActive = (to) =>
-    !to.includes('#') && (location.path === to || location.path.startsWith(`${to}/`));
+const Header = () => {
+  const { location } = useRouter();
+  const { personalInfo } = portfolioData;
+  const current = sectionOf(location.path);
+  const [solid, setSolid] = useState(false);
+
+  // A hairline under the bar once the page scrolls
+  useEffect(() => {
+    const onScroll = () => setSolid(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-rule bg-paper">
-      <div className="page flex h-16 items-center justify-between">
-        <Link to="/" className="font-serif text-2xl leading-none text-ink">
-          {portfolioData.personalInfo.name}
+    <header className={`top${solid ? ' solid' : ''}`}>
+      <div className="wrap">
+        <Link className="brand" to="/">
+          {personalInfo.name}
         </Link>
-
-        {/* Desktop navigation */}
-        <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
-          {navItems.map((item) => (
+        <nav className="menu" aria-label="Main">
+          {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
-              aria-current={isActive(item.to) ? 'page' : undefined}
-              className="link-quiet text-[15px]"
+              aria-current={current === item.section ? 'page' : undefined}
             >
               {item.label}
             </Link>
           ))}
+          <a
+            href={personalInfo.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="gh"
+            aria-label="GitHub profile"
+          >
+            <Icon name="github" size={20} />
+          </a>
+          <Link
+            to="/contact"
+            className="hire"
+            aria-current={current === 'contact' ? 'page' : undefined}
+          >
+            Hire me
+          </Link>
         </nav>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          className="-mr-2 p-2 md:hidden"
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
-        >
-          {isMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-        </button>
       </div>
-
-      {/* Mobile navigation */}
-      {isMenuOpen && (
-        <nav id="mobile-menu" aria-label="Main" className="border-t border-rule md:hidden">
-          <ul className="page divide-y divide-rule">
-            {navItems.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  onClick={() => setIsMenuOpen(false)}
-                  aria-current={isActive(item.to) ? 'page' : undefined}
-                  className="block py-4 font-serif text-3xl"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
     </header>
   );
 };

@@ -94,7 +94,8 @@ const Routes = () => {
 function App() {
   return (
     <RouterProvider>
-      <div className="flex min-h-screen flex-col bg-paper text-ink">
+      {/* Bottom padding on phones leaves room for the round WhatsApp button */}
+      <div className="flex min-h-screen flex-col bg-paper pb-[calc(2.75rem+max(1rem,env(safe-area-inset-bottom))+0.75rem)] text-ink md:pb-0">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"

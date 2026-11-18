@@ -1,12 +1,9 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
 import { portfolioData } from '../data';
 import Link from '../components/Link';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
-
-// GitHub activity is below the fold and pulls a calendar chunk, so defer it.
-const GitHubStats = lazy(() => import('../components/GitHubStats'));
 
 const About = () => {
   const { personalInfo, skillGroups, education, certifications } = portfolioData;
@@ -102,15 +99,6 @@ const About = () => {
               ))}
             </Reveal>
           </div>
-        </div>
-      </section>
-
-      {/* GitHub activity */}
-      <section aria-label="GitHub activity" className="section border-t border-line">
-        <div className="page">
-          <Suspense fallback={null}>
-            <GitHubStats />
-          </Suspense>
         </div>
       </section>
     </>

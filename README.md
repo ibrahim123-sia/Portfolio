@@ -1,8 +1,8 @@
 # Syed Ibrahim Ali — Portfolio
 
 Personal portfolio of **Syed Ibrahim Ali**, an AI Engineer & Full-Stack Developer.
-A fast React application with a calm, dark "Ink Blue on Navy" theme, featured project case
-studies, and a live GitHub activity panel.
+A fast React application with a calm, dark "Ink Blue on Navy" theme and featured project case
+studies.
 
 **Live:** https://syedibrahimali.vercel.app
 
@@ -15,14 +15,12 @@ studies, and a live GitHub activity panel.
 ## ✨ Features
 
 - **Three pages** — Home (hero, featured projects, experience, what I build, contact),
-  Projects (five featured projects plus a "More work" grid) and About (skills, education,
-  certifications). A tiny History API router in `src/router.js` keeps per-page titles,
+  Projects (five featured projects plus a text-only "More work" grid) and About (skills,
+  education, certifications). A tiny History API router in `src/router.js` keeps per-page titles,
   descriptions and canonical links in sync, with no router dependency.
 - **Project case studies** — each project opens a modal with the problem it solves, key
   features, stack and an image slider (keyboard navigation) where every screenshot has its
   own caption.
-- **Live GitHub panel** — public repositories, stars, top languages and an authentic GitHub
-  contribution calendar, fetched from GitHub's public API (no token shipped to the browser).
 - **Contact form** — sends messages via EmailJS, with WhatsApp as a quick fallback.
 - **Motion** — only a subtle fade-in on scroll (Framer Motion), off under `prefers-reduced-motion`.
 - **SEO-ready** — per-page metadata, Open Graph / Twitter cards, JSON-LD `Person`
@@ -39,7 +37,7 @@ studies, and a live GitHub activity panel.
 | Styling     | Tailwind CSS 3, custom CSS design tokens                    |
 | Animation   | Framer Motion                                               |
 | Icons       | lucide-react                                                |
-| Integrations| EmailJS (contact), react-github-calendar, GitHub REST API   |
+| Integrations| EmailJS (contact)                                           |
 | Tooling     | ESLint, PostCSS, Autoprefixer, sharp (image optimisation)   |
 
 ---
@@ -78,8 +76,7 @@ npm run preview    # preview the production build locally
 npm run lint
 ```
 
-> **Environment variables:** none are required. The GitHub panel uses GitHub's public API and
-> `react-github-calendar`, so no personal access token is shipped in the client bundle.
+> **Environment variables:** none are required.
 
 ---
 

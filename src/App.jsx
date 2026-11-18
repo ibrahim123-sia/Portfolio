@@ -8,11 +8,12 @@ import { portfolioData } from './data';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import CaseStudy from './pages/CaseStudy';
-import Services from './pages/Services';
-import About from './pages/About';
 import NotFound from './pages/NotFound';
 
-// The contact page pulls in EmailJS, so it loads on demand
+// Home, Work and project pages ship in the main bundle (their screenshots
+// are what people land on); the rest loads on demand, Contact with EmailJS
+const Services = lazy(() => import('./pages/Services'));
+const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 
 const SITE = 'https://syedibrahimali.vercel.app';

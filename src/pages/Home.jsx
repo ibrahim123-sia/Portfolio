@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import Link from '../components/Link';
 import { Icon } from '../components/Icons';
 import { Win, ProblemChips } from '../components/Win';
-import GitHubSection from '../components/GitHubSection';
-import AgentDemo from '../components/AgentDemo';
+
+// Below the fold: loaded as separate chunks so the hero renders sooner
+const GitHubSection = lazy(() => import('../components/GitHubSection'));
+const AgentDemo = lazy(() => import('../components/AgentDemo'));
 import Cta from '../components/Cta';
 import { portfolioData, problemList, problemColor, projectsFor } from '../data';
 
@@ -302,8 +304,10 @@ const Home = () => (
     </section>
 
     <Featured />
-    <GitHubSection />
-    <AgentDemo />
+    <Suspense fallback={<div style={{ minHeight: 1200 }} />}>
+      <GitHubSection />
+      <AgentDemo />
+    </Suspense>
 
     <section className="sec">
       <div className="wrap">

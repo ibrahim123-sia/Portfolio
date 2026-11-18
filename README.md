@@ -1,8 +1,8 @@
 # Syed Ibrahim Ali — Portfolio
 
 Personal portfolio of **Syed Ibrahim Ali**, an AI Engineer & Full-Stack Developer.
-A fast, single-page React application with a dark "Ink Blue on Navy" theme, filterable
-project case studies, and a live GitHub activity panel.
+A fast React application with a calm, dark "Ink Blue on Navy" theme, featured project case
+studies, and a live GitHub activity panel.
 
 **Live:** https://syedibrahimali.vercel.app
 
@@ -14,19 +14,19 @@ project case studies, and a live GitHub activity panel.
 
 ## ✨ Features
 
-- **Single-page experience** — Home, About, Projects, Services and Contact, with a sticky
-  header, scroll-spy navigation and smooth in-page anchoring.
-- **Project case studies** — each project opens a modal with a client-perspective overview,
-  outcome highlights and an image slider (keyboard + swipe navigation) where every screenshot
-  has its own caption.
-- **Filterable work** — filter projects by category (AI / ML, E-Commerce, Data & Analytics,
-  Web Apps) with a "show more" reveal.
+- **Three pages** — Home (hero, featured projects, experience, what I build, contact),
+  Projects (five featured projects plus a "More work" grid) and About (skills, education,
+  certifications). A tiny History API router in `src/router.js` keeps per-page titles,
+  descriptions and canonical links in sync, with no router dependency.
+- **Project case studies** — each project opens a modal with the problem it solves, key
+  features, stack and an image slider (keyboard navigation) where every screenshot has its
+  own caption.
 - **Live GitHub panel** — public repositories, stars, top languages and an authentic GitHub
   contribution calendar, fetched from GitHub's public API (no token shipped to the browser).
 - **Contact form** — sends messages via EmailJS, with WhatsApp as a quick fallback.
-- **Motion** — subtle, tasteful Framer Motion reveals that honour `prefers-reduced-motion`.
-- **SEO-ready** — semantic metadata, Open Graph / Twitter cards, JSON-LD `Person` structured
-  data, `sitemap.xml` and `robots.txt`.
+- **Motion** — only a subtle fade-in on scroll (Framer Motion), off under `prefers-reduced-motion`.
+- **SEO-ready** — per-page metadata, Open Graph / Twitter cards, JSON-LD `Person`
+  (with `worksFor`) structured data, `sitemap.xml` and `robots.txt`.
 - **Optimised assets** — project screenshots are resized and served as WebP (~76 MB → ~3.6 MB).
 
 ---
@@ -89,10 +89,11 @@ npm run lint
 Portfolio/
 ├── public/                     # static assets (resume, robots.txt, sitemap.xml, favicon)
 ├── src/
-│   ├── assets/projects/<name>/ # per-project case-study screenshots (WebP)
-│   ├── components/             # Header, Footer, ProjectCard, ProjectModal, GitHubStats, …
-│   ├── pages/                  # Home, About, Projects, Services, Contact
+│   ├── assets/projects/<key>/  # per-project cover.jpg (4:3) + case-study screenshots (WebP)
+│   ├── components/             # Header, Footer, FeaturedProject, ProjectCard, ProjectModal, …
+│   ├── pages/                  # Home, Projects, About, NotFound
 │   ├── data.js                 # single source of truth for all portfolio content
+│   ├── router.js               # minimal History API routing (no dependency)
 │   ├── index.css               # design tokens + component classes
 │   ├── App.jsx
 │   └── main.jsx
@@ -102,8 +103,10 @@ Portfolio/
 └── vite.config.js
 ```
 
-All copy, projects, services and experience live in **`src/data.js`** — update content there
-without touching components.
+All copy, projects, experience, education and certifications live in **`src/data.js`** —
+update content there without touching components. To set a featured project's card image,
+add `src/assets/projects/<key>/cover.jpg` (or `cover.webp`) at 4:3; until then the first
+screenshot is used.
 
 ---
 
@@ -117,8 +120,8 @@ A dark **"Ink Blue on Navy"** system: a deep navy ground (`#0A0F1A`), a blue acc
 
 ## ☁️ Deployment
 
-Deployed on **Vercel** as a static SPA. `vercel.json` rewrites all routes to `/` so client-side
-anchors resolve, while `robots.txt`, `sitemap.xml` and the Google verification file are served
+Deployed on **Vercel** as a static SPA. `vercel.json` rewrites extensionless routes
+(`/projects`, `/about`) to `/` so client-side routing works, while `robots.txt`, `sitemap.xml` and the Google verification file are served
 directly. On Vercel, set the project's **Root Directory** to the repository root.
 
 ---

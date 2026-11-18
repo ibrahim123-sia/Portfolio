@@ -84,7 +84,7 @@ a.chip:hover{color:var(--ink);background:var(--panel2)}
 .term .st{margin-top:auto;color:#7E8B86}
 
 /* hero */
-.hero{padding-block:clamp(40px,6vw,80px) clamp(40px,5vw,72px);overflow-x:clip}
+.hero{padding-block:clamp(24px,3.5vw,48px) clamp(40px,5vw,72px);overflow-x:clip}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,56px);align-items:center}
 .who{display:flex;align-items:center;gap:14px}
 .ava{width:56px;height:56px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px #fff,0 0 0 4.5px var(--green)}

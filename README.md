@@ -1,8 +1,8 @@
 # Syed Ibrahim Ali — Portfolio
 
 Personal portfolio of **Syed Ibrahim Ali**, an AI Engineer & Full-Stack Developer.
-A fast React application with a light, editorial design: warm paper, serif titles, thin
-rules, and a case study page for every project.
+A fast React application in white, ink and one green, where real product screenshots
+carry the colour, with a page for every project.
 
 **Live:** https://syedibrahimali.vercel.app
 
@@ -14,19 +14,27 @@ rules, and a case study page for every project.
 
 ## ✨ Features
 
-- **Pages** — Home (hero, featured projects, experience, what I build, contact), a Projects
-  index with a category filter (`?category=ai|saas|data|ecommerce|devtools`, with counts),
-  a case study page per project at `/projects/<key>`, and About (skills, education,
-  certifications). A tiny History API router in `src/router.js` keeps per-page titles,
-  descriptions and canonical links in sync, with no router dependency.
-- **Case studies** — the problem, what was built, key features, tech, screenshots and links.
-- **Contact form** — sends messages via EmailJS, with WhatsApp as a quick fallback.
-- **Motion** — only a short CSS fade-in on page load and underline-on-hover links, off under
-  `prefers-reduced-motion`. Content is never hidden waiting for scroll, so full-page
-  screenshots and crawlers see everything.
-- **SEO-ready** — per-page metadata, Open Graph / Twitter cards, JSON-LD `Person`
-  (with `worksFor`) structured data, `sitemap.xml` and `robots.txt`.
-- **Optimised assets** — project screenshots are resized and served as WebP (~76 MB → ~3.6 MB).
+- **Pages** — Home, Work (`/projects`, filtered by problem with `?problem=act|answer|run|numbers|sell|tools`),
+  a page per project at `/projects/<key>`, Services, About and Contact. A tiny History API
+  router in `src/router.js` keeps per-page titles, descriptions, canonical links and Open
+  Graph tags in sync, with no router dependency. Page changes fade with the View
+  Transitions API where the browser supports it.
+- **Home** — a 3D stack of three real screenshots that follows the pointer, six problem
+  tiles, stacked cards for the five main products, a live GitHub section (repo count and
+  repos from the public GitHub API, cached in `sessionStorage`, with static fallbacks in
+  `data.js`, plus the contribution graph from `react-github-calendar`), and a replay of
+  Iris, the shopping agent in Nowhere, with working Confirm, Not now and Replay buttons.
+- **Project pages** — problem, what was built, features, stack, a screenshot gallery with a
+  lightbox, and previous/next links. Projects without screenshots get a "cat README" preview.
+- **Contact** — email with a copy button, an EmailJS form, WhatsApp, Upwork and LinkedIn.
+- **Accessibility** — visible focus, alt text on every image, `aria-live` on the agent demo,
+  and `prefers-reduced-motion` turns every animation off.
+- **SEO-ready** — per-page metadata, JSON-LD `Person` (with `worksFor`, `alumniOf`,
+  `knowsAbout`) and a `SoftwareApplication` entry on each project page, a static first paint
+  that also serves as the crawler fallback, `sitemap.xml` and `robots.txt`.
+- **Performance** — the header and hero paint from static HTML before React runs, hero fonts
+  are preloaded, secondary pages and lower Home sections load on demand, and every
+  screenshot also gets an 800px WebP copy at build time (vite-imagetools) served via `srcset`.
 
 ---
 
@@ -35,11 +43,10 @@ rules, and a case study page for every project.
 | Area        | Tools                                                        |
 | ----------- | ----------------------------------------------------------- |
 | Framework   | React 19, Vite 7                                            |
-| Styling     | Tailwind CSS 3, custom CSS design tokens                    |
-| Fonts       | Instrument Serif, Inter, JetBrains Mono (self-hosted via @fontsource) |
-| Icons       | lucide-react                                                |
-| Integrations| EmailJS (contact)                                           |
-| Tooling     | ESLint, PostCSS, Autoprefixer, sharp (image optimisation)   |
+| Styling     | Tailwind CSS 3 (tokens) and plain CSS ported from the design |
+| Fonts       | Sora, Manrope, JetBrains Mono (self-hosted via @fontsource) |
+| Integrations| EmailJS (contact), GitHub REST API, react-github-calendar   |
+| Tooling     | ESLint, PostCSS, Autoprefixer, sharp, vite-imagetools       |
 
 ---
 
@@ -85,43 +92,42 @@ npm run lint
 
 ```
 Portfolio/
-├── public/                     # static assets (resume, robots.txt, sitemap.xml, favicon)
+├── public/                     # resume, Mypic.jpg, og-image.jpg, robots.txt, sitemap.xml, favicons
 ├── src/
-│   ├── assets/projects/<key>/  # per-project cover.jpg (4:3) + case-study screenshots (WebP)
-│   ├── components/             # Header, Footer, FeaturedProject, Experience, ContactForm, …
-│   ├── pages/                  # Home, Projects, CaseStudy, About, NotFound
+│   ├── assets/projects/<key>/  # project screenshots (WebP)
+│   ├── components/             # Header, Footer, Win (browser frame), GitHubSection, AgentDemo, Cta, …
+│   ├── pages/                  # Home, Projects (Work), CaseStudy, Services, About, Contact, NotFound
 │   ├── data.js                 # single source of truth for all portfolio content
 │   ├── router.js               # minimal History API routing (no dependency)
-│   ├── index.css               # design tokens + component classes
+│   ├── index.css               # design tokens and component styles
 │   ├── App.jsx
 │   └── main.jsx
-├── index.html                  # document head, SEO metadata, JSON-LD
-├── tailwind.config.js          # theme tokens (paper, ink, deep green accent, fonts)
+├── index.html                  # document head, SEO metadata, JSON-LD, static first paint
+├── tailwind.config.js          # colour and font tokens
 ├── vercel.json                 # SPA rewrite rules
 └── vite.config.js
 ```
 
 All copy, projects, experience, education and certifications live in **`src/data.js`** —
-update content there without touching components. To set a featured project's card image,
-add `src/assets/projects/<key>/cover.jpg` (or `cover.webp`) at 4:3; until then the first
-screenshot is used.
+update content there without touching components. Each project lists the `problems` it
+solves (the first is its group on the Work page). The static hero in `index.html` repeats
+the Home hero text, so update both when that copy changes.
 
 ---
 
 ## 🎨 Design
 
-A light, editorial system: warm paper (`#F5F2EC`), near-black ink (`#141414`), muted greys,
-and one deep green accent (`#1E4D3A`) used sparingly. **Instrument Serif** for names and
-titles, **Inter** for text, **JetBrains Mono** for small labels. Thin 1px rules instead of
-boxed cards; no gradients, glow or glass effects. Tokens live in `tailwind.config.js` and
-`src/index.css`.
+White (`#FFFFFF`), ink (`#0E1111`) and one green (`#0E9F6E`, `#0B7A55` for text), with soft
+panels (`#F4F5F3`). Each problem group has its own dot colour. **Sora** for headings,
+**Manrope** for text, **JetBrains Mono** only in the agent demo and code previews. 3D is used
+only on real product screens. Tokens live in `tailwind.config.js` and `src/index.css`.
 
 ---
 
 ## ☁️ Deployment
 
 Deployed on **Vercel** as a static SPA. `vercel.json` rewrites extensionless routes
-(`/projects`, `/projects/<key>`, `/about`) to `/` so client-side routing works, while `robots.txt`, `sitemap.xml` and the Google verification file are served
+(`/projects`, `/projects/<key>`, `/services`, `/about`, `/contact`) to `/` so client-side routing works, while `robots.txt`, `sitemap.xml` and the Google verification file are served
 directly. On Vercel, set the project's **Root Directory** to the repository root.
 
 ---

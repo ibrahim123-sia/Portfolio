@@ -518,20 +518,21 @@ export const portfolioData = {
     },
   ],
 
-  // GitHub section on Home. Used as is when the GitHub API can't be reached;
-  // otherwise the repository count and the repo cards come from the API.
+  // GitHub section on Home. The repo cards are always these six, in this
+  // order; language, last update and the repo count come live from the GitHub
+  // API, and these values are used when it can't be reached. Each card's text
+  // is the project summary (GitHub's description only if that is empty).
   github: {
     username: "ibrahim123-sia",
     repos: 44,
     commitsLastYear: 760,
-    // Repo cards, by project key, with the repo's main language
     repoCards: [
-      { key: "propel", name: "Propel", language: "TypeScript" },
-      { key: "acadex", name: "Acadex", language: "TypeScript" },
-      { key: "atriumdesk", name: "AtriumDesk", language: "JavaScript" },
-      { key: "pairly", name: "Pairly", language: "Python" },
-      { key: "nowhere", name: "Nowhere", language: "JavaScript" },
-      { key: "sprintlog", name: "sprintlog-agent", language: "Python" },
+      { key: "propel", name: "Propel", language: "TypeScript", updated: "2026-11-18" },
+      { key: "acadex", name: "Acadex", language: "TypeScript", updated: "2026-11-14" },
+      { key: "atriumdesk", name: "AtriumDesk", language: "JavaScript", updated: "2026-11-13" },
+      { key: "pairly", name: "Pairly", language: "Python", updated: "2026-11-14" },
+      { key: "nowhere", name: "Nowhere", language: "JavaScript", updated: "2026-10-23" },
+      { key: "sprintlog", name: "sprintlog-agent", language: "Python", updated: "2026-07-14" },
     ],
   },
 

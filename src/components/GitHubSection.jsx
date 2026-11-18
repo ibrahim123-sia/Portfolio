@@ -8,7 +8,7 @@ const GitHubCalendar = lazy(() =>
 );
 
 const { github, projects, personalInfo } = portfolioData;
-const CACHE_KEY = 'github-profile-v1';
+const CACHE_KEY = 'github-profile-v2';
 const WEEKS = 53;
 const GAP = 3;
 
@@ -21,16 +21,13 @@ const languageColor = {
   CSS: '#663399',
 };
 
-// Repo name (lower case) -> project, for repos that have a page here
-const projectByRepo = Object.fromEntries(
-  projects.map((p) => [p.github.split('/').pop().toLowerCase(), p])
-);
-
 const byKey = Object.fromEntries(projects.map((p) => [p.key, p]));
 
-// Static cards from data.js, used until (or unless) the API answers
+// The six cards, always in this order. Static values from data.js show until
+// (or unless) the API answers.
 const staticCards = github.repoCards.map((card) => ({
   ...card,
+  description: '',
   project: byKey[card.key],
   url: byKey[card.key].github,
 }));
@@ -44,8 +41,8 @@ const readCache = () => {
 };
 
 // Public endpoints, no token, so nothing sensitive ships in the bundle.
-// Returns the repo count and the most recently pushed repos that have a
-// project page, or throws so the static values stay.
+// Returns the repo count and live stats for the six repos by name, or throws
+// so the static values stay.
 const fetchProfile = async () => {
   const cached = readCache();
   if (cached) return cached;
@@ -53,16 +50,21 @@ const fetchProfile = async () => {
   const base = `https://api.github.com/users/${github.username}`;
   const [userRes, reposRes] = await Promise.all([
     fetch(base, { headers }),
-    fetch(`${base}/repos?per_page=100&sort=pushed`, { headers }),
+    fetch(`${base}/repos?per_page=100`, { headers }),
   ]);
   if (!userRes.ok || !reposRes.ok) throw new Error('GitHub API error');
   const user = await userRes.json();
   const repos = await reposRes.json();
-  const cards = repos
-    .filter((repo) => !repo.fork && projectByRepo[repo.name.toLowerCase()])
-    .slice(0, 6)
-    .map((repo) => ({ name: repo.name, language: repo.language, key: projectByRepo[repo.name.toLowerCase()].key, url: repo.html_url }));
-  const profile = { repos: user.public_repos, cards };
+  const stats = {};
+  for (const repo of repos) {
+    stats[repo.name.toLowerCase()] = {
+      language: repo.language,
+      updated: repo.pushed_at,
+      description: repo.description || '',
+      url: repo.html_url,
+    };
+  }
+  const profile = { repos: user.public_repos, stats };
   try {
     sessionStorage.setItem(CACHE_KEY, JSON.stringify(profile));
   } catch {
@@ -70,6 +72,9 @@ const fetchProfile = async () => {
   }
   return profile;
 };
+
+const formatUpdated = (date) =>
+  new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
 // True once the element is within a screen of the viewport
 const useNearView = (ref) => {
@@ -151,10 +156,19 @@ const GitHubSection = () => {
   }, [near]);
 
   const repoCount = profile?.repos ?? github.repos;
-  const cards =
-    profile?.cards?.length >= 6
-      ? profile.cards.map((card) => ({ ...card, project: byKey[card.key] }))
-      : staticCards;
+  // Live stats fill each card; anything missing keeps the data.js value
+  const cards = staticCards.map((card) => {
+    const live = profile?.stats?.[card.name.toLowerCase()];
+    return live
+      ? {
+          ...card,
+          language: live.language || card.language,
+          updated: live.updated || card.updated,
+          description: live.description,
+          url: live.url || card.url,
+        }
+      : card;
+  });
   const profileUrl = personalInfo.github;
 
   return (
@@ -192,13 +206,13 @@ const GitHubSection = () => {
             </a>
           </aside>
           <div className="repos">
-            {cards.map(({ name, language, url, project }) => (
+            {cards.map(({ name, language, updated, description, url, project }) => (
               <a key={name} className="repo" href={url} target="_blank" rel="noopener noreferrer">
                 <span className="rn">
                   <Icon name="github" />
                   <b>{name}</b>
                 </span>
-                <span className="rd">{project.summary}</span>
+                <span className="rd">{project.summary || description}</span>
                 <span className="rm">
                   {language && (
                     <span>
@@ -207,6 +221,7 @@ const GitHubSection = () => {
                     </span>
                   )}
                   {project.commits && <span>{project.commits} commits</span>}
+                  {updated && <span>Updated {formatUpdated(updated)}</span>}
                   {project.live && <span>Live demo</span>}
                 </span>
               </a>

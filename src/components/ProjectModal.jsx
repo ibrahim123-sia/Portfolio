@@ -10,14 +10,12 @@ import {
 import { m as Motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 /**
- * Case-study modal for a project: client-perspective overview + outcome
- * highlights + an image slider where each shot has its own caption.
- * Expects `project.detail` (see data.js). `onClose` closes the modal.
+ * Case-study modal for a project: the problem it solves, key features, stack
+ * and an image slider where each shot has its own caption. `onClose` closes it.
  */
 const ProjectModal = ({ project, onClose }) => {
   const reduce = useReducedMotion();
-  const detail = project?.detail;
-  const gallery = detail?.gallery ?? [];
+  const gallery = project.gallery ?? [];
   const [index, setIndex] = useState(0);
   const closeRef = useRef(null);
   const panelRef = useRef(null);
@@ -76,8 +74,6 @@ const ProjectModal = ({ project, onClose }) => {
     };
   }, []);
 
-  if (!detail) return null;
-
   const current = gallery[index];
 
   return (
@@ -90,14 +86,14 @@ const ProjectModal = ({ project, onClose }) => {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label={`${project.title} — case study`}
+      aria-label={`${project.name} case study`}
     >
       <Motion.div
         ref={panelRef}
-        className="card relative my-auto w-full max-w-4xl rounded-2xl border border-line"
-        initial={reduce ? false : { opacity: 0, y: 16, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={reduce ? undefined : { opacity: 0, y: 16, scale: 0.98 }}
+        className="card relative my-auto w-full max-w-4xl"
+        initial={reduce ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduce ? undefined : { opacity: 0, y: 12 }}
         transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -113,43 +109,31 @@ const ProjectModal = ({ project, onClose }) => {
 
         <div className="p-6 sm:p-8">
           {/* Header */}
-          <span className="eyebrow text-xs">Case study</span>
-          <h3 className="mt-3 pr-10 text-2xl font-semibold leading-snug text-content">
-            {project.title}
-          </h3>
-          {(detail.role || detail.stack) && (
-            <div className="mt-3 space-y-1 text-sm text-faint">
-              {detail.role && <p>{detail.role}</p>}
-              {detail.stack && <p>{detail.stack}</p>}
-            </div>
-          )}
+          <p className="eyebrow">Case study</p>
+          <h2 className="mt-2 pr-10 text-2xl font-bold text-content">{project.name}</h2>
+          <p className="mt-1 pr-10 text-base font-medium text-accent-on">{project.title}</p>
 
-          <div className="mt-4 flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <span key={tech} className="chip">
-                {tech}
-              </span>
-            ))}
-          </div>
+          <p className="mt-5 leading-relaxed text-muted">{project.description}</p>
 
-          {/* Overview */}
-          {detail.overview && (
-            <p className="mt-6 text-[15.5px] leading-relaxed text-muted">
-              {detail.overview}
-            </p>
-          )}
-
-          {/* Highlights */}
-          {detail.highlights?.length > 0 && (
-            <ul className="mt-6 grid gap-3">
-              {detail.highlights.map((h, i) => (
-                <li key={i} className="flex items-start gap-3 text-[15px] text-muted">
-                  <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-accent" />
-                  <span>{h}</span>
+          {/* Key features */}
+          {project.features?.length > 0 && (
+            <ul className="mt-5 space-y-2.5">
+              {project.features.map((feature) => (
+                <li key={feature} className="flex gap-3 text-[15px] leading-relaxed text-muted">
+                  <Check className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
           )}
+
+          <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
+            {project.stack.map((tech) => (
+              <li key={tech} className="chip">
+                {tech}
+              </li>
+            ))}
+          </ul>
 
           {/* Slider */}
           {gallery.length > 0 && (
@@ -159,7 +143,7 @@ const ProjectModal = ({ project, onClose }) => {
                   <Motion.img
                     key={index}
                     src={current.src}
-                    alt={current.title}
+                    alt={`${project.name}: ${current.title}`}
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-contain"
                     initial={reduce ? false : { opacity: 0 }}
@@ -194,9 +178,9 @@ const ProjectModal = ({ project, onClose }) => {
 
               {/* Caption */}
               <div className="mt-4">
-                <h4 className="text-base font-semibold text-content">
+                <h3 className="text-base font-bold text-content">
                   {current.title}
-                </h4>
+                </h3>
                 {current.caption && (
                   <p className="mt-1.5 text-sm leading-relaxed text-muted">
                     {current.caption}
@@ -226,27 +210,17 @@ const ProjectModal = ({ project, onClose }) => {
           )}
 
           {/* Footer actions */}
-          <div className="mt-8 flex flex-wrap items-center gap-5 border-t border-line pt-6">
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                <Github className="h-[18px] w-[18px]" />
-                View Github
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">
+            {project.live && (
+              <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                Live site
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
             )}
-            {project.liveDemo && (
-              <a
-                href={project.liveDemo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-arrow"
-              >
-                View project
-                <ArrowUpRight className="h-4 w-4" />
+            {project.github && (
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">
+                <Github className="h-4 w-4" aria-hidden="true" />
+                Code on GitHub
               </a>
             )}
           </div>

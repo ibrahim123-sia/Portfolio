@@ -14,15 +14,11 @@ const WhatsAppFloat = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 shadow-lg transition-all duration-300 hover:bg-emerald-600"
+      title="Chat on WhatsApp"
       aria-label="Chat on WhatsApp"
+      className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition-colors hover:bg-emerald-700 hover:text-white sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
     >
-      <MessageCircle className="h-7 w-7 text-white" />
-
-      {/* Tooltip */}
-      <span className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg border border-line bg-black/90 px-3 py-2 text-sm text-content opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        Chat on WhatsApp
-      </span>
+      <MessageCircle className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
     </a>
   );
 };

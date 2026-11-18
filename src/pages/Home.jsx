@@ -1,215 +1,150 @@
-import React from 'react';
-import { ArrowRight, Download, Github, Linkedin, Bot, Boxes } from 'lucide-react';
-import {
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPython,
-  SiFastapi,
-  SiMongodb,
-} from 'react-icons/si';
-import { m as Motion, useReducedMotion } from 'framer-motion';
+import React, { useState } from 'react';
+import { ArrowRight, Bot, FileSearch, Workflow, Layers } from 'lucide-react';
 import { portfolioData } from '../data';
+import Link from '../components/Link';
+import Reveal from '../components/Reveal';
+import SectionHeading from '../components/SectionHeading';
+import FeaturedProject from '../components/FeaturedProject';
+import CaseStudy from '../components/CaseStudy';
+import Experience from '../components/Experience';
+import ContactForm from '../components/ContactForm';
 
-const techStrip = [
-  { name: 'Agentic AI', Icon: Bot },
-  { name: 'React', Icon: SiReact },
-  { name: 'Next.js', Icon: SiNextdotjs },
-  { name: 'Node.js', Icon: SiNodedotjs },
-  { name: 'Python', Icon: SiPython },
-  { name: 'FastAPI', Icon: SiFastapi },
-  { name: 'RAG', Icon: Boxes },
-  { name: 'MongoDB', Icon: SiMongodb },
-];
+const buildIcons = {
+  agent: Bot,
+  rag: FileSearch,
+  automation: Workflow,
+  fullstack: Layers,
+};
 
-const Home = () => {
+const Hero = () => {
   const { personalInfo } = portfolioData;
-  const reduce = useReducedMotion();
-
-  const item = (delay) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 16 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1], delay },
-        };
+  // Keep "Full-Stack" on one line so the hyphen never breaks on phones.
+  const [beforeTerm, afterTerm] = personalInfo.title.split('Full-Stack');
 
   return (
-    <section id="home" className="relative min-h-screen">
-      <div className="container mx-auto px-6 pt-16 pb-16 sm:pt-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-          {/* Left — intro */}
-          <div className="order-2 flex flex-col gap-6 lg:order-1">
-            <div className="flex flex-col gap-1">
-              <Motion.p
-                {...item(0.06)}
-                className="flex items-center gap-1 text-2xl font-semibold text-content sm:text-3xl"
-              >
-                Hello
-                <span className="text-accent">.</span>
-              </Motion.p>
-              <Motion.p
-                {...item(0.12)}
-                className="text-2xl font-medium text-muted sm:text-3xl"
-              >
-                I&rsquo;m {personalInfo.name}
-              </Motion.p>
-            </div>
-
-            <Motion.h1
-              {...item(0.18)}
-              className="max-w-2xl text-[clamp(2.4rem,6vw,4rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-content"
-            >
-              AI Engineer &amp;<br className="hidden sm:block" />{' '}
-              <span className="text-accent">Full-Stack</span> Developer
-            </Motion.h1>
-
-            <Motion.p
-              {...item(0.24)}
-              className="max-w-xl text-lg leading-relaxed text-muted"
-            >
-              {personalInfo.bio}
-            </Motion.p>
-
-            <Motion.div
-              {...item(0.3)}
-              className="mt-3 flex flex-wrap items-center gap-3.5"
-            >
-              <a href="#projects" className="btn-primary group">
-                View my work
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </a>
-              <a
-                href={personalInfo.resume}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
-                <Download className="h-4 w-4" />
-                My resume
-              </a>
-              <div className="flex items-center gap-2.5">
-                <a
-                  href={personalInfo.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  className="icon-btn"
-                >
-                  <Github className="h-5 w-5" />
-                </a>
-                <a
-                  href={personalInfo.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="icon-btn"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
-              </div>
-            </Motion.div>
-          </div>
-
-          {/* Right — portrait with glow ring */}
-          <Motion.div
-            {...item(0.2)}
-            className="order-1 flex justify-center lg:order-2 lg:justify-end"
+    <section aria-labelledby="hero-title" className="page pb-20 pt-12 sm:pt-20 lg:pb-28 lg:pt-24">
+      <div className="grid items-center gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
+        <div className="order-2 lg:order-1">
+          <p className="text-lg font-medium text-muted">{personalInfo.name}</p>
+          <h1
+            id="hero-title"
+            className="mt-3 max-w-3xl text-[2.5rem] font-bold leading-[1.08] tracking-[-0.02em] text-content sm:text-5xl lg:text-[3.5rem]"
           >
-            <div className="relative aspect-square w-[min(78vw,400px)]">
-              {/* Soft glow arc behind the portrait */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full opacity-80 blur-2xl"
-                style={{
-                  background:
-                    'conic-gradient(from 160deg, rgba(76,141,255,0) 0deg, rgba(76,141,255,0.55) 120deg, rgba(139,180,255,0.15) 210deg, rgba(76,141,255,0) 340deg)',
-                }}
-              />
-              {/* Crisp accent ring */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-3 rounded-full border border-accent/40"
-                style={{ boxShadow: '0 0 60px rgba(76,141,255,0.25)' }}
-              />
-              {/* Portrait */}
-              <img
-                src="/Mypic.jpg"
-                alt={`${personalInfo.name} — ${personalInfo.title}`}
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                width="400"
-                height="400"
-                className="absolute rounded-full object-cover object-center shadow-2xl ring-1 ring-white/10"
-                style={{
-                  top: '1.75rem',
-                  left: '1.75rem',
-                  width: 'calc(100% - 3.5rem)',
-                  height: 'calc(100% - 3.5rem)',
-                }}
-              />
-            </div>
-          </Motion.div>
+            {beforeTerm}
+            <span className="whitespace-nowrap">Full-Stack</span>
+            {afterTerm}
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted sm:text-xl">
+            {personalInfo.tagline}
+          </p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link to="/#work" className="btn-primary">
+              View work
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <Link to="/#contact" className="btn-secondary">
+              Contact
+            </Link>
+          </div>
         </div>
 
-        {/* Tech strip — continuously scrolling icon marquee */}
-        <Motion.div
-          {...item(0.4)}
-          className="mt-16 border-t border-line pt-8"
-        >
-          {reduce ? (
-            // Reduced motion — static, centered, no scroll
-            <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-              {techStrip.map((tech) => (
-                <li
-                  key={tech.name}
-                  title={tech.name}
-                  className="flex items-center gap-2.5 text-faint"
-                >
-                  <tech.Icon className="h-7 w-7" aria-hidden="true" />
-                  <span className="text-sm font-medium">{tech.name}</span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div
-              className="group relative overflow-hidden"
-              style={{
-                maskImage:
-                  'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
-                WebkitMaskImage:
-                  'linear-gradient(to right, transparent, #000 8%, #000 92%, transparent)',
-              }}
-            >
-              <ul
-                className="flex w-max items-center gap-14 animate-marquee-ltr group-hover:[animation-play-state:paused]"
-                aria-hidden="true"
-              >
-                {[...techStrip, ...techStrip].map((tech, i) => (
-                  <li
-                    key={`${tech.name}-${i}`}
-                    title={tech.name}
-                    className="flex shrink-0 items-center gap-2.5 text-faint transition-colors hover:text-accent"
-                  >
-                    <tech.Icon className="h-7 w-7" aria-hidden="true" />
-                    <span className="text-sm font-medium">{tech.name}</span>
-                  </li>
-                ))}
-              </ul>
-              {/* Accessible, static list for screen readers */}
-              <ul className="sr-only">
-                {techStrip.map(({ name }) => (
-                  <li key={name}>{name}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </Motion.div>
+        <div className="order-1 lg:order-2">
+          <img
+            src="/Mypic.jpg"
+            alt={`Portrait of ${personalInfo.name}`}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            width="320"
+            height="320"
+            className="h-24 w-24 rounded-full border border-line-strong object-cover sm:h-28 sm:w-28 lg:h-80 lg:w-80"
+          />
+        </div>
       </div>
     </section>
   );
 };
+
+const FeaturedWork = () => {
+  const [active, setActive] = useState(null);
+
+  return (
+    <section id="work" aria-labelledby="work-title" className="section border-t border-line">
+      <div className="page">
+        <SectionHeading
+          eyebrow="Selected work"
+          id="work-title"
+          title="Featured projects"
+          subtitle="Products I designed and built end to end. Open any project for screenshots and details."
+          action={
+            <Link to="/projects" className="text-link">
+              All projects
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          }
+        />
+        <div className="space-y-6 sm:space-y-8">
+          {portfolioData.featuredProjects.map((project, i) => (
+            <Reveal key={project.key}>
+              <FeaturedProject project={project} index={i} onOpen={setActive} />
+            </Reveal>
+          ))}
+        </div>
+      </div>
+      <CaseStudy project={active} onClose={() => setActive(null)} />
+    </section>
+  );
+};
+
+const WhatIBuild = () => (
+  <section aria-labelledby="build-title" className="section border-t border-line">
+    <div className="page">
+      <SectionHeading id="build-title" eyebrow="Services" title="What I build" />
+      <Reveal as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {portfolioData.whatIBuild.map((item) => {
+          const Icon = buildIcons[item.icon];
+          return (
+            <li key={item.title} className="card p-6">
+              <Icon className="h-6 w-6 text-accent" aria-hidden="true" />
+              <h3 className="mt-5 text-lg font-bold text-content">{item.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{item.description}</p>
+            </li>
+          );
+        })}
+      </Reveal>
+    </div>
+  </section>
+);
+
+const Contact = () => (
+  <section id="contact" aria-labelledby="contact-title" className="section border-t border-line">
+    <div className="page">
+      <SectionHeading
+        eyebrow="Contact"
+        id="contact-title"
+          title="Let's work together"
+        subtitle="Tell me about your project or role. I usually reply within a day."
+      />
+      <Reveal>
+        <ContactForm />
+      </Reveal>
+    </div>
+  </section>
+);
+
+const Home = () => (
+  <>
+    <Hero />
+    <FeaturedWork />
+    <section id="experience" aria-labelledby="experience-title" className="section border-t border-line">
+      <div className="page">
+        <SectionHeading id="experience-title" eyebrow="Career" title="Experience" />
+        <Experience />
+      </div>
+    </section>
+    <WhatIBuild />
+    <Contact />
+  </>
+);
 
 export default Home;

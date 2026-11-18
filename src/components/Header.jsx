@@ -1,129 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { portfolioData } from '../data';
+import Link from './Link';
+import { useRouter } from '../router';
 
-const navItems = ['Home', 'About', 'Projects', 'Services', 'Contact'];
+const navItems = [
+  { label: 'Work', to: '/projects' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/#contact' },
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState('home');
+  const { location } = useRouter();
 
-  // Elevate the header once the page is scrolled
+  // Add a hairline border once the page is scrolled
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll-spy: highlight the section currently in view
-  useEffect(() => {
-    const sections = navItems
-      .map((item) => document.getElementById(item.toLowerCase()))
-      .filter(Boolean);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px' }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
+  const isActive = (to) => !to.includes('#') && location.path === to;
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-bg/80 backdrop-blur-xl border-b border-line'
-          : 'bg-transparent border-b border-transparent'
+      className={`sticky top-0 z-50 border-b bg-bg/90 backdrop-blur transition-colors ${
+        scrolled ? 'border-line' : 'border-transparent'
       }`}
     >
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <a href="#home" className="group flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface">
-              <span className="font-display text-sm font-semibold text-content">SIA</span>
-            </div>
-            <div className="leading-tight">
-              <span className="block font-display text-sm font-semibold text-content">
-                {portfolioData.personalInfo.name}
-              </span>
-              <span className="block text-xs text-faint">
-                {portfolioData.personalInfo.title}
-              </span>
-            </div>
-          </a>
+      <div className="page flex h-16 items-center justify-between">
+        <Link to="/" className="flex items-center gap-3 text-content hover:text-content">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-line-strong text-xs font-bold">
+            SIA
+          </span>
+          <span className="text-[15px] font-bold">{portfolioData.personalInfo.name}</span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-1 md:flex">
-            {navItems.map((item) => {
-              const id = item.toLowerCase();
-              const isActive = active === id;
-              return (
-                <a
-                  key={item}
-                  href={`#${id}`}
-                  className={`relative rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                    isActive ? 'text-content' : 'text-muted hover:text-content'
-                  }`}
-                >
-                  {isActive && (
-                    <span className="absolute inset-0 -z-10 rounded-lg bg-surface-2 ring-1 ring-line" />
-                  )}
-                  {item}
-                </a>
-              );
-            })}
-            <a
-              href="#contact"
-              className="ml-3 rounded-full bg-accent px-5 py-2 text-sm font-semibold text-accent-ink transition-all hover:bg-accent-hover"
+        {/* Desktop navigation */}
+        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              aria-current={isActive(item.to) ? 'page' : undefined}
+              className={`rounded-lg px-3.5 py-2 text-[15px] font-medium ${
+                isActive(item.to) ? 'text-content' : 'text-muted hover:text-content'
+              }`}
             >
-              Let's talk
-            </a>
-          </nav>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="rounded-lg p-2 text-muted transition-colors hover:text-content md:hidden"
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="mt-4 animate-fade-in rounded-2xl border border-line bg-surface p-4 backdrop-blur-xl md:hidden">
-            <div className="flex flex-col gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="rounded-lg px-4 py-3 font-medium text-muted transition-colors hover:bg-surface-2 hover:text-content"
-                >
-                  {item}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={() => setIsMenuOpen(false)}
-                className="mt-2 rounded-full bg-accent px-4 py-3 text-center font-semibold text-accent-ink"
-              >
-                Let's talk
-              </a>
-            </div>
-          </div>
-        )}
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className="-mr-2 rounded-lg p-2 text-muted hover:text-content md:hidden"
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile navigation */}
+      {isMenuOpen && (
+        <nav
+          id="mobile-menu"
+          aria-label="Main"
+          className="page animate-fade-in border-t border-line pb-4 pt-2 md:hidden"
+        >
+          {navItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setIsMenuOpen(false)}
+              aria-current={isActive(item.to) ? 'page' : undefined}
+              className={`block rounded-lg px-2 py-3 text-base font-medium ${
+                isActive(item.to) ? 'text-content' : 'text-muted hover:text-content'
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 };

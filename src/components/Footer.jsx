@@ -1,9 +1,15 @@
 import React from 'react';
-import { Github, Linkedin, Mail, Youtube, Briefcase, BadgeCheck, ArrowUp } from 'lucide-react';
+import { Github, Linkedin, Mail, Youtube, Briefcase, BadgeCheck } from 'lucide-react';
 import { SiUpwork } from 'react-icons/si';
 import { portfolioData } from '../data';
+import Link from './Link';
 
-const navItems = ['Home', 'About', 'Projects', 'Services', 'Contact'];
+const footerLinks = [
+  { label: 'Home', to: '/' },
+  { label: 'Work', to: '/projects' },
+  { label: 'About', to: '/about' },
+  { label: 'Contact', to: '/#contact' },
+];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -20,70 +26,48 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative border-t border-line">
-      <div className="container mx-auto px-4 py-14">
-        <div className="flex flex-col items-center text-center">
-          {/* Brand */}
-          <a href="#home" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-surface">
-              <span className="font-display text-sm font-semibold text-content">
-                SIA
-              </span>
-            </div>
-            <span className="font-display text-lg font-semibold text-content">
-              {personalInfo.name}
-            </span>
-          </a>
-
-          <p className="mt-4 max-w-md text-sm leading-relaxed text-faint">
-            {personalInfo.title} — {personalInfo.tagline}.
+    <footer className="border-t border-line">
+      <div className="page flex flex-col gap-8 py-12 md:flex-row md:items-start md:justify-between">
+        <div className="max-w-sm">
+          <p className="text-[15px] font-bold text-content">{personalInfo.name}</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted">
+            {personalInfo.title}. {personalInfo.tagline}
           </p>
+        </div>
 
-          {/* Quick links */}
-          <nav className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            {navItems.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="link-underline text-sm text-muted hover:text-content"
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2">
+          {footerLinks.map((item) => (
+            <Link key={item.to} to={item.to} className="text-sm text-muted hover:text-content">
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Socials */}
-          <div className="mt-7 flex gap-3">
-            {socials.map((social) => {
-              const Icon = social.icon;
-              return (
+        <ul className="flex flex-wrap gap-2">
+          {socials.map(({ icon, href, label }) => {
+            const Icon = icon;
+            return (
+              <li key={label}>
                 <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
+                  href={href}
+                  target={href.startsWith('mailto:') ? undefined : '_blank'}
                   rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="icon-btn"
+                  aria-label={label}
+                  title={label}
+                  className="icon-btn h-10 w-10"
                 >
-                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
                 </a>
-              );
-            })}
-          </div>
-        </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-line pt-6 sm:flex-row">
-          <p className="text-sm text-faint">
-            © {currentYear} {personalInfo.name}. All rights reserved.
-          </p>
-          <a
-            href="#home"
-            className="flex items-center gap-2 text-sm text-faint transition-colors hover:text-content"
-          >
-            Back to top
-            <ArrowUp className="h-4 w-4" />
-          </a>
-        </div>
+      <div className="page">
+        <p className="border-t border-line py-6 text-sm text-faint">
+          © {currentYear} {personalInfo.name}. {personalInfo.location}.
+        </p>
       </div>
     </footer>
   );

@@ -8,11 +8,18 @@ import {
   Loader2,
   Github,
   Linkedin,
+  Youtube,
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { portfolioData } from "../data";
+
+const fields = [
+  { name: "from_name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
+  { name: "from_email", label: "Email", type: "email", autoComplete: "email", placeholder: "you@company.com" },
+  { name: "subject", label: "Subject", type: "text", placeholder: "Project or role" },
+];
 
 const ContactForm = () => {
   const form = useRef();
@@ -57,210 +64,130 @@ const ContactForm = () => {
   };
 
   const contactItems = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: personalInfo.email,
-      href: `mailto:${personalInfo.email}`,
-    },
-    { icon: Phone, label: "Phone", value: personalInfo.phone },
+    { icon: Mail, label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
+    { icon: Phone, label: "Phone", value: personalInfo.phone, href: `tel:+${phoneNumber}` },
     { icon: MapPin, label: "Location", value: personalInfo.location },
   ];
 
-  const inputClass = "input-underline";
+  const socials = [
+    { icon: Github, href: personalInfo.github, label: "GitHub" },
+    { icon: Linkedin, href: personalInfo.linkedin, label: "LinkedIn" },
+    { icon: Youtube, href: personalInfo.youtube, label: "YouTube" },
+  ];
 
   return (
-    <div className="grid gap-8 md:grid-cols-2">
-      {/* Contact info */}
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+      {/* Direct contact */}
       <div>
-        <h3 className="font-display text-xl font-bold text-content">Get in Touch</h3>
-        <p className="mt-2 text-sm text-muted">
-          Prefer a quick chat? Reach out on any channel below.
-        </p>
-
-        <div className="mt-6 space-y-4">
+        <ul className="space-y-5">
           {contactItems.map((item) => (
-            <div key={item.label} className="flex items-start gap-4">
-              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-line bg-surface">
-                <item.icon className="h-5 w-5 text-content" />
-              </div>
-              <div>
-                <h4 className="text-sm font-semibold text-content">{item.label}</h4>
+            <li key={item.label} className="flex items-start gap-4">
+              <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-faint" aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="text-sm text-faint">{item.label}</p>
                 {item.href ? (
-                  <a
-                    href={item.href}
-                    className="break-all text-sm text-muted transition-colors hover:text-content"
-                  >
+                  <a href={item.href} className="break-all text-[15px] font-medium text-content hover:text-accent-on">
                     {item.value}
                   </a>
                 ) : (
-                  <p className="text-sm text-muted">{item.value}</p>
+                  <p className="text-[15px] font-medium text-content">{item.value}</p>
                 )}
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* WhatsApp callout */}
-        <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.06] p-5">
-          <div className="mb-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500">
-              <MessageCircle className="h-5 w-5 text-content" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-content">Quick Chat</h4>
-              <p className="text-xs text-muted">Typically replies within minutes</p>
-            </div>
-          </div>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 py-3 font-medium text-content transition-colors hover:bg-emerald-600"
-          >
-            <MessageCircle className="h-5 w-5" />
-            Chat on WhatsApp
-          </a>
-        </div>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 inline-flex items-center justify-center gap-2 rounded-[10px] bg-emerald-700 px-5 py-3 text-[15px] font-medium text-white transition-colors hover:bg-emerald-800 hover:text-white"
+        >
+          <MessageCircle className="h-5 w-5" aria-hidden="true" />
+          Chat on WhatsApp
+        </a>
 
-        {/* Socials */}
-        <div className="mt-6">
-          <h4 className="mb-3 text-sm font-semibold text-content">Connect with me</h4>
-          <div className="flex gap-3">
-            <a
-              href={personalInfo.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-line-strong hover:text-content"
-            >
-              <Linkedin className="h-5 w-5" />
-            </a>
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-line-strong hover:text-content"
-            >
-              <Github className="h-5 w-5" />
-            </a>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-line text-muted transition-all hover:border-emerald-400/50 hover:text-emerald-300"
-            >
-              <MessageCircle className="h-5 w-5" />
-            </a>
-          </div>
-        </div>
+        <ul className="mt-8 flex gap-2">
+          {socials.map(({ icon, href, label }) => {
+            const Icon = icon;
+            return (
+              <li key={label}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="icon-btn"
+                >
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
       {/* Form */}
-      <div>
-        <h3 className="font-display text-xl font-bold text-content">Send a Message</h3>
-
-        {isSuccess && (
-          <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 animate-fade-in">
-            <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-emerald-400" />
-            <div>
-              <h4 className="font-semibold text-emerald-300">Message sent!</h4>
-              <p className="text-sm text-emerald-200/80">
-                Thanks for reaching out — I'll get back to you within 24 hours.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {isError && (
-          <div className="mt-5 flex items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 animate-fade-in">
-            <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-rose-400" />
-            <div>
-              <h4 className="font-semibold text-rose-300">Failed to send</h4>
-              <p className="text-sm text-rose-200/80">
-                Please try again, or reach me on WhatsApp for a faster reply.
-              </p>
-            </div>
-          </div>
-        )}
-
-        <form ref={form} onSubmit={sendEmail} className="mt-5 space-y-5">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-muted">
-              Full Name *
-            </label>
-            <input
-              type="text"
-              name="from_name"
-              required
-              className={inputClass}
-              placeholder="Your name"
-            />
+      <div className="card p-5 sm:p-8">
+        <form ref={form} onSubmit={sendEmail} className="space-y-5">
+          <div className="grid gap-5 sm:grid-cols-2">
+            {fields.map(({ label, ...input }) => (
+              <div key={input.name} className={input.name === "subject" ? "sm:col-span-2" : undefined}>
+                <label htmlFor={input.name} className="mb-2 block text-sm font-medium text-content">
+                  {label}
+                </label>
+                <input id={input.name} required className="field" {...input} />
+              </div>
+            ))}
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-muted">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              name="from_email"
-              required
-              className={inputClass}
-              placeholder="your@email.com"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-muted">
-              Subject *
-            </label>
-            <input
-              type="text"
-              name="subject"
-              required
-              className={inputClass}
-              placeholder="Project discussion"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-muted">
-              Message *
+            <label htmlFor="message" className="mb-2 block text-sm font-medium text-content">
+              Message
             </label>
             <textarea
+              id="message"
               name="message"
               required
-              rows="4"
-              className={`${inputClass} resize-none`}
-              placeholder="Tell me about your project, timeline, and goals..."
+              rows="5"
+              className="field resize-y"
+              placeholder="What are you building, and what do you need help with?"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70"
+            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
           >
             {isLoading ? (
               <>
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" aria-hidden="true" />
                 Sending...
               </>
             ) : (
               <>
-                Send Message
-                <Send size={18} />
+                Send message
+                <Send className="h-4 w-4" aria-hidden="true" />
               </>
             )}
           </button>
-
-          <p className="text-center text-xs text-faint">
-            * Required fields. I respect your privacy and never share your information.
-          </p>
         </form>
+        <div aria-live="polite" className="mt-4 empty:mt-0">
+          {isSuccess && (
+            <p className="flex items-start gap-2 text-sm text-emerald-300">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              Thanks, your message was sent. I'll get back to you soon.
+            </p>
+          )}
+          {isError && (
+            <p className="flex items-start gap-2 text-sm text-rose-300">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+              The message could not be sent. Please try again or use WhatsApp.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
